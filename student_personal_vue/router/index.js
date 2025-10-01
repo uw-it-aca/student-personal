@@ -4,20 +4,19 @@ import { createWebHistory, createRouter } from "vue-router";
 // import { trackRouter } from "vue-gtag-next";
 
 // page components
-import Home from "@/pages/home.vue";
-import Customize from "@/pages/customize.vue";
+import HomePage from "@/pages/home.vue";
+import EmergencyPage from "@/pages/emergency.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: HomePage,
   },
   {
-    path: "/customize",
-    name: "Customize",
-    component: Customize,
-    pathToRegexpOptions: { strict: true },
+    path: "/emergency",
+    name: "Emergency Contacts",
+    component: EmergencyPage,
   },
 ];
 

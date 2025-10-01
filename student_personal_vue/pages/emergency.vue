@@ -7,7 +7,7 @@
       {{ pageTitle }}
     </template>
     <template #content>
-      <div>personal home</div>
+      <div>emergency contacts</div>
     </template>
   </DefaultLayout>
 </template>
@@ -16,10 +16,10 @@
 import DefaultLayout from "@/layouts/default.vue";
 
 export default {
-  name: "PagesHome",
+  name: "PagesEmergency",
   components: { DefaultLayout },
   data() {
-    return { pageTitle: "Profile Home" };
+    return { pageTitle: "Emergency Contacts" };
   },
   methods: {},
 };
