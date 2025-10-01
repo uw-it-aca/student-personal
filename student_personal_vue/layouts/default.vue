@@ -76,13 +76,17 @@ export default {
     STopbarNeo,
     SColorMode,
   },
-
+props: {
+    pageTitle: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       appName: "Personal Information",
       deptName: "Student Personal Services",
       appRootUrl: "/",
-      pageTitle: "Profile"
     };
   },
   computed: {
