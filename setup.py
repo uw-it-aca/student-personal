@@ -3,11 +3,11 @@ from setuptools import setup
 
 README = """
 See the README on `GitHub
-<https://github.com/uw-it-aca/app_name>`_.
+<https://github.com/uw-it-aca/student_personal>`_.
 """
 
 # The VERSION file is created by travis-ci, based on the tag name
-version_path = "app_name/VERSION"
+version_path = "student_personal/VERSION"
 print(os.path.join(os.path.dirname(__file__), version_path))
 VERSION = open(os.path.join(os.path.dirname(__file__), version_path)).read()
 VERSION = VERSION.replace("\n", "")
@@ -15,11 +15,11 @@ VERSION = VERSION.replace("\n", "")
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
-url = "https://github.com/uw-it-aca/app_name"
+url = "https://github.com/uw-it-aca/student_personal"
 setup(
-    name="app_name",
+    name="student_personal",
     version=VERSION,
-    packages=["app_name"],
+    packages=["student_personal"],
     author="UW-IT",
     author_email="aca-it@uw.edu",
     include_package_data=True,
