@@ -1,8 +1,8 @@
 [run]
-source = app_name
+source = student_personal
 parallel = True
 
 [paths]
 source =
-  app_name/
-  /app/app_name/
+  student_personal/
+  /app/student_personal/

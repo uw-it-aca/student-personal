@@ -1,60 +1,37 @@
-# app_name
+# student-personal
 
-[![Build Status](https://github.com/uw-it-aca/django-vue/workflows/Build%2C%20Test%20and%20Deploy/badge.svg)](https://github.com/uw-it-aca/django-vue/actions)
-[![Coverage Status](https://coveralls.io/repos/github/uw-it-aca/django-vue/badge.svg?branch=main)](https://coveralls.io/github/uw-it-aca/django-vue?branch=main)
+[![Build Status](https://github.com/uw-it-aca/student-personal/workflows/Build%2C%20Test%20and%20Deploy/badge.svg?branch=main)](https://github.com/uw-it-aca/student-personal/actions)
+[![Coverage Status](https://coveralls.io/repos/github/uw-it-aca/student-personal/badge.svg?branch=main)](https://coveralls.io/github/uw-it-aca/student-personal?branch=main)
 
-This is a template repository used for creating Django-Vue applications. Use this template to create a new project repository.
+Replace this description for your new application... lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eget pulvinar est.
 
 ## System Requirements
 
-- Python (3.10)
-- Rancher Desktop (1.12.1)
-- Node (20.11.0 LTS)
-- Npm (10.2.4)
+- Python (3+)
+- Docker
+- Node
 
-## Deployment
-
-- Django-Container (2.0.1)
-- Vite (3.1.3)
-
-## Development
+## Development Stack
 
 - Django (4.2)
-- Vue (3.2.28)
+- Vue (3.2)
+- Vite (2.9)
+- Vitest (0.10.2)
 
-## Design
+## Design Stack
 
 - Bootstrap (5.2)
-- Bootstrap Icons (1.9.1)
+- Bootstrap Icons (1.9.0)
 
-## Testing
+## Installation
 
-- Vitest (0.23.2)
-- Vue Test Utils (2.0.2)
+Clone the repository
 
-## Linting (code quality)
-- Pycodestyle (2.8.x)
-- ESLint (8.13.x)
-- Stylelint (14.7.x)
+        $ git clone git@github.com:uw-it-aca/student-personal.git
 
-## Cloning
+Go to your working directory
 
-Clone this template repo as a new repo (command line)
-
-        $ git clone git@github.com:uw-it-aca/django-vue.git <new-repo>
-
-OR.. using the Gihub interface, click on the "Use this template" button. Github will automatically clone this repo and setup everything for you.
-
-## Configuration
-
-After cloning this repo, find and replace the following instances to match your new repo name.
-
-        'django-vue' with <new-repo>
-
-Find and replace the following instance of the new Django app_name.
-
-        'app_name' with <new_app>
-        'app_name_vue' with <new_app_vue>
+        $ cd student-personal
 
 Copy the sample .env file so that your environment can be run.
 
@@ -62,11 +39,57 @@ Copy the sample .env file so that your environment can be run.
 
 Update any .env variables for local development purposes
 
-## Update README
+## Development (using Docker)
 
-Replace the README.md file with the README_sample.md
+Docker/Docker Compose is used to containerize your local build environment and deploy it to an 'app' container which is exposed to your localhost so you can view your application. Docker Compose creates a 'devtools' container - which is used for local development. Changes made locally are automatically syncd to the 'app' container.
 
-        $ mv README_sample.md README.md
-        $ git rm README_sample.md
+        $ docker-compose up --build
 
-View the new README on your new Github repository page. Your project should be ready to start development after following those additional steps!
+View your application using your specified port number in the .env file
+
+        Demo: http://localhost:8000/
+
+## Testing
+
+### Front-end Testing (using Vitest)
+
+Run Vitest test scripts and generate coverage report
+
+        $ npm run test
+        $ npm run coverage
+
+### Linting (using ESLint and Stylelint)
+
+Run ESLint for JS linting
+
+        $ npm run eslint
+
+Run Stylelint for CSS linting
+
+        $ npm run stylelint
+
+### Accessibility (Lighthouse)
+
+Run Lighthouse CI for accessibility auditing
+
+        $ npm run lighthouse
+
+### Python Testing (using Django)
+
+Run unittest
+
+        $ docker-compose run --rm app bin/python manage.py test
+
+## Authors
+
+[Academic Experience Design & Delivery](https://github.com/uw-it-aca)
+
+## License
+
+Copyright 2022 UW Information Technology, University of Washington
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+<http://www.apache.org/licenses/LICENSE-2.0>
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
