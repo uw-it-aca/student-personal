@@ -1,7 +1,7 @@
 // home.vue
 
 <template>
-  <DefaultLayout :page-title="pageTitle">
+  <DefaultLayout  :page-title="pageTitle">
     <!-- page content -->
     <template #title>
       {{ pageTitle }}
