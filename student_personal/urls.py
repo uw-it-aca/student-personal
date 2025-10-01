@@ -28,6 +28,6 @@ if settings.DEBUG:
 urlpatterns += [
     # add api endpoints here
     # add default Vue page routes here
-    re_path(r"^(customize|page2|page3)$", DefaultPageView.as_view()),
+    re_path(r"^(emergency|page2|page3)$", DefaultPageView.as_view()),
     re_path(r"^$", DefaultPageView.as_view()),
 ]
