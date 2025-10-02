@@ -10,9 +10,9 @@ from django.urls import reverse
 
 def auth_user(request):
     return {
-        # 'username': get_user(request),  # Basic SAML auth
-        # 'username': UserService().get_user(),  # With UserService override
-        # 'signout_url': reverse('saml_logout'),
+        'username': get_user(request),  # Basic SAML auth
+        'username': UserService().get_user(),  # With UserService override
+        'signout_url': reverse('saml_logout'),
     }
 
 
