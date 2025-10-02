@@ -19,7 +19,7 @@ export default {
   name: "PagesHome",
   components: { DefaultLayout },
   data() {
-    return { pageTitle: "Profile Home" };
+    return { pageTitle: "Personal Home" };
   },
   methods: {},
 };
