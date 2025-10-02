@@ -32,9 +32,9 @@
             Personal Information
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/">Profile</a></li>
+            <li><a class="dropdown-item" href="/">Home</a></li>
             <li><a class="dropdown-item" href="/emergency">Emergency Contacts</a></li>
-            <li><a class="dropdown-item" href="/">Address &amp; Consent</a></li>
+            <li><a class="dropdown-item" href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx">Address and Consent</a></li>
           </ul>
         </li>
       </ul>
@@ -58,6 +58,7 @@
     <template #main>
       <div class="row my-5">
         <div class="col">
+          <h1>{{ pageTitle }}</h1>
           <slot name="content"></slot>
         </div>
       </div>
