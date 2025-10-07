@@ -17,19 +17,22 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/client-body-buffer-size: "16K"
-    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "500"
     nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256"
+
+namespace:
+  enabled: true
+
 lifecycle:
   enabled: true
   preStop:
     enabled: true
 affinity:
-   podsSpanNodes: true
+  podsSpanNodes: true
 readiness:
   enabled: true
 securityPolicy:
   enabled: false
+
 #externalService:
 #  enabled: true
 #  name: personal-info-db-service
@@ -41,13 +44,17 @@ securityPolicy:
 #  name: manager_test
 #  hostname: personal-info-db-service
 #  secretName: test-personal.my.uw.edu-sql-secrets
+
 repo: personal-info
 instance: test
-image:
-  repository: gcr.io/uwit-mci-axdd/personal-info
-  tag: IMAGE_TAG
+
+#image:
+#  repository: gcr.io/uwit-mci-axdd/personal-info
+#  tag: IMAGE_TAG
+
 memcached:
   enabled: false
+
 #cronjob:
 #  enabled: true
 #  jobs:
@@ -55,29 +62,28 @@ memcached:
 #      schedule: "59 12-23 * * 1-5"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["sync_groups"]
-certs:
-  mounted: true
-  certPath: /certs/test-personal.my.uw.edu-ic.cert
-  keyPath: /certs/test-personal.my.uw.edu-ic.key
-  secretName: test-personal.my.uw.edu-ic-certs
+#certs:
+#  mounted: true
+#  certPath: /certs/test-personal.my.uw.edu-ic.cert
+#  keyPath: /certs/test-personal.my.uw.edu-ic.key
+#  secretName: test-personal.my.uw.edu-ic-certs
 environmentVariables:
-  - name: AUTH
-    value: SAML
-  - name: CLUSTER_CNAME
-    value: test-personal.my.uw.edu
   - name: ENV
     value: test
+  - name: AUTH
+    value: SAML
 #  - name: GWS_ENV
 #    value: PROD
   - name: SAML_ENTITY_ID
     value: https://test-personal.my.uw.edu/saml2
-  - name: WEBSERVER
-    value: nginx
+  - name: CLUSTER_CNAME
+    value: test-personal.my.uw.edu
+
 externalSecrets:
   enabled: true
   secrets:
     - name: test-personal.my.uw.edu-secrets
-      externalKey: axdd/kv/data/scout/test-manager/secrets
+      externalKey: my/test-personal/secrets
       data:
         - name: django-secret
           property: django-secret
@@ -93,14 +99,14 @@ externalSecrets:
 #        - name: password
 #          property: password
     - name: test-personal.my.uw.edu-ic-certs
-      externalKey: axdd/kv/data/scout/test-manager/ic-certs
+      externalKey: my/test-personal/ic-certs
       data:
         - name: test-personal.my.uw.edu-ic.cert
           property: test-personal.my.uw.edu-ic.cert
-        - name: test-personal.my.uw.edu-ic.key
-          property: test-personal.my.uw.edu-ic.key
+#        - name: test-personal.my.uw.edu-ic.key
+#          property: test-personal.my.uw.edu-ic.key
     - name: test-personal.my.uw.edu-uw-idp-cert
-      externalKey: axdd/kv/data/idp-cert
+      externalKey: idp-cert
       data:
         - name: uw-idp-cert
           property: cert
