@@ -48,20 +48,9 @@ database:
 repo: personal-info
 instance: test
 
-#image:
-#  repository: gcr.io/uwit-mci-axdd/personal-info
-#  tag: IMAGE_TAG
-
 memcached:
   enabled: false
 
-#cronjob:
-#  enabled: true
-#  jobs:
-#    - name: sync-groups
-#      schedule: "59 12-23 * * 1-5"
-#      command: ["/scripts/management_command.sh"]
-#      args: ["sync_groups"]
 certs:
   mounted: true
   certPath: /certs/test-personal.my.uw.edu-ic.cert
@@ -72,8 +61,6 @@ environmentVariables:
     value: test
   - name: AUTH
     value: SAML
-#  - name: GWS_ENV
-#    value: PROD
   - name: SAML_ENTITY_ID
     value: https://test-personal.my.uw.edu/saml2
   - name: CLUSTER_CNAME
@@ -87,8 +74,6 @@ externalSecrets:
       data:
         - name: django-secret
           property: django-secret
-#        - name: google-maps-api-key
-#          property: google-maps-api-key
 #        - name: userservice-admin-group
 #          property: userservice-admin-group
 #    - name: test-personal.my.uw.edu-sql-secrets
@@ -115,10 +100,6 @@ environmentVariablesSecrets:
     name: DJANGO_SECRET
     secretName: test-personal.my.uw.edu-secrets
     secretKey: django-secret
-#  googleMapsApiKey:
-#    name: GOOGLE_MAPS_API
-#    secretName: test-personal.my.uw.edu-secrets
-#    secretKey: google-maps-api-key
   samlSPCert:
     name: SP_CERT
     secretName: test-personal.my.uw.edu-ic-certs
