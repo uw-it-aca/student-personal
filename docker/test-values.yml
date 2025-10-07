@@ -62,11 +62,11 @@ memcached:
 #      schedule: "59 12-23 * * 1-5"
 #      command: ["/scripts/management_command.sh"]
 #      args: ["sync_groups"]
-#certs:
-#  mounted: true
-#  certPath: /certs/test-personal.my.uw.edu-ic.cert
-#  keyPath: /certs/test-personal.my.uw.edu-ic.key
-#  secretName: test-personal.my.uw.edu-ic-certs
+certs:
+  mounted: true
+  certPath: /certs/test-personal.my.uw.edu-ic.cert
+  keyPath: /certs/test-personal.my.uw.edu-ic.key
+  secretName: test-personal.my.uw.edu-ic-certs
 environmentVariables:
   - name: ENV
     value: test
@@ -103,8 +103,8 @@ externalSecrets:
       data:
         - name: test-personal.my.uw.edu-ic.cert
           property: test-personal.my.uw.edu-ic.cert
-#        - name: test-personal.my.uw.edu-ic.key
-#          property: test-personal.my.uw.edu-ic.key
+        - name: test-personal.my.uw.edu-ic.key
+          property: test-personal.my.uw.edu-ic.key
     - name: test-personal.my.uw.edu-uw-idp-cert
       externalKey: idp-cert
       data:
