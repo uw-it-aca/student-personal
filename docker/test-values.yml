@@ -39,8 +39,8 @@ securityPolicy:
 #  type: ClusterIP
 #  serviceAddress: 172.18.0.196
 #  servicePort: 3306
-#database:
-#  engine: mysql
+database:
+  engine: sqlite3
 #  name: manager_test
 #  hostname: personal-info-db-service
 #  secretName: test-personal.my.uw.edu-sql-secrets
