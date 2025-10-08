@@ -33,17 +33,17 @@ readiness:
 securityPolicy:
   enabled: true
 
-#externalService:
-#  enabled: true
-#  name: personal-info-db-service
-#  type: ClusterIP
-#  serviceAddress: 172.18.0.196
-#  servicePort: 3306
+externalService:
+  enabled: true
+  name: personal-info-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.1.210
+  servicePort: 5432
 database:
-  engine: sqlite3
-#  name: manager_test
-#  hostname: personal-info-db-service
-#  secretName: test-personal.my.uw.edu-sql-secrets
+  engine: postgres
+  name: personal_test
+  hostname: personal-info-db-service
+  secretName: test-personal.my.uw.edu-sql-secrets
 
 repo: personal-info
 instance: test
@@ -76,13 +76,13 @@ externalSecrets:
           property: django-secret
 #        - name: userservice-admin-group
 #          property: userservice-admin-group
-#    - name: test-personal.my.uw.edu-sql-secrets
-#      externalKey: axdd/kv/data/scout/common/sql-secrets
-#      data:
-#        - name: username
-#          property: username
-#        - name: password
-#          property: password
+    - name: test-personal.my.uw.edu-sql-secrets
+      externalKey: my/test-personal/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
     - name: test-personal.my.uw.edu-ic-certs
       externalKey: my/test-personal/ic-certs
       data:
