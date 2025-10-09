@@ -15,7 +15,7 @@ urlpatterns = []
 if settings.DEBUG:
     urlpatterns += [
         re_path(
-            r"^econtact$",
+            r"^api/v0/econtact$",
             EmergencyContact.as_view(),
             name="econtact",
         ),
