@@ -12,19 +12,18 @@ class RESTDispatch(View):
     @staticmethod
     def json_response(content={}, status=200):
         try:
-            data = json.dumps(content,
-                              sort_keys=True,
-                              cls=DjangoJSONEncoder)
-            return HttpResponse(data,
-                                status=status,
-                                content_type='application/json')
+            data = json.dumps(content, sort_keys=True, cls=DjangoJSONEncoder)
+            return HttpResponse(
+                data, status=status, content_type="application/json"
+            )
         except TypeError:
             return RESTDispatch().error_response(400)
 
     @staticmethod
-    def error_response(status, message='', content={}):
-        content['error'] = str(message)
-        return HttpResponse(json.dumps(content),
-                            status=status,
-                            content_type='application/json',
-                            )
+    def error_response(status, message="", content={}):
+        content["error"] = str(message)
+        return HttpResponse(
+            json.dumps(content),
+            status=status,
+            content_type="application/json",
+        )
