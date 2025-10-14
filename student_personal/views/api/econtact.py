@@ -1,3 +1,6 @@
+# Copyright 2025 UW-IT, University of Washington
+# SPDX-License-Identifier: Apache-2.0
+
 from student_personal.views.api import RESTDispatch
 from django.core.exceptions import ObjectDoesNotExist
 
