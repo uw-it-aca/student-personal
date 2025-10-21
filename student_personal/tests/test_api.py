@@ -25,5 +25,14 @@ class FakeApiTest(TestCase):
             },
         ]
         resp = client.get("/api/v0/econtact")
-        self.assertEqual('application/json', resp.headers['Content-Type'])
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual("application/json", resp.headers["Content-Type"])
         self.assertEqual(ecjson, resp.json())
+
+    def test_html_404(self):
+        client = Client()
+        resp = client.get("/doesntexist")
+        self.assertEqual(404, resp.status_code)
+        self.assertEqual(
+            "text/html; charset=utf-8", resp.headers["Content-Type"]
+        )
