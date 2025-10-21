@@ -33,12 +33,19 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/">Home</a></li>
-            <li><a class="dropdown-item" href="/emergency">Emergency Contacts</a></li>
-            <li><a class="dropdown-item" href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx">Address and Consent</a></li>
+            <li>
+              <a class="dropdown-item" href="/emergency">Emergency Contacts</a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx"
+                >Address and Consent</a
+              >
+            </li>
           </ul>
         </li>
       </ul>
-
     </template>
 
     <!-- TODO: hide system messages if empty -->
@@ -48,8 +55,7 @@
           <ul
             class="list-unstyled py-2 m-0 text-center text-info-emphasis small"
           >
-            <li
-            >Welcome to SPS</li>
+            <li>Welcome to SPS</li>
           </ul>
         </div>
       </div>
@@ -68,7 +74,6 @@
 </template>
 
 <script>
-
 import { STopbarNeo, SColorMode } from "solstice-vue";
 
 export default {
@@ -77,7 +82,7 @@ export default {
     STopbarNeo,
     SColorMode,
   },
-props: {
+  props: {
     pageTitle: {
       type: String,
       required: true,
@@ -90,16 +95,11 @@ props: {
       appRootUrl: "/",
     };
   },
-  computed: {
-  },
+  computed: {},
   created: function () {
     // constructs page title in the following format "Page Title - AppName"
     document.title = this.pageTitle + " - " + this.appName;
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
-
-
-
