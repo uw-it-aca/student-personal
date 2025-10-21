@@ -15,11 +15,6 @@ urlpatterns = []
 if settings.DEBUG:
     urlpatterns += [
         re_path(
-            r"^api/v0/econtact$",
-            EmergencyContact.as_view(),
-            name="econtact",
-        ),
-        re_path(
             r"^500$",
             TemplateView.as_view(template_name="500.html"),
             name="500_response",
@@ -33,6 +28,12 @@ if settings.DEBUG:
 
 urlpatterns += [
     # add api endpoints here
+    # api/v0 will go away in favor of restclient
+    re_path(
+        r"^api/v0/econtact$",
+        EmergencyContact.as_view(),
+        name="econtact",
+    ),
     # add default Vue page routes here
     re_path(r"^(emergency|page2|page3)$", DefaultPageView.as_view()),
     re_path(r"^$", DefaultPageView.as_view()),
