@@ -10,7 +10,9 @@ from django.views import View
 
 class RESTDispatch(View):
     @staticmethod
-    def json_response(content={}, status=200):
+    def json_response(content=None, status=200):
+        if content is None:
+            content = {}
         try:
             data = json.dumps(content, sort_keys=True, cls=DjangoJSONEncoder)
             return HttpResponse(
