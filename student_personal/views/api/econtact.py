@@ -12,18 +12,20 @@ class EmergencyContact(RESTDispatch):
         try:
             ecjson = [
                 {
+                    "syskey": 0,
                     "name": "John Doe",
-                    "phone": "1234567890",
+                    "phoneNumber": "1234567890",
                     "email": "e1@gmail.com",
-                    "relationship": "",
-                    "last_updated": "",
+                    "relationship": "PARENT",
+                    "lastModified": "2025-10-21T23:23:02.573Z",
                 },
                 {
+                    "syskey": 0,
                     "name": "Jane Doe",
-                    "phone": "5555555555",
+                    "phoneNumber": "5555555555",
                     "email": "janedoe@gmail.com",
-                    "relationship": "",
-                    "last_updated": "",
+                    "relationship": "PARENT",
+                    "lastModified": "2025-10-21T23:23:02.573Z",
                 },
             ]
             return self.json_response(ecjson)
