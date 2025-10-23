@@ -1,10 +1,9 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from django.test import Client, TestCase, override_settings
+from django.test import Client, TestCase
 
 
-@override_settings(DEBUG=True)
 class FakeApiTest(TestCase):
     def test_api_v0(self):
         client = Client()
