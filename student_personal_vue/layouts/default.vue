@@ -62,9 +62,9 @@
     </template>
 
     <template #main>
-      <div class="row my-5">
-        <div class="col">
-          <h1>{{ pageTitle }}</h1>
+      <div class="row justify-content-center my-5">
+        <div class="col-6">
+          <h1 class="h1 fw-bold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>
         </div>
       </div>
