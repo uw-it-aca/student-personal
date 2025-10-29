@@ -11,10 +11,10 @@ class FakeApiTest(TestCase):
             {
                 "syskey": 0,
                 "name": "John Doe",
-                "phoneNumber": "1234567890",
+                "phoneNumber": "1234567890",  # could also be 555-123-4567 frmt
                 "email": "e1@gmail.com",
-                "relationship": "PARENT",
-                "lastModified": "2025-10-21T23:23:02.573Z",
+                "relationship": "GUARDIAN",
+                "lastModified": "2025-10-21T23:23:02.573Z",  # time frmt
             },
             {
                 "syskey": 0,

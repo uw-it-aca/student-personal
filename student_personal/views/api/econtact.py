@@ -16,7 +16,7 @@ class EmergencyContact(RESTDispatch):
                     "name": "John Doe",
                     "phoneNumber": "1234567890",
                     "email": "e1@gmail.com",
-                    "relationship": "PARENT",
+                    "relationship": "GUARDIAN",
                     "lastModified": "2025-10-21T23:23:02.573Z",
                 },
                 {
