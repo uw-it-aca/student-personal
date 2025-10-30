@@ -17,3 +17,9 @@ export default {
   methods: {},
 };
 </script>
+
+<style lang="scss">
+.blah {
+  color: red;
+}
+</style>

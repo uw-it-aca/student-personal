@@ -1,0 +1,27 @@
+{
+  "lsp": {
+    "oxc": {
+      "initialization_options": {
+        "options": {
+          "run": "onType",
+          "configPath": ".oxlintrc.json",
+          "tsConfigPath": "tsconfig.json",
+          "typeAware": true
+        }
+      }
+    }
+  },
+  // ... other settings
+  "languages": {
+    "Vue.js": {
+      "formatter": {
+        "external": {
+          "command": "node_modules/.bin/prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      },
+      "format_on_save": "on"
+    }
+  }
+  //"language_servers": ["!eslint"] // ignore eslint in zed
+}

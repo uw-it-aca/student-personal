@@ -9,9 +9,9 @@
       <div role="group" class="mb-3">
         <label for="" class="form-label fw-bold">Full name *</label>
         <BFormInput
-          class=""
           id=""
           v-model="fullName"
+          class=""
           :state="fullNameState"
           aria-describedby=""
           trim
@@ -53,8 +53,8 @@
 
           <BFormText v-if="phoneNumberState == null" id="">
             Please select appropriate country code. Number format examples:
-            222-123-4567, 2221234567 or (222) 123-4567
-          </BFormText>
+            222-123-4567, 2221234567 or (222) 123-4567</BFormText
+          >
           <BFormInvalidFeedback id="">
             Please select appropriate country code. Number format examples:
             222-123-4567, 2221234567 or (222) 123-4567
