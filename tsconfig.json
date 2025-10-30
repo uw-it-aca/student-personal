@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "student-personal/**/*.ts", // Example: Include all .ts files in the src directory
+    "test.ts" // Or explicitly include the file
+  ]
 }
