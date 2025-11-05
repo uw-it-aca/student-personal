@@ -32,7 +32,6 @@
             Personal Information
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/">Home</a></li>
             <li>
               <a class="dropdown-item" href="/emergency">Emergency Contacts</a>
             </li>

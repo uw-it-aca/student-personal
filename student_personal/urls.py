@@ -1,6 +1,7 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+
 from django.conf import settings
 from django.urls import re_path
 from django.views.generic import TemplateView

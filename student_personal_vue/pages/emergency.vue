@@ -1,5 +1,4 @@
 // home.vue
-
 <template>
   <DefaultLayout :page-title="pageTitle">
     <!-- page content -->
@@ -38,15 +37,7 @@
           be attempted.
         </div>
         <div class="my-3 mx-5">
-          <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-            deleniti assumenda voluptatibus tempore? Esse, atque temporibus
-            numquam, repellendus tenetur dolores impedit possimus odio
-            cupiditate voluptatibus minus itaque! Ab, ipsa sit.
-          </div>
-          <div class="text-secondary fst-italic">
-            Last updated 8/7/25 2:40PM PDT
-          </div>
+          <ContactDetails />
         </div>
       </div>
 
@@ -62,15 +53,7 @@
           be attempted.
         </div>
         <div class="my-3 mx-5">
-          <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-            deleniti assumenda voluptatibus tempore? Esse, atque temporibus
-            numquam, repellendus tenetur dolores impedit possimus odio
-            cupiditate voluptatibus minus itaque! Ab, ipsa sit.
-          </div>
-          <div class="text-secondary fst-italic">
-            Last updated 8/7/25 2:40PM PDT
-          </div>
+          <ContactDetails />
         </div>
       </div>
 
@@ -86,12 +69,7 @@
       </p>
 
       <div class="my-3 mx-5">
-        <div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-          deleniti assumenda voluptatibus tempore? Esse, atque temporibus
-          numquam, repellendus tenetur dolores impedit possimus odio cupiditate
-          voluptatibus minus itaque! Ab, ipsa sit.
-        </div>
+        <ContactDetails />
       </div>
     </template>
   </DefaultLayout>
@@ -99,15 +77,40 @@
 
 <script>
 import DefaultLayout from "@/layouts/default.vue";
+import ContactDetails from "../components/contact-details.vue";
 import ContactModal from "@/components/contact-modal.vue";
 import { BAlert } from "bootstrap-vue-next";
 
 export default {
   name: "PagesEmergency",
-  components: { DefaultLayout, ContactModal, BAlert },
+  components: { DefaultLayout, ContactDetails, ContactModal, BAlert },
   data() {
     return {
       pageTitle: "Additional Contacts",
+      // mock contacts list
+      contacts: [
+        {
+          name: "John Doe",
+          email: "john.doe@example.com",
+          countryCode: "+1",
+          phone: "123-456-7890",
+          lastUpdated: new Date().toISOString(),
+        },
+        {
+          name: "Jane Smith",
+          email: "jane.smith@example.com",
+          countryCode: "+56",
+          phone: "987-654-3210",
+          lastUpdated: new Date().toISOString(),
+        },
+      ],
+      // mock parent contact (separate api call?)
+      parentContact: {
+        name: "Parent Name",
+        email: "parent@example.com",
+        countryCode: "+1",
+        phone: "123-456-7890",
+      },
     };
   },
   methods: {},

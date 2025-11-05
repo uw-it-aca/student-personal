@@ -1,7 +1,7 @@
 <template>
-  <BButton variant="outline-primary" size="sm" @click="showModal = !showModal">
-    Edit
-  </BButton>
+  <BButton variant="outline-primary" size="sm" @click="showModal = !showModal"
+    >Edit</BButton
+  >
   <BModal v-model="showModal" title="Secondary" body-class="px-5 py-4">
     <p>Required fields are indicated by *</p>
 

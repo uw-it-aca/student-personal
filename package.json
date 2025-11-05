@@ -10,7 +10,9 @@
     "coverage": "vitest run --coverage",
     "eslint": "eslint 'student_personal/**/*.{js,vue}'",
     "stylelint": "stylelint 'student_personal_vue/**/*.{vue,scss}'",
-    "lighthouse": "lhci collect"
+    "lighthouse": "lhci collect",
+    "biome:format": "biome format --write .",
+    "biome:lint": "biome lint ."
   },
   "repository": {
     "type": "git",
@@ -39,6 +41,7 @@
     "vue3-mq": "^4.0.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.3.2",
     "@lhci/cli": "^0.15.1",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/coverage-v8": "^4.0.5",
