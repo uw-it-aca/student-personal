@@ -1,5 +1,5 @@
 {
-  "language_servers": ["!eslint"], // ignore eslint in zed
+  "language_servers": ["!eslint", "biome"], // ignore eslint in zed
   "lsp": {
     "oxc": {
       "initialization_options": {

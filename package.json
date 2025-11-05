@@ -11,8 +11,8 @@
     "eslint": "eslint 'student_personal/**/*.{js,vue}'",
     "stylelint": "stylelint 'student_personal_vue/**/*.{vue,scss}'",
     "lighthouse": "lhci collect",
-    "biome:format": "biome format --write .",
-    "biome:lint": "biome lint ."
+    "biome:format": "biome format --write ./student_personal_vue",
+    "biome:lint": "biome lint ./student_personal_vue"
   },
   "repository": {
     "type": "git",

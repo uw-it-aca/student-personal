@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { STopbarNeo, SColorMode } from "solstice-vue";
+import { SColorMode, STopbarNeo } from "solstice-vue";
 
 export default {
   name: "PersonaInformationApp",
@@ -97,7 +97,8 @@ export default {
   computed: {},
   created: function () {
     // constructs page title in the following format "Page Title - AppName"
-    document.title = this.pageTitle + " - " + this.appName;
+    // document.title = this.pageTitle + " - " + this.appName;
+    document.title = `${this.pageTitle} - ${this.appName}`;
   },
   methods: {},
 };
