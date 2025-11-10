@@ -4,6 +4,7 @@
 from django.conf import settings
 from django.views import View
 from django.http import HttpResponse
+from django.utils.decorators import method_decorator
 from student_personal.views.decorators import xhr_login_required
 from student_personal.exceptions import OverrideNotPermitted
 from userservice.user import UserService
