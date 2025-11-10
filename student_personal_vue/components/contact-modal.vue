@@ -9,7 +9,7 @@
       <div role="group" class="mb-3">
         <label for="" class="form-label fw-bold">Full name *</label>
         <BFormInput
-          id=""
+          id="inputFullName"
           v-model="fullName"
           class=""
           :state="fullNameState"
