@@ -3,17 +3,25 @@
 
 from django.conf import settings
 from django.urls import reverse
-
-# from uw_saml.utils import get_user
-# from userservice.user import UserService
+from userservice.user import UserService
+from persistent_message.models import Message
 
 
 def auth_user(request):
-    return {
-        'username': get_user(request),  # Basic SAML auth
-        'username': UserService().get_user(),  # With UserService override
+    us = UserService()
+    ret = {
+        'user_netid': us.get_original_user(),
+        'user_override': us.get_user(),
         'signout_url': reverse('saml_logout'),
+        'messages': [],
     }
+
+    for message in Message.objects.active_messages():
+        if 'message_level' not in ret:
+            ret['message_level'] = message.get_level_display().lower()
+        ret['messages'].append(message.render())
+
+    return ret
 
 
 def google_analytics(request):
