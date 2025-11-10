@@ -1,0 +1,114 @@
+resources:
+  requests:
+    cpu: 90m
+    memory: 192Mi
+ingress:
+  enabled: true
+  tls:
+    personal-info:
+      secretName: test-personal.my.uw.edu-ingress-cert
+      hosts:
+        - test-personal.my.uw.edu
+  hosts:
+    personal-info:
+      host: test-personal.my.uw.edu
+      paths:
+        - "/"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "16K"
+    nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256"
+
+namespace:
+  enabled: true
+
+lifecycle:
+  enabled: true
+  preStop:
+    enabled: true
+affinity:
+  podsSpanNodes: true
+readiness:
+  enabled: true
+securityPolicy:
+  enabled: true
+
+externalService:
+  enabled: true
+  name: personal-info-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.1.210
+  servicePort: 5432
+database:
+  engine: postgres
+  name: personal_test
+  hostname: personal-info-db-service
+  secretName: test-personal.my.uw.edu-sql-secrets
+
+repo: personal-info
+instance: test
+
+memcached:
+  enabled: false
+
+certs:
+  mounted: true
+  certPath: /certs/test-personal.my.uw.edu-ic.cert
+  keyPath: /certs/test-personal.my.uw.edu-ic.key
+  secretName: test-personal.my.uw.edu-ic-certs
+environmentVariables:
+  - name: ENV
+    value: test
+  - name: AUTH
+    value: SAML
+  - name: SAML_ENTITY_ID
+    value: https://test-personal.my.uw.edu/saml2
+  - name: CLUSTER_CNAME
+    value: test-personal.my.uw.edu
+
+externalSecrets:
+  enabled: true
+  secrets:
+    - name: test-personal.my.uw.edu-secrets
+      externalKey: my/test-personal/secrets
+      data:
+        - name: django-secret
+          property: django-secret
+#        - name: userservice-admin-group
+#          property: userservice-admin-group
+    - name: test-personal.my.uw.edu-sql-secrets
+      externalKey: my/test-personal/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
+    - name: test-personal.my.uw.edu-ic-certs
+      externalKey: my/test-personal/ic-certs
+      data:
+        - name: test-personal.my.uw.edu-ic.cert
+          property: test-personal.my.uw.edu-ic.cert
+        - name: test-personal.my.uw.edu-ic.key
+          property: test-personal.my.uw.edu-ic.key
+    - name: test-personal.my.uw.edu-uw-idp-cert
+      externalKey: idp-cert
+      data:
+        - name: uw-idp-cert
+          property: cert
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: django-secret
+  samlSPCert:
+    name: SP_CERT
+    secretName: test-personal.my.uw.edu-ic-certs
+    secretKey: test-personal.my.uw.edu-ic.cert
+  samlIDPCert:
+    name: IDP_CERT
+    secretName: test-personal.my.uw.edu-uw-idp-cert
+    secretKey: uw-idp-cert
+#  userserviceAdminGroup:
+#    name: USERSERVICE_ADMIN_GROUP
+#    secretName: test.manager.scout.uw.edu-secrets
+#    secretKey: userservice-admin-group
