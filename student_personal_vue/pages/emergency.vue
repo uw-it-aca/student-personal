@@ -17,6 +17,8 @@
           and let us know if you are experiencing any issues.
         </p>
       </div>
+
+      <!-- TODO: change to v-else later -->
       <div>
         <h2 class="mb-3">Emergency Contacts</h2>
         <p>
