@@ -81,12 +81,16 @@ environmentVariables:
     value: PROD
   - name: PWS_TIMEOUT
     value: "5"
+  - name: GWS_ENV
+    value: PROD
+  - name: GWS_TIMEOUT
+    value: "5"
 
 externalSecrets:
   enabled: true
   secrets:
     - name: test-personal.my.uw.edu-secrets
-      externalKey: my/test-personal/secrets
+      externalKey: student-personal/test/secrets
       data:
         - name: django-secret
           property: django-secret
@@ -95,14 +99,14 @@ externalSecrets:
         - name: support-group
           property: support-group
     - name: test-personal.my.uw.edu-sql-secrets
-      externalKey: my/test-personal/sql-secrets
+      externalKey: student-personal/test/sql-secrets
       data:
         - name: username
           property: username
         - name: password
           property: password
     - name: test-personal.my.uw.edu-ic-certs
-      externalKey: my/test-personal/ic-certs
+      externalKey: student-personal/test/ic-certs
       data:
         - name: test-personal.my.uw.edu-ic.cert
           property: test-personal.my.uw.edu-ic.cert
