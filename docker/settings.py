@@ -21,10 +21,10 @@ MIDDLEWARE += [
 
 GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
 
-TEMPLATES[0]['OPTIONS']['context_processors'] += [
+TEMPLATES[0]["OPTIONS"]["context_processors"] += [
+    "supporttools.context_processors.supportools_globals",
+    "student_personal.context_processors.persistent_messages",
     "student_personal.context_processors.google_analytics",
-    "student_personal.context_processors.django_debug",
-    "student_personal.context_processors.auth_user",
 ]
 
 if os.getenv("ENV") == "localdev":
@@ -40,11 +40,13 @@ if os.getenv("ENV") == "localdev":
             "student@washington.edu",
             "member@washington.edu",
         ],
-        "isMemberOf": ["uw_student"],
+        "isMemberOf": ["uw_student", "u_test_group"],
     }
+    ADMIN_GROUP = "u_test_group"
+    SUPPORT_GROUP = "u_test_group"
 else:
     VITE_MANIFEST_PATH = os.path.join(os.sep, "static", ".vite", "manifest.json")
-    RESTCLIENTS_DAO_CACHE_CLASS = "student_personal.cache.RestclientCache"
+    RESTCLIENTS_DAO_CACHE_CLASS = "student_personal.cache.RestClientCache"
     ADMIN_GROUP = os.getenv("ADMIN_GROUP", "")
     SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "")
 

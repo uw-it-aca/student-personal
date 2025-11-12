@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import re_path
 from django.views.generic import TemplateView
 from student_personal.views.pages import DefaultPageView
+from student_personal.views.api.emergency_contact import EmergencyContactView
 
 
 # start with an empty url array
@@ -27,8 +28,12 @@ if settings.DEBUG:
     ]
 
 urlpatterns += [
-    # add api endpoints here
-    # add default Vue page routes here
+    # Emergency comtact API
+    re_path(
+        r"^api/v1/emergency_contact/(?P<system_key>[\d]*)$",
+        EmergencyContactView.as_view(), name="emergency-contact"),
+
+    # Vue-router paths
     re_path(r"^emergency$", DefaultPageView.as_view(), name="emergency"),
     re_path(r"^$", DefaultPageView.as_view(), name="index"),
 ]
