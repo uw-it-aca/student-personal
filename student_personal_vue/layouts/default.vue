@@ -32,13 +32,19 @@
             Personal Information
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/">Home</a></li>
-            <li><a class="dropdown-item" href="/emergency">Emergency Contacts</a></li>
-            <li><a class="dropdown-item" href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx">Address and Consent</a></li>
+            <li>
+              <a class="dropdown-item" href="/emergency">Emergency Contacts</a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx"
+                >Address and Consent</a
+              >
+            </li>
           </ul>
         </li>
       </ul>
-
     </template>
 
     <!-- TODO: hide system messages if empty -->
@@ -48,17 +54,16 @@
           <ul
             class="list-unstyled py-2 m-0 text-center text-info-emphasis small"
           >
-            <li
-            >Welcome to SPS</li>
+            <li>Welcome to SPS</li>
           </ul>
         </div>
       </div>
     </template>
 
     <template #main>
-      <div class="row my-5">
-        <div class="col">
-          <h1>{{ pageTitle }}</h1>
+      <div class="row justify-content-center my-5">
+        <div class="col-6">
+          <h1 class="h1 fw-bold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>
         </div>
       </div>
@@ -68,8 +73,7 @@
 </template>
 
 <script>
-
-import { STopbarNeo, SColorMode } from "solstice-vue";
+import { SColorMode, STopbarNeo } from "solstice-vue";
 
 export default {
   name: "PersonaInformationApp",
@@ -77,7 +81,7 @@ export default {
     STopbarNeo,
     SColorMode,
   },
-props: {
+  props: {
     pageTitle: {
       type: String,
       required: true,
@@ -90,16 +94,12 @@ props: {
       appRootUrl: "/",
     };
   },
-  computed: {
-  },
+  computed: {},
   created: function () {
     // constructs page title in the following format "Page Title - AppName"
-    document.title = this.pageTitle + " - " + this.appName;
+    // document.title = this.pageTitle + " - " + this.appName;
+    document.title = `${this.pageTitle} - ${this.appName}`;
   },
-  methods: {
-  },
+  methods: {},
 };
 </script>
-
-
-

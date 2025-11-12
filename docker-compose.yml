@@ -8,7 +8,8 @@ services:
     restart: always
     container_name: student_personal_app
     environment:
-      - GOOGLE_ANALYTICS_KEY=${GOOGLE_ANALYTICS_KEY}
+      ENV: localdev
+      AUTH: SAML_MOCK
     volumes:
       - ./student_personal:/app/student_personal
       - statics-volume:/static

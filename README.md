@@ -1,9 +1,10 @@
 # student-personal
 
-[![Build Status](https://github.com/uw-it-aca/student-personal/workflows/Build%2C%20Test%20and%20Deploy/badge.svg?branch=main)](https://github.com/uw-it-aca/student-personal/actions)
+[![Build Status](https://github.com/uw-it-aca/student-personal/workflows/Build%2C%20Test%20and%20Deploy/badge.svg)](https://github.com/uw-it-aca/student-personal/actions)
 [![Coverage Status](https://coveralls.io/repos/github/uw-it-aca/student-personal/badge.svg?branch=main)](https://coveralls.io/github/uw-it-aca/student-personal?branch=main)
 
-Replace this description for your new application... lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eget pulvinar est.
+An application for managing student contact information.
+
 
 ## System Requirements
 
@@ -13,7 +14,7 @@ Replace this description for your new application... lorem ipsum dolor sit amet,
 
 ## Development Stack
 
-- Django (4.2)
+- Django (5.2)
 - Vue (3.2)
 - Vite (2.9)
 - Vitest (0.10.2)

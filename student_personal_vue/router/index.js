@@ -4,14 +4,12 @@ import { createWebHistory, createRouter } from "vue-router";
 // import { trackRouter } from "vue-gtag-next";
 
 // page components
-import HomePage from "@/pages/home.vue";
 import EmergencyPage from "@/pages/emergency.vue";
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: HomePage,
+    redirect: "/emergency",
   },
   {
     path: "/emergency",

@@ -1,16 +1,25 @@
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 2
 resources:
+  limits:
+    cpu: 250m
+    memory: 768Mi
   requests:
-    cpu: 90m
-    memory: 192Mi
+    cpu: 100m
+    memory: 128Mi
+targetAverageUtilization: 95
+
 ingress:
   enabled: true
   tls:
-    personal-info:
+    student-personal:
       secretName: test-personal.my.uw.edu-ingress-cert
       hosts:
         - test-personal.my.uw.edu
   hosts:
-    personal-info:
+    student-personal:
       host: test-personal.my.uw.edu
       paths:
         - "/"
@@ -18,9 +27,6 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/client-body-buffer-size: "16K"
     nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256"
-
-namespace:
-  enabled: true
 
 lifecycle:
   enabled: true
@@ -35,27 +41,33 @@ securityPolicy:
 
 externalService:
   enabled: true
-  name: personal-info-db-service
+  name: student-personal-db-service
   type: ClusterIP
   serviceAddress: 172.18.1.210
   servicePort: 5432
 database:
   engine: postgres
   name: personal_test
-  hostname: personal-info-db-service
+  hostname: student-personal-db-service
   secretName: test-personal.my.uw.edu-sql-secrets
 
-repo: personal-info
+repo: student-personal
 instance: test
+namespace:
+  enabled: true
 
 memcached:
-  enabled: false
+  enabled: true
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
 
 certs:
   mounted: true
   certPath: /certs/test-personal.my.uw.edu-ic.cert
   keyPath: /certs/test-personal.my.uw.edu-ic.key
   secretName: test-personal.my.uw.edu-ic-certs
+
 environmentVariables:
   - name: ENV
     value: test
@@ -65,6 +77,10 @@ environmentVariables:
     value: https://test-personal.my.uw.edu/saml2
   - name: CLUSTER_CNAME
     value: test-personal.my.uw.edu
+  - name: PWS_ENV
+    value: PROD
+  - name: PWS_TIMEOUT
+    value: "5"
 
 externalSecrets:
   enabled: true
@@ -74,8 +90,10 @@ externalSecrets:
       data:
         - name: django-secret
           property: django-secret
-#        - name: userservice-admin-group
-#          property: userservice-admin-group
+        - name: admin-group
+          property: admin-group
+        - name: support-group
+          property: support-group
     - name: test-personal.my.uw.edu-sql-secrets
       externalKey: my/test-personal/sql-secrets
       data:
@@ -95,6 +113,7 @@ externalSecrets:
       data:
         - name: uw-idp-cert
           property: cert
+
 environmentVariablesSecrets:
   djangoSecret:
     name: DJANGO_SECRET
@@ -108,7 +127,11 @@ environmentVariablesSecrets:
     name: IDP_CERT
     secretName: test-personal.my.uw.edu-uw-idp-cert
     secretKey: uw-idp-cert
-#  userserviceAdminGroup:
-#    name: USERSERVICE_ADMIN_GROUP
-#    secretName: test.manager.scout.uw.edu-secrets
-#    secretKey: userservice-admin-group
+  adminGroup:
+    name: ADMIN_GROUP
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: admin-group
+  supportGroup:
+    name: SUPPORT_GROUP
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: support-group

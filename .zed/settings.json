@@ -1,0 +1,49 @@
+{
+  "language_servers": ["!eslint", "biome"], // ignore eslint in zed
+  "lsp": {
+    "oxc": {
+      "initialization_options": {
+        "options": {
+          "run": "onType",
+          "configPath": ".oxlintrc.json",
+          "tsConfigPath": "tsconfig.json",
+          "typeAware": true
+        }
+      }
+    },
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          // ruff server settings goes here
+          "lineLength": 79,
+          "lint": {
+            "select": ["E", "W"] // pycodestyle rules only
+            //"ignore": ["F"] // ignore pyflakes
+          },
+          "organizeImports": true
+        }
+      }
+    }
+  },
+  // ... other settings
+  "languages": {
+    "Vue.js": {
+      "formatter": {
+        "external": {
+          "command": "node_modules/.bin/prettier",
+          "arguments": ["--stdin-filepath", "{buffer_path}"]
+        }
+      },
+      "format_on_save": "on"
+    },
+    "Python": {
+      "formatter": { "language_server": { "name": "ruff" } },
+      "language_servers": [
+        // Disable basedpyright and enable pylsp
+        //"pylsp",
+        //"!basedpyright",
+        "ruff"
+      ]
+    }
+  }
+}
