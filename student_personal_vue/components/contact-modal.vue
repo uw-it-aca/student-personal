@@ -68,64 +68,79 @@
         :state="false"
         class="mb-3"
       >
-        <BFormInput type="email" />
+        <BFormInput
+          id="inputEmailAddress"
+          v-model="emailAddress"
+          :state="emailAddressState"
+          type="email"
+          @blur="validateEmailAddress"
+        />
         <!-- This will only be shown if the preceding input has an invalid state -->
         <BFormInvalidFeedback id="">Please add an email.</BFormInvalidFeedback>
       </BFormGroup>
 
       <div role="group" class="mb-3">
-        <label for="" class="form-label fw-bold">Relationship *</label>
+        <label for="selectRelationshipChoice" class="form-label fw-bold"
+          >Relationship *</label
+        >
         <BFormSelect
-          v-model="selected"
+          id="selectRelationshipChoice"
+          v-model="relationshipChoice"
           :options="relationshipOptions"
-          :state="false"
+          :state="relationshipState"
+          @blur="validateRelationshipChoice"
         >
           <template #first>
             <BFormSelectOption value="" disabled>Select...</BFormSelectOption>
           </template>
         </BFormSelect>
+        <!-- This will only be shown if the preceding input has an invalid state -->
+        <BFormInvalidFeedback
+          >Please select a relationship.</BFormInvalidFeedback
+        >
       </div>
 
       <div role="group" class="mb-3">
         <BFormCheckbox
-          id="checkbox-1"
-          v-model="status"
-          name="checkbox-1"
+          id="checkboxPrimaryContact"
+          v-model="primaryContactChoice"
           value="accepted"
           unchecked-value="not_accepted"
           class="fw-bold"
         >
           Make this my primary contact
         </BFormCheckbox>
-        <BFormText id="">
+        <BFormText>
           If you have two contacts, you can choose which one is your primary.
         </BFormText>
       </div>
     </BForm>
 
     <template #footer>
-      <BButton variant="outline-primary">Cancel</BButton>
-      <BButton variant="primary">Save</BButton>
+      <BButton variant="outline-primary" @click="showModal = !showModal"
+        >Cancel</BButton
+      >
+      <BButton variant="primary" @click="saveContact">Save</BButton>
     </template>
   </BModal>
 </template>
 
 <script>
-import { SCountryCode } from "solstice-vue";
 import {
+  BButton,
   BForm,
+  BFormCheckbox,
   BFormGroup,
-  BInputGroup,
-  BInputGroupText,
   BFormInput,
   BFormInvalidFeedback,
-  BFormText,
   BFormSelect,
   BFormSelectOption,
-  BFormCheckbox,
-  BButton,
+  BFormText,
+  BInputGroup,
+  BInputGroupText,
   BModal,
 } from "bootstrap-vue-next";
+import { SCountryCode } from "solstice-vue";
 
 export default {
   name: "HelloWorld",
@@ -152,6 +167,10 @@ export default {
       fullNameState: null,
       phoneNumber: "",
       phoneNumberState: null,
+      emailAddress: "",
+      emailAddressState: null,
+      relationshipChoice: "",
+      relationshipState: null,
       relationshipOptions: [
         { value: "a", text: "Parent" },
         { value: "b", text: "Guardian" },
@@ -160,15 +179,52 @@ export default {
         { value: "e", text: "Friend" },
         { value: "f", text: "Other" },
       ],
+      primaryContactChoice: "",
     };
   },
   computed: {},
   methods: {
     validateFullName() {
-      this.fullNameState = this.fullName.length >= 1;
+      // validate full name for latin characters only
+      const nameRegex = /^[a-zA-Z\s'-]+$/;
+      this.fullNameState = nameRegex.test(this.fullName);
     },
     validatePhoneNumber() {
-      this.phoneNumberState = this.phoneNumber.length >= 1;
+      // validate phone number format
+      const phoneRegex =
+        /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+      this.phoneNumberState = phoneRegex.test(this.phoneNumber);
+    },
+    validateEmailAddress() {
+      // validate email address format
+      const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+      this.emailAddressState = emailRegex.test(this.emailAddress);
+    },
+    validateRelationshipChoice() {
+      // validate relationship choice is not empty
+      this.relationshipState = this.relationshipChoice !== "";
+    },
+
+    saveContact() {
+      // validate required fields
+      this.validateFullName();
+      this.validatePhoneNumber();
+      this.validateEmailAddress();
+      this.validateRelationshipChoice();
+
+      // if validation passes, save the contact data
+      if (
+        this.fullNameState &&
+        this.phoneNumberState &&
+        this.emailAddressState &&
+        this.relationshipState
+      ) {
+        alert("Contact saved successfully!");
+        // TODO: call API to save contact data
+        //
+        //
+        this.showModal = false;
+      }
     },
   },
 };

@@ -45,7 +45,6 @@
     "formatter": {
       "enabled": true,
       "indentScriptAndStyle": true
-      // "whitespaceSensitivity": "strict"
     }
   },
   "assist": {
