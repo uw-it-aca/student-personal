@@ -19,7 +19,7 @@
       </div>
 
       <!-- TODO: change to v-else later -->
-      <div>
+      <div v-else>
         <h2 class="mb-3">Emergency Contacts</h2>
         <p>
           It&rsquo;s important that UW has a way to contact a trusted individual
@@ -95,14 +95,20 @@ import { BAlert } from "bootstrap-vue-next";
 import ContactDetails from "@/components/contact-details.vue";
 import ContactModal from "@/components/contact-modal.vue";
 import DefaultLayout from "@/layouts/default.vue";
+import { useContextStore } from "@/stores/context";
 
 export default {
   name: "PagesEmergency",
   components: { DefaultLayout, ContactDetails, ContactModal, BAlert },
+  setup() {
+    const contextStore = useContextStore();
+    return {
+      contextStore,
+    };
+  },
   data() {
     return {
       pageTitle: "Additional Contacts",
-      isStudent: false,
 
       // mock contacts list
       contacts: [
@@ -131,6 +137,14 @@ export default {
         phone: "123-456-7890",
       },
     };
+  },
+  computed: {
+    context() {
+      return this.contextStore.context;
+    },
+    isStudent() {
+      return this.context.affiliations?.includes("student") || false;
+    },
   },
   methods: {},
 };

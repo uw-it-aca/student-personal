@@ -10,9 +10,9 @@
   >
     <template #settings>
       <SProfile
-        v-if="context.override_user != context.login_user"
-        :user-netid="context.login_user"
-        :user-override="context.override_user"
+        v-if="context.overrideUser != context.loginUser"
+        :user-netid="context.loginUser"
+        :user-override="context.overrideUser"
       >
         <button
           class="btn btn-link btn-sm text-danger p-0 m-0 border-0"
@@ -22,8 +22,8 @@
           Clear override
         </button>
       </SProfile>
-      <SProfile v-else :user-netid="context.login_user">
-        <a :href="context.signout_url" class="text-white"> Sign out </a>
+      <SProfile v-else :user-netid="context.loginUser">
+        <a :href="context.signoutUrl" class="text-white"> Sign out </a>
       </SProfile>
       <SColorMode color-class="text-white" class="ms-2" />
     </template>
@@ -120,7 +120,6 @@ export default {
       appName: "Personal Information",
       deptName: "Student Personal Services",
       appRootUrl: "/",
-      supportUrl: "/support",
     };
   },
   computed: {
@@ -135,11 +134,11 @@ export default {
   },
   methods: {
     clearUserOverride: function () {
-      this.clearOverride(this.supportUrl)
+      this.clearOverride(this.context.clearOverrideUrl)
         .then((data) => {})
         .catch((error) => {})
         .finally(() => {
-          window.location.href = this.supportUrl;
+          window.location.href = this.context.clearOverrideUrl;
         });
     },
   },
