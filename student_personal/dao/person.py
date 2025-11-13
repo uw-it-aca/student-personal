@@ -17,13 +17,7 @@ def get_user_attr(request):
         person = PWS().get_person_by_netid(us.get_user())
         return {}  # TODO
     else:
-        login_dict = {}
-        for key, value in request.session.get("samlUserdata", {}).items():
-            if isinstance(value, list):
-                login_dict[key] = value if len(value) > 1 else value[0]
-            else:
-                login_dict[key] = value
-        return login_dict
+        return request.session.get("samlUserdata", {})
 
 
 def get_user_photo(request, image_size="medium"):
