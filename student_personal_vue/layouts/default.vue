@@ -9,6 +9,22 @@
     :background-class="'bg-body'"
   >
     <template #settings>
+      <SProfile
+        v-if="context.override_user != context.login_user"
+        :user-netid="context.login_user"
+        :user-override="context.override_user"
+      >
+        <button
+          class="btn btn-link btn-sm text-danger p-0 m-0 border-0"
+          value="Clear override"
+          @click="clearUserOverride()"
+        >
+          Clear override
+        </button>
+      </SProfile>
+      <SProfile v-else :user-netid="context.login_user">
+        <a :href="context.signout_url" class="text-white"> Sign out </a>
+      </SProfile>
       <SColorMode color-class="text-white" class="ms-2" />
     </template>
 
@@ -16,7 +32,9 @@
       <!-- Bootstrap navbar-nav classes -->
       <ul class="navbar-nav text-white me-auto my-2 my-xl-0">
         <li class="nav-item me-5">
-          <a class="nav-link text-white px-0" href="#">Registration</a>
+          <a class="nav-link text-white px-0" href="https://register.uw.edu"
+            >Registration</a
+          >
         </li>
         <li class="nav-item me-5">
           <a class="nav-link text-white px-0" href="#">Finances</a>
@@ -73,12 +91,15 @@
 </template>
 
 <script>
-import { SColorMode, STopbarNeo } from "solstice-vue";
+import { SColorMode, SProfile, STopbarNeo } from "solstice-vue";
+import { useContextStore } from "@/stores/context";
+import { clearOverride } from "@/utils/data";
 
 export default {
   name: "PersonaInformationApp",
   components: {
     STopbarNeo,
+    SProfile,
     SColorMode,
   },
   props: {
@@ -87,6 +108,13 @@ export default {
       required: true,
     },
   },
+  setup() {
+    const contextStore = useContextStore();
+    return {
+      contextStore,
+      clearOverride,
+    };
+  },
   data() {
     return {
       appName: "Personal Information",
@@ -94,12 +122,25 @@ export default {
       appRootUrl: "/",
     };
   },
-  computed: {},
+  computed: {
+    context() {
+      return this.contextStore.context;
+    },
+  },
   created: function () {
     // constructs page title in the following format "Page Title - AppName"
     // document.title = this.pageTitle + " - " + this.appName;
     document.title = `${this.pageTitle} - ${this.appName}`;
   },
-  methods: {},
+  methods: {
+    clearUserOverride: function () {
+      this.clearOverride(this.context.clear_override_url)
+        .then((data) => {})
+        .catch((error) => {})
+        .finally(() => {
+          window.location.href = this.context.clear_override_url;
+        });
+    },
+  },
 };
 </script>
