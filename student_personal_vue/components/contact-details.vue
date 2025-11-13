@@ -1,4 +1,5 @@
 <template>
+  <p>{{ contactDetails }}</p>
   <p>
     Johh Doe<br />
     john.doe@example.com<br />
@@ -9,6 +10,12 @@
 
 <script>
 export default {
+  props: {
+    contactDetails: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {};
   },

@@ -20,6 +20,22 @@ def get_user_attr(request):
         return request.session.get("samlUserdata", {})
 
 
+def get_user_photo(request, image_size="medium"):
+    """
+    Get a photo for the logged-in user. If user override is active, the
+    required attribute must be retrieved via the Person Web Service,
+    otherwise the SAML session will contain the asserted attribute.
+    """
+    pws = PWS()
+    us = UserService()
+    if us.get_override_user() is not None:
+        person = pws.get_person_by_netid(us.get_user())
+        uwregid = person.uwregid
+    else:
+        uwregid = request.session.get("samlUserdata", {}).get("uwregid")
+    return pws.get_idcard_photo(uwregid, size=image_size)
+
+
 def is_overridable_uwnetid(username):
     error_msg = "No override user supplied, please enter a UWNetID"
     if username is not None and len(username) > 0:
