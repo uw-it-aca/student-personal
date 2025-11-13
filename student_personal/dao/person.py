@@ -17,7 +17,24 @@ def get_user_attr(request):
         person = PWS().get_person_by_netid(us.get_user())
         return {}  # TODO
     else:
-        return request.session.get("samlUserdata", {})
+        login_dict = {}
+        for key, value in request.session.get("samlUserdata", {}).items():
+            if isinstance(value, list):
+                login_dict[key] = value if len(value) > 1 else value[0]
+            else:
+                login_dict[key] = value
+        return login_dict
+
+
+def get_user_photo(request, image_size="medium"):
+    pws = PWS()
+    us = UserService()
+    if us.get_override_user() is not None:
+        person = pws.get_person_by_netid(us.get_user())
+        uwregid = person.uwregid
+    else:
+        uwregid = ""  # TODO
+    return pws.get_idcard_photo(uwregid, size=image_size)
 
 
 def is_overridable_uwnetid(username):

@@ -12,7 +12,3 @@ def persistent_messages(request):
             msg["message_level"] = message.get_level_display().lower()
         msg["messages"].append(message.render())
     return msg
-
-
-def google_analytics(request):
-    return {"google_analytics": getattr(settings, "GOOGLE_ANALYTICS_KEY", " ")}
