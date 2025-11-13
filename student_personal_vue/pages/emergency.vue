@@ -33,7 +33,7 @@
           to date contact information.
         </p>
 
-        <BAlert variant="warning" :model-value="true">
+        <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
           <i class="bi-exclamation-triangle-fill me-1"></i
           ><span class="fw-bold">Incomplete Information</span>
           <div>Please add a relationship for your primary contact</div>
@@ -117,7 +117,6 @@ export default {
           countryCode: "+1",
           phone: "123-456-7890",
           email: "john.average@example.com",
-          relationship: "Parent",
           lastUpdated: new Date().toISOString(),
         },
         {
@@ -145,6 +144,11 @@ export default {
     isStudent() {
       // check if user has affiliations AND has student as a role
       return this.context.affiliations?.includes("student") || false;
+    },
+    isIncomplete() {
+      // check if contacts list returns missing relationship for primary contact (index 0)
+      // TODO: replace with API call later
+      return this.contacts.length > 0 && !("relationship" in this.contacts[0]);
     },
   },
   methods: {},
