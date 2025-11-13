@@ -19,12 +19,9 @@ MIDDLEWARE += [
 # If you have file data, define the path here
 # DATA_ROOT = os.path.join(BASE_DIR, "student_personal/data")
 
-GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", default=" ")
-
 TEMPLATES[0]["OPTIONS"]["context_processors"] += [
     "supporttools.context_processors.supportools_globals",
     "student_personal.context_processors.persistent_messages",
-    "student_personal.context_processors.google_analytics",
 ]
 
 if os.getenv("ENV") == "localdev":
@@ -34,13 +31,15 @@ if os.getenv("ENV") == "localdev":
     )
     MOCK_SAML_ATTRIBUTES = {
         "uwnetid": ["javerage"],
+        "uwregid": ["A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"],
+        "uwStudentSystemKey": [123456789],
         "affiliations": ["student", "member"],
         "eppn": ["javerage@uw.edu"],
         "scopedAffiliations": [
             "student@washington.edu",
             "member@washington.edu",
         ],
-        "isMemberOf": ["uw_student", "u_test_group"],
+        "isMemberOf": ["u_test_group"],
     }
     ADMIN_GROUP = "u_test_group"
     SUPPORT_GROUP = "u_test_group"

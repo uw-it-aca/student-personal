@@ -30,8 +30,9 @@ class DefaultPageView(TemplateView):
             logger.error(ex)
 
         us = UserService()
-        context["login_user"] = us.get_original_user()
-        context["override_user"] = us.get_user()
-        context["signout_url"] = reverse("saml_logout")
-        context["debug_mode"] = settings.DEBUG
+        context["loginUser"] = us.get_original_user()
+        context["overrideUser"] = us.get_user()
+        context["signoutUrl"] = reverse("saml_logout")
+        context["clearOverrideUrl"] = reverse("userservice_override")
+        context["debugMode"] = settings.DEBUG
         return context
