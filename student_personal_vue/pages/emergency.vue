@@ -143,6 +143,7 @@ export default {
       return this.contextStore.context;
     },
     isStudent() {
+      // check if user has affiliations AND has student as a role
       return this.context.affiliations?.includes("student") || false;
     },
   },
