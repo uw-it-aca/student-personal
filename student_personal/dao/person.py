@@ -33,7 +33,7 @@ def get_user_photo(request, image_size="medium"):
         person = pws.get_person_by_netid(us.get_user())
         uwregid = person.uwregid
     else:
-        uwregid = ""  # TODO
+        uwregid = request.session.get("samlUserdata", {}).get("uwregid")
     return pws.get_idcard_photo(uwregid, size=image_size)
 
 
