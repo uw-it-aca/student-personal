@@ -2,7 +2,13 @@
   <BButton variant="outline-primary" size="sm" @click="showModal = !showModal"
     >Edit</BButton
   >
-  <BModal v-model="showModal" title="Secondary" body-class="px-5 py-4">
+  <BModal
+    v-model="showModal"
+    no-close-on-backdrop
+    no-close-on-esc
+    title="Secondary"
+    body-class="px-5 py-4"
+  >
     <p>Required fields are indicated by *</p>
 
     <BForm novalidate>
@@ -117,9 +123,7 @@
     </BForm>
 
     <template #footer>
-      <BButton variant="outline-primary" @click="showModal = !showModal"
-        >Cancel</BButton
-      >
+      <BButton variant="outline-primary" @click="cancelModal">Cancel</BButton>
       <BButton variant="primary" @click="saveContact">Save</BButton>
     </template>
   </BModal>
@@ -203,6 +207,17 @@ export default {
     validateRelationshipChoice() {
       // validate relationship choice is not empty
       this.relationshipState = this.relationshipChoice !== "";
+    },
+
+    cancelModal() {
+      // reset state
+      this.fullNameState = null;
+      this.phoneNumberState = null;
+      this.emailAddressState = null;
+      this.relationshipState = null;
+
+      // close the modal
+      this.showModal = false;
     },
 
     saveContact() {
