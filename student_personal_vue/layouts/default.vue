@@ -120,6 +120,7 @@ export default {
       appName: "Personal Information",
       deptName: "Student Personal Services",
       appRootUrl: "/",
+      supportUrl: "/support",
     };
   },
   computed: {
@@ -134,11 +135,11 @@ export default {
   },
   methods: {
     clearUserOverride: function () {
-      this.clearOverride(this.context.clear_override_url)
+      this.clearOverride(this.supportUrl)
         .then((data) => {})
         .catch((error) => {})
         .finally(() => {
-          window.location.href = this.context.clear_override_url;
+          window.location.href = this.supportUrl;
         });
     },
   },
