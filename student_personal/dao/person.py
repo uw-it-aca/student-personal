@@ -21,6 +21,11 @@ def get_user_attr(request):
 
 
 def get_user_photo(request, image_size="medium"):
+    """
+    Get a photo for the logged-in user. If user override is active, the
+    required attribute must be retrieved via the Person Web Service,
+    otherwise the SAML session will contain the asserted attribute.
+    """
     pws = PWS()
     us = UserService()
     if us.get_override_user() is not None:
