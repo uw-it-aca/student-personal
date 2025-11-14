@@ -40,6 +40,9 @@ if os.getenv("ENV") == "localdev":
             "member@washington.edu",
         ],
         "isMemberOf": ["u_test_group"],
+        "displayName": ["James Average"],
+        "preferredFirst": ["James"],
+        "preferredSurname": ["Average"],
     }
     ADMIN_GROUP = "u_test_group"
     SUPPORT_GROUP = "u_test_group"
