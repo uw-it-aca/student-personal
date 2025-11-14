@@ -77,13 +77,18 @@
     </template>
 
     <!-- TODO: hide system messages if empty -->
-    <template #system>
+    <template v-if="window.student_personal.messages" #system>
       <div class="row">
         <div class="col">
           <ul
             class="list-unstyled py-2 m-0 text-center text-info-emphasis small"
           >
-            <li>Welcome to SPS</li>
+            <li
+              v-for="(message, index) in window.student_personal.messages"
+              :key="index"
+              class=""
+              v-html="message"
+            ></li>
           </ul>
         </div>
       </div>
