@@ -17,8 +17,6 @@
           and let us know if you are experiencing any issues.
         </p>
       </div>
-
-      <!-- TODO: change to v-else later -->
       <div v-else>
         <h2 class="mb-3">Emergency Contacts</h2>
         <p>
@@ -114,17 +112,15 @@ export default {
       contacts: [
         {
           name: "Mommy Average",
-          countryCode: "+1",
-          phone: "123-456-7890",
+          phone: "+11234567890",
           email: "john.average@example.com",
           lastUpdated: new Date().toISOString(),
         },
         {
           name: "Sister Average",
-          countryCode: "+56",
-          phone: "987-654-3210",
+          phone: "+569876543210",
           email: "jane.smith@example.com",
-          relationship: "Sibling",
+          relationship: "SIBLING",
           lastUpdated: new Date().toISOString(),
         },
       ],
@@ -132,8 +128,7 @@ export default {
       parentContact: {
         name: "Daddy Average",
         email: "parent@example.com",
-        countryCode: "+1",
-        phone: "123-456-7890",
+        phone: "+1234567890",
       },
     };
   },

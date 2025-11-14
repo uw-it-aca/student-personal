@@ -43,11 +43,12 @@
           <BFormInput
             type="hidden"
             name="emergencyCallingCode"
-            :value="'+' + emergencyCallingCode"
+            :value="emergencyCallingCode"
           />
           <BInputGroupText class="border border-secondary">
             +{{ emergencyCallingCode }}
           </BInputGroupText>
+
           <BFormInput
             id="inputPhoneNumber"
             v-model="phoneNumber"
@@ -67,7 +68,14 @@
           </BFormInvalidFeedback>
         </BInputGroup>
       </div>
-
+      <div class="border border-danger">
+        {{ formattedPhoneNumber }}
+      </div>
+      <BFormInput
+        type="hidden"
+        name="formattedPhoneNumber"
+        :value="formattedPhoneNumber"
+      />
       <BFormGroup
         label="Email *"
         label-class="fw-bold"
@@ -165,12 +173,13 @@ export default {
   },
   data() {
     return {
-      emergencyCallingCode: "1", // default to US
       showModal: false,
       fullName: "",
       fullNameState: null,
+      emergencyCallingCode: "1", // default to US
       phoneNumber: "",
       phoneNumberState: null,
+      formattedPhoneNumber: "",
       emailAddress: "",
       emailAddressState: null,
       relationshipChoice: "",
@@ -198,6 +207,11 @@ export default {
       const phoneRegex =
         /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
       this.phoneNumberState = phoneRegex.test(this.phoneNumber);
+
+      // additional step: format phone number to E.164
+      const phoneNum = this.phoneNumber.replace(/\D/g, "");
+      const formatPhoneNum = `+${this.emergencyCallingCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
+      this.formattedPhoneNumber = formatPhoneNum;
     },
     validateEmailAddress() {
       // validate email address format
@@ -211,6 +225,11 @@ export default {
 
     cancelModal() {
       // reset state
+      this.fullName = "";
+      this.phoneNumber = "";
+      this.formattedPhoneNumber = "";
+      this.emailAddress = "";
+      this.relationshipChoice = "";
       this.fullNameState = null;
       this.phoneNumberState = null;
       this.emailAddressState = null;
@@ -234,7 +253,12 @@ export default {
         this.emailAddressState &&
         this.relationshipState
       ) {
-        alert("Contact saved successfully!");
+        alert(
+          "Contact saved successfully!" +
+            this.fullName +
+            ", " +
+            this.formattedPhoneNumber
+        );
         // TODO: call API to save contact data
         //
         //
