@@ -3,6 +3,7 @@
 
 
 from uw_pws import PWS, InvalidNetID, DataFailureException
+from uw_saml import get_attribute
 from userservice.user import UserService
 
 
@@ -15,9 +16,25 @@ def get_user_attr(request):
     us = UserService()
     if us.get_override_user() is not None:
         person = PWS().get_person_by_netid(us.get_user())
-        return {}  # TODO
+        system_key = person.student_system_key
+        is_student = person.is_student
+        display_name = person.display_name
+        preferred_first_name = person.preferred_first_name
+        preferred_surname = person.preferred_surname
     else:
-        return request.session.get("samlUserdata", {})
+        system_key = get_attribute(request, "uwStudentSystemKey")
+        is_student = "student" in get_attribute(request, "affiliations")
+        display_name = get_attribute(request, "displayName")
+        preferred_first_name = get_attribute(request, "preferredFirst")
+        preferred_surname = get_attribute(request, "preferredSurname")
+
+    return {
+        "systemKey": system_key,
+        "isStudent": is_student,
+        "displayName": display_name,
+        "preferredFirst": preferred_first_name,
+        "preferredSurname": preferred_surname,
+    }
 
 
 def get_user_photo(request, image_size="medium"):

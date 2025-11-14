@@ -64,9 +64,9 @@ memcached:
 
 certs:
   mounted: true
-  certPath: /certs/test-personal.my.uw.edu-ic.cert
-  keyPath: /certs/test-personal.my.uw.edu-ic.key
-  secretName: test-personal.my.uw.edu-ic-certs
+  certPath: /certs/test-client.my.uw.edu-ic.cert
+  keyPath: /certs/test-client.my.uw.edu-ic.key
+  secretName: test-client.my.uw.edu-ic-certs
 
 environmentVariables:
   - name: ENV
@@ -113,8 +113,13 @@ externalSecrets:
       data:
         - name: test-personal.my.uw.edu-ic.cert
           property: test-personal.my.uw.edu-ic.cert
-        - name: test-personal.my.uw.edu-ic.key
-          property: test-personal.my.uw.edu-ic.key
+    - name: test-client.my.uw.edu-ic-certs
+      externalKey: my/test/ic-certs
+      data:
+        - name: test-client.my.uw.edu-ic.cert
+          property: cert
+        - name: test-client.my.uw.edu-ic.key
+          property: key
     - name: test-personal.my.uw.edu-uw-idp-cert
       externalKey: idp-cert
       data:

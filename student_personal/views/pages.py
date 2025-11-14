@@ -34,5 +34,6 @@ class DefaultPageView(TemplateView):
         context["overrideUser"] = us.get_user()
         context["signoutUrl"] = reverse("saml_logout")
         context["clearOverrideUrl"] = reverse("userservice_override")
+        context["photoUrl"] = reverse("photo")
         context["debugMode"] = settings.DEBUG
         return context

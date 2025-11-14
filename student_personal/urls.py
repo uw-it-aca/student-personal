@@ -6,6 +6,7 @@ from django.conf import settings
 from django.urls import re_path
 from django.views.generic import TemplateView
 from student_personal.views.pages import DefaultPageView
+from student_personal.views.api.photo import PhotoView
 from student_personal.views.api.emergency_contact import EmergencyContactView
 
 
@@ -28,6 +29,10 @@ if settings.DEBUG:
     ]
 
 urlpatterns += [
+    # Photo API
+    re_path(
+        r"^api/internal/photo/$", PhotoView.as_view(), name="photo",
+    ),
     # Emergency comtact API
     re_path(
         r"^api/v1/emergency_contact/(?P<system_key>[\d]*)$",
