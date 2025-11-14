@@ -3,7 +3,7 @@
 
 
 from uw_pws import PWS, InvalidNetID, DataFailureException
-from uw_saml import get_attribute
+from uw_saml.utils import get_attribute
 from userservice.user import UserService
 
 
