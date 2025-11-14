@@ -19,7 +19,7 @@
       </div>
 
       <!-- TODO: change to v-else later -->
-      <div>
+      <div v-else>
         <h2 class="mb-3">Emergency Contacts</h2>
         <p>
           It&rsquo;s important that UW has a way to contact a trusted individual
@@ -33,7 +33,7 @@
           to date contact information.
         </p>
 
-        <BAlert variant="warning" :model-value="true">
+        <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
           <i class="bi-exclamation-triangle-fill me-1"></i
           ><span class="fw-bold">Incomplete Information</span>
           <div>Please add a relationship for your primary contact</div>
@@ -95,14 +95,20 @@ import { BAlert } from "bootstrap-vue-next";
 import ContactDetails from "@/components/contact-details.vue";
 import ContactModal from "@/components/contact-modal.vue";
 import DefaultLayout from "@/layouts/default.vue";
+import { useContextStore } from "@/stores/context";
 
 export default {
   name: "PagesEmergency",
   components: { DefaultLayout, ContactDetails, ContactModal, BAlert },
+  setup() {
+    const contextStore = useContextStore();
+    return {
+      contextStore,
+    };
+  },
   data() {
     return {
       pageTitle: "Additional Contacts",
-      isStudent: false,
 
       // mock contacts list
       contacts: [
@@ -111,7 +117,6 @@ export default {
           countryCode: "+1",
           phone: "123-456-7890",
           email: "john.average@example.com",
-          relationship: "Parent",
           lastUpdated: new Date().toISOString(),
         },
         {
@@ -131,6 +136,20 @@ export default {
         phone: "123-456-7890",
       },
     };
+  },
+  computed: {
+    context() {
+      return this.contextStore.context;
+    },
+    isStudent() {
+      // check if user has affiliations AND has student as a role
+      return this.context.affiliations?.includes("student") || false;
+    },
+    isIncomplete() {
+      // check if contacts list returns missing relationship for primary contact (index 0)
+      // TODO: replace with API call later
+      return this.contacts.length > 0 && !("relationship" in this.contacts[0]);
+    },
   },
   methods: {},
 };
