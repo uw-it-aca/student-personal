@@ -23,6 +23,11 @@ import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
 const app = createApp(App);
 app.config.productionTip = false;
 
+app.config.globalProperties.window = window;
+app.config.globalProperties.gettext = window.gettext;
+app.config.globalProperties.ngettext = window.ngettext;
+app.config.globalProperties.interpolate = window.interpolate;
+
 // vue-gtag-next
 // TODO: un-commment to use Google Analytics for you app. also
 // configure trackRouter located in the router/index.js file
