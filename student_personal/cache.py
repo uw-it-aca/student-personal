@@ -11,9 +11,9 @@ ONE_DAY = ONE_HOUR * 24
 
 class RestClientCache(RestclientPymemcacheClient):
     def get_cache_expiration_time(self, service, url, status=None):
-        if 'pws' == service:
-            return ONE_HOUR * 8
-        elif 'gws' == service:
+        if "pws" == service and status == 200:
+            return ONE_HOUR * 4
+        elif "gws" == service:
             return ONE_HOUR
 
         return ONE_HOUR
