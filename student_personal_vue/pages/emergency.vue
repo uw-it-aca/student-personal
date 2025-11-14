@@ -6,7 +6,7 @@
       {{ pageTitle }}
     </template>
     <template #content>
-      <div v-if="!isStudent">
+      <div v-if="!this.context.isStudent">
         <BAlert variant="danger" :model-value="true">
           <i class="bi-exclamation-triangle-fill me-1"></i
           ><span class="fw-bold">Feature Unavailable</span>
@@ -17,8 +17,6 @@
           and let us know if you are experiencing any issues.
         </p>
       </div>
-
-      <!-- TODO: change to v-else later -->
       <div v-else>
         <h2 class="mb-3">Emergency Contacts</h2>
         <p>
@@ -114,17 +112,15 @@ export default {
       contacts: [
         {
           name: "Mommy Average",
-          countryCode: "+1",
-          phone: "123-456-7890",
+          phone: "+11234567890",
           email: "john.average@example.com",
           lastUpdated: new Date().toISOString(),
         },
         {
           name: "Sister Average",
-          countryCode: "+56",
-          phone: "987-654-3210",
+          phone: "+569876543210",
           email: "jane.smith@example.com",
-          relationship: "Sibling",
+          relationship: "SIBLING",
           lastUpdated: new Date().toISOString(),
         },
       ],
@@ -132,18 +128,13 @@ export default {
       parentContact: {
         name: "Daddy Average",
         email: "parent@example.com",
-        countryCode: "+1",
-        phone: "123-456-7890",
+        phone: "+1234567890",
       },
     };
   },
   computed: {
     context() {
       return this.contextStore.context;
-    },
-    isStudent() {
-      // check if user has affiliations AND has student as a role
-      return this.context.affiliations?.includes("student") || false;
     },
     isIncomplete() {
       // check if contacts list returns missing relationship for primary contact (index 0)
