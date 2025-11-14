@@ -6,7 +6,7 @@
       {{ pageTitle }}
     </template>
     <template #content>
-      <div v-if="!this.context.isStudent">
+      <div v-if="!contextStore.context.isStudent">
         <BAlert variant="danger" :model-value="true">
           <i class="bi-exclamation-triangle-fill me-1"></i
           ><span class="fw-bold">Feature Unavailable</span>
@@ -133,9 +133,6 @@ export default {
     };
   },
   computed: {
-    context() {
-      return this.contextStore.context;
-    },
     isIncomplete() {
       // check if contacts list returns missing relationship for primary contact (index 0)
       // TODO: replace with API call later

@@ -10,10 +10,15 @@
   >
     <template #settings>
       <SProfile
-        v-if="context.overrideUser != context.loginUser"
-        :user-netid="context.loginUser"
-        :user-override="context.overrideUser"
+        v-if="
+          contextStore.context.overrideUser != contextStore.context.loginUser
+        "
+        :variant="'flyout'"
+        :user-netid="contextStore.context.loginUser"
+        :user-override="contextStore.context.overrideUser"
+        :user-preferred-name="contextStore.context.displayName"
       >
+        <div>lorem ipsum dolor sit amet</div>
         <button
           class="btn btn-link btn-sm text-danger p-0 m-0 border-0"
           value="Clear override"
@@ -22,8 +27,14 @@
           Clear override
         </button>
       </SProfile>
-      <SProfile v-else :user-netid="context.loginUser">
-        <a :href="context.signoutUrl" class="text-white"> Sign out </a>
+      <SProfile
+        v-else
+        variant="flyout"
+        :user-netid="contextStore.context.loginUser"
+        :user-preferred-name="contextStore.context.displayName"
+      >
+        <div>lorem ipsum dolor sit amet</div>
+        <a :href="contextStore.context.signoutUrl" class=""> Sign out </a>
       </SProfile>
       <SColorMode color-class="text-white" class="ms-2" />
     </template>
@@ -122,11 +133,7 @@ export default {
       appRootUrl: "/",
     };
   },
-  computed: {
-    context() {
-      return this.contextStore.context;
-    },
-  },
+  computed: {},
   created: function () {
     // constructs page title in the following format "Page Title - AppName"
     // document.title = this.pageTitle + " - " + this.appName;
@@ -134,11 +141,11 @@ export default {
   },
   methods: {
     clearUserOverride: function () {
-      this.clearOverride(this.context.clearOverrideUrl)
+      this.clearOverride(this.contextStore.context.clearOverrideUrl)
         .then((data) => {})
         .catch((error) => {})
         .finally(() => {
-          window.location.href = this.context.clearOverrideUrl;
+          window.location.href = this.contextStore.context.clearOverrideUrl;
         });
     },
   },
