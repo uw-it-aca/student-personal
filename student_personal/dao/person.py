@@ -7,7 +7,7 @@ from uw_saml.utils import get_attribute
 from userservice.user import UserService
 
 
-def get_user_attr(request):
+def get_user_context(request):
     """
     Get the actual login attributes for the logged-in user. If user override
     is active, the attributes must be retrieved via the Person Web Service,

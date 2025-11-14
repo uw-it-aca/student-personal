@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.urls import reverse
 from userservice.user import UserService
-from student_personal.dao.person import get_user_attr, DataFailureException
+from student_personal.dao.person import get_user_context, DataFailureException
 from logging import getLogger
 
 logger = getLogger(__name__)
@@ -25,7 +25,7 @@ class DefaultPageView(TemplateView):
         context = {}
 
         try:
-            context.update(get_user_attr(self.request))
+            context.update(get_user_context(self.request))
         except DataFailureException as ex:
             logger.error(ex)
 
