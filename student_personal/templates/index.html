@@ -20,6 +20,7 @@
       window.student_personal.messages = {{ messages|safe }};
       window.student_personal.message_level = "{{ message_level }}";
     </script>
+    <script type="text/javascript" src="{% url "javascript-catalog" %}"></script>
 
     <!-- vite css bundle -->
     {% vite_styles 'student_personal_vue/main.js' %}
