@@ -71,6 +71,12 @@ certs:
 environmentVariables:
   - name: ENV
     value: test
+  - name: SPS_CONTACTS_ENV
+    value: TEST
+  - name: SPS_CONTACTS_TIMEOUT
+    value: "5"
+  - name: SPS_CONTACTS_AUTH_ENV
+    value: TEST
   - name: PWS_ENV
     value: PROD
   - name: PWS_TIMEOUT
@@ -101,6 +107,8 @@ externalSecrets:
           property: admin-group
         - name: support-group
           property: support-group
+        - name: sps-contacts-auth-secret
+          property: sps-contacts-auth-secret
     - name: test-personal.my.uw.edu-sql-secrets
       externalKey: student-personal/test/sql-secrets
       data:
@@ -131,6 +139,10 @@ environmentVariablesSecrets:
     name: DJANGO_SECRET
     secretName: test-personal.my.uw.edu-secrets
     secretKey: django-secret
+  spsContactsAuthSecret:
+    name: SPS_CONTACTS_AUTH_SECRET
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: sps-contacts-auth-secret
   samlSPCert:
     name: SP_CERT
     secretName: test-personal.my.uw.edu-ic-certs
