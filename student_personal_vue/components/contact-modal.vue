@@ -118,8 +118,7 @@
         <BFormCheckbox
           id="checkboxPrimaryContact"
           v-model="primaryContactChoice"
-          value="accepted"
-          unchecked-value="not_accepted"
+          :disabled="modalHeaderTitle === 'Primary'"
           class="fw-bold"
         >
           Make this my primary contact
@@ -128,7 +127,11 @@
           If you have two contacts, you can choose which one is your primary.
         </BFormText>
       </div>
-      <p>{{ this.modalData }}</p>
+
+      <div class="border p-2 small mb-3">
+        <p>Contact list:</p>
+        <p>{{ this.modalData }}</p>
+      </div>
     </BForm>
 
     <template #footer>
@@ -203,7 +206,7 @@ export default {
         { value: "e", text: "Friend" },
         { value: "f", text: "Other" },
       ],
-      primaryContactChoice: "",
+      primaryContactChoice: false,
     };
   },
   created() {
@@ -215,8 +218,12 @@ export default {
       // load contacts from passed in prop
       if (this.modalHeaderTitle === "Primary") {
         this.fullName = this.modalData[0].name;
+        this.emailAddress = this.modalData[0].email;
+        this.primaryContactChoice = true;
       } else {
         this.fullName = this.modalData[1].name;
+        this.emailAddress = this.modalData[1].email;
+        this.primaryContactChoice = false;
       }
     },
 
