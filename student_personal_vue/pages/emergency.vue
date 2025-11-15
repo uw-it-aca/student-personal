@@ -18,7 +18,7 @@
         </p>
       </div>
       <div v-else>
-        <h2 class="mb-3">Emergency Contacts</h2>
+        <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
         <p>
           It&rsquo;s important that UW has a way to contact a trusted individual
           (parent, friend, spouse etc.) about your safety, if an emergency
@@ -41,7 +41,10 @@
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Primary</h3>
             <div>
-              <ContactModal />
+              <ContactModal
+                modal-header-title="Primary"
+                :modal-data="this.contacts"
+              />
             </div>
           </div>
           <div>
@@ -57,7 +60,10 @@
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Secondary</h3>
             <div>
-              <ContactModal />
+              <ContactModal
+                modal-header-title="Secondary"
+                :modal-data="this.contacts"
+              />
             </div>
           </div>
           <div>
@@ -71,7 +77,9 @@
 
         <hr class="my-5" />
 
-        <h2 class="mb-3">Parent/Family Member Contact</h2>
+        <h2 class="ff-encode-sans fw-semibold mb-3">
+          Parent/Family Member Contact
+        </h2>
 
         <p>
           This address is used to reach out to parent/family members by Student

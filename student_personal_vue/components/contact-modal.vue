@@ -6,7 +6,7 @@
     v-model="showModal"
     no-close-on-backdrop
     no-close-on-esc
-    title="Secondary"
+    :title="modalHeaderTitle"
     body-class="px-5 py-4"
   >
     <p>Required fields are indicated by *</p>
@@ -128,6 +128,7 @@
           If you have two contacts, you can choose which one is your primary.
         </BFormText>
       </div>
+      <p>{{ this.modalData }}</p>
     </BForm>
 
     <template #footer>
@@ -171,6 +172,16 @@ export default {
     BButton,
     BModal,
   },
+  props: {
+    modalHeaderTitle: {
+      type: String,
+      required: true,
+    },
+    modalData: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       showModal: false,
@@ -195,8 +206,20 @@ export default {
       primaryContactChoice: "",
     };
   },
+  created() {
+    this.loadContacts();
+  },
   computed: {},
   methods: {
+    loadContacts() {
+      // load contacts from passed in prop
+      if (this.modalHeaderTitle === "Primary") {
+        this.fullName = this.modalData[0].name;
+      } else {
+        this.fullName = this.modalData[1].name;
+      }
+    },
+
     validateFullName() {
       // validate full name for latin characters only
       const nameRegex = /^[a-zA-Z\s'-]+$/;
@@ -225,11 +248,11 @@ export default {
 
     cancelModal() {
       // reset state
-      this.fullName = "";
-      this.phoneNumber = "";
-      this.formattedPhoneNumber = "";
-      this.emailAddress = "";
-      this.relationshipChoice = "";
+      // this.fullName = "";
+      //this.phoneNumber = "";
+      //this.formattedPhoneNumber = "";
+      //this.emailAddress = "";
+      //this.relationshipChoice = "";
       this.fullNameState = null;
       this.phoneNumberState = null;
       this.emailAddressState = null;

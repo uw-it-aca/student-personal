@@ -97,7 +97,7 @@
     <template #main>
       <div class="row justify-content-center my-5">
         <div class="col-6">
-          <h1 class="h1 fw-bold mb-5">{{ pageTitle }}</h1>
+          <h1 class="ff-encode-sans fw-bold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>
         </div>
       </div>
