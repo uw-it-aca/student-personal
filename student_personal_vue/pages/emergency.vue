@@ -103,6 +103,7 @@ export default {
     const contextStore = useContextStore();
     return {
       contextStore,
+      getEmergencyContacts,
     };
   },
   data() {
@@ -123,7 +124,8 @@ export default {
     isIncomplete() {
       // check if contacts list returns missing relationship for primary contact (index 0)
       // TODO: replace with API call later
-      return this.contacts.length > 0 && !("relationship" in this.contacts[0]);
+      return this.emergencyContacts.length > 0 &&
+        !("relationship" in this.emergencyContacts[0]);
     },
   },
   methods: {
