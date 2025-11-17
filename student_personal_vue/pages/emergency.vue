@@ -43,7 +43,7 @@
             <div>
               <ContactModal
                 modal-header-title="Primary"
-                :modal-data="this.contacts"
+                :modal-data="this.emergencyContacts"
               />
             </div>
           </div>
@@ -52,7 +52,7 @@
             will be attempted.
           </div>
           <div class="my-3 mx-5">
-            <ContactDetails :contact-details="this.contacts[0]" />
+            <ContactDetails :contact-details="this.emergencyContacts[0]" />
           </div>
         </div>
 
@@ -62,7 +62,7 @@
             <div>
               <ContactModal
                 modal-header-title="Secondary"
-                :modal-data="this.contacts"
+                :modal-data="this.emergencyContacts"
               />
             </div>
           </div>
@@ -71,7 +71,7 @@
             will be attempted.
           </div>
           <div class="my-3 mx-5">
-            <ContactDetails :contact-details="this.contacts[1]" />
+            <ContactDetails :contact-details="this.emergencyContacts[1]" />
           </div>
         </div>
 
@@ -105,6 +105,7 @@ import ContactDetails from "@/components/contact-details.vue";
 import ContactModal from "@/components/contact-modal.vue";
 import DefaultLayout from "@/layouts/default.vue";
 import { useContextStore } from "@/stores/context";
+import { getEmergencyContacts } from "@/utils/data";
 
 export default {
   name: "PagesEmergency",
@@ -113,11 +114,13 @@ export default {
     const contextStore = useContextStore();
     return {
       contextStore,
+      getEmergencyContacts,
     };
   },
   data() {
     return {
       pageTitle: "Additional Contacts",
+      emergencyContacts: [],
 
       // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
       contacts: [
@@ -148,15 +151,32 @@ export default {
         email: "parent@example.com",
         phone: "+1234567890",
       },
+      errorResponse: null,
     };
   },
   computed: {
     isIncomplete() {
       // check if contacts list returns missing relationship for primary contact (index 0)
       // TODO: replace with API call later
-      return this.contacts.length > 0 && !("relationship" in this.contacts[0]);
+      return (
+        this.emergencyContacts.length > 0 &&
+        !("relationship" in this.emergencyContacts[0])
+      );
     },
   },
-  methods: {},
+  methods: {
+    loadEmergencyContacts: function () {
+      this.getEmergencyContacts(this.contextStore.context.emergencyContactUrl)
+        .then((data) => {
+          this.emergencyContacts = data.emergency_contacts;
+        })
+        .catch((error) => {
+          this.errorResponse = error.data;
+        });
+    },
+  },
+  created() {
+    this.loadEmergencyContacts();
+  },
 };
 </script>

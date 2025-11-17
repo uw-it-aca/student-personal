@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
 from django.urls import reverse
 from userservice.user import UserService
-from student_personal.dao.person import get_user_attr, DataFailureException
+from student_personal.dao.person import SPSPerson, DataFailureException
 from logging import getLogger
 
 logger = getLogger(__name__)
@@ -25,7 +25,8 @@ class DefaultPageView(TemplateView):
         context = {}
 
         try:
-            context.update(get_user_attr(self.request))
+            person = SPSPerson(self.request)
+            context.update(person.get_view_context())
         except DataFailureException as ex:
             logger.error(ex)
 
@@ -34,6 +35,7 @@ class DefaultPageView(TemplateView):
         context["overrideUser"] = us.get_user()
         context["signoutUrl"] = reverse("saml_logout")
         context["clearOverrideUrl"] = reverse("userservice_override")
-        context["photoUrl"] = reverse("photo")
+        context["emergencyContactUrl"] = reverse("emergency-contact-api")
+        context["photoUrl"] = reverse("photo-api")
         context["debugMode"] = settings.DEBUG
         return context
