@@ -120,6 +120,7 @@
           v-model="primaryContactChoice"
           :disabled="modalHeaderTitle === 'Primary'"
           class="fw-bold"
+          @change="swapContacts"
         >
           Make this my primary contact
         </BFormCheckbox>
@@ -129,8 +130,8 @@
       </div>
 
       <div class="border p-2 small mb-3">
-        <p>Contact list:</p>
-        <p>{{ this.modalData }}</p>
+        <p>tempContacts:</p>
+        <p>{{ this.tempContacts }}</p>
       </div>
     </BForm>
 
@@ -199,14 +200,15 @@ export default {
       relationshipChoice: "",
       relationshipState: null,
       relationshipOptions: [
-        { value: "a", text: "Parent" },
-        { value: "b", text: "Guardian" },
-        { value: "c", text: "Sibling" },
-        { value: "d", text: "Spouse" },
-        { value: "e", text: "Friend" },
-        { value: "f", text: "Other" },
+        { value: "PARENT", text: "Parent" },
+        { value: "GUARDIAN", text: "Guardian" },
+        { value: "SIBLING", text: "Sibling" },
+        { value: "SPOUSE", text: "Spouse" },
+        { value: "FRIEND", text: "Friend" },
+        { value: "OTHER", text: "Other" },
       ],
       primaryContactChoice: false,
+      tempContacts: [],
     };
   },
   created() {
@@ -215,22 +217,48 @@ export default {
   computed: {},
   methods: {
     loadContacts() {
+      this.tempContacts = this.modalData;
+
       // load contacts from passed in prop
       if (this.modalHeaderTitle === "Primary") {
-        this.fullName = this.modalData[0].name;
-        this.emailAddress = this.modalData[0].email;
+        this.fullName = this.tempContacts[0].name;
+        this.emailAddress = this.tempContacts[0].email;
+        // check if relationship exists
+        if (this.tempContacts[0].relationship) {
+          this.relationshipChoice = this.tempContacts[0].relationship;
+        }
         this.primaryContactChoice = true;
       } else {
-        this.fullName = this.modalData[1].name;
-        this.emailAddress = this.modalData[1].email;
+        this.fullName = this.tempContacts[1].name;
+        this.emailAddress = this.tempContacts[1].email;
+        // check if relationship exists
+        if (this.tempContacts[1].relationship) {
+          this.relationshipChoice = this.tempContacts[1].relationship;
+        }
         this.primaryContactChoice = false;
       }
+    },
+
+    swapContacts() {
+      console.log("swapContacts called");
+      const tempOrder = this.tempContacts;
+      const primaryContact = tempOrder[0];
+      const secondaryContact = tempOrder[1];
+      const reorderedContacts = [secondaryContact, primaryContact];
+      this.tempContacts = reorderedContacts;
     },
 
     validateFullName() {
       // validate full name for latin characters only
       const nameRegex = /^[a-zA-Z\s'-]+$/;
       this.fullNameState = nameRegex.test(this.fullName);
+
+      // update contacts after validattion
+      if (this.modalHeaderTitle === "Primary") {
+        this.tempContacts[0].name = this.fullName;
+      } else {
+        this.tempContacts[1].name = this.fullName;
+      }
     },
     validatePhoneNumber() {
       // validate phone number format
@@ -247,10 +275,24 @@ export default {
       // validate email address format
       const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
       this.emailAddressState = emailRegex.test(this.emailAddress);
+
+      // update email after validattion
+      if (this.modalHeaderTitle === "Primary") {
+        this.tempContacts[0].email = this.emailAddress;
+      } else {
+        this.tempContacts[1].email = this.emailAddress;
+      }
     },
     validateRelationshipChoice() {
       // validate relationship choice is not empty
       this.relationshipState = this.relationshipChoice !== "";
+
+      // update relationship after validattion
+      if (this.modalHeaderTitle === "Primary") {
+        this.tempContacts[0].relationsip = this.relationshipChoice;
+      } else {
+        this.tempContacts[1].relationship = this.relationshipChoice;
+      }
     },
 
     cancelModal() {
@@ -265,6 +307,9 @@ export default {
       this.emailAddressState = null;
       this.relationshipState = null;
 
+      // force reload to clear state
+      window.location.reload();
+
       // close the modal
       this.showModal = false;
     },
@@ -276,22 +321,15 @@ export default {
       this.validateEmailAddress();
       this.validateRelationshipChoice();
 
-      // if validation passes, save the contact data
+      // if validation state passes, save the contact data
       if (
         this.fullNameState &&
         this.phoneNumberState &&
         this.emailAddressState &&
         this.relationshipState
       ) {
-        alert(
-          "Contact saved successfully!" +
-            this.fullName +
-            ", " +
-            this.formattedPhoneNumber
-        );
+        alert(JSON.stringify(this.tempContacts, null, 4));
         // TODO: call API to save contact data
-        //
-        //
         this.showModal = false;
       }
     },

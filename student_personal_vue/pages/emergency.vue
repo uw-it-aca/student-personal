@@ -84,7 +84,10 @@
         <p>
           This address is used to reach out to parent/family members by Student
           Life. You are welcome to provide a parent/family contact name, but
-          this is not a required field. Please visit the Address and Consent
+          this is not a required field. Please visit the
+          <a href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx"
+            >Address and Consent</a
+          >
           page to edit this contact.
         </p>
 
@@ -116,7 +119,7 @@ export default {
     return {
       pageTitle: "Additional Contacts",
 
-      // mock contacts list
+      // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
       contacts: [
         {
           name: "Mommy Average",
@@ -124,12 +127,19 @@ export default {
           email: "john.average@example.com",
           lastUpdated: new Date().toISOString(),
         },
-        {
+        /*{
           name: "Sister Average",
           phone: "+569876543210",
           email: "jane.smith@example.com",
           relationship: "SIBLING",
           lastUpdated: new Date().toISOString(),
+        },*/
+        {
+          name: "",
+          phone: "",
+          email: "",
+          relationship: "",
+          lastUpdated: "",
         },
       ],
       // mock parent contact (separate api call?)

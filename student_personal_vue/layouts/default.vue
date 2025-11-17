@@ -77,7 +77,7 @@
     </template>
 
     <!-- TODO: hide system messages if empty -->
-    <template v-if="window.student_personal.messages" #system>
+    <template v-if="window.student_personal.messages.length > 0" #system>
       <div class="row">
         <div class="col">
           <ul

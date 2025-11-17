@@ -1,11 +1,19 @@
 <template>
-  <p>{{ contactDetails }}</p>
-  <p>
-    Johh Doe<br />
-    john.doe@example.com<br />
-    +1 123-456-7890<br />
-  </p>
-  <p class="text-secondary fst-italic">Last updated 8/7/25 2:40PM PDT</p>
+  <!-- check if contact details are empty -->
+  <ul v-if="contactDetails.name !== ''" class="list-unstyled">
+    <li>{{ contactDetails.name }}</li>
+    <li>{{ contactDetails.email }}</li>
+    <li>{{ contactDetails.phone }}</li>
+    <li v-if="contactDetails.relationship">
+      {{ contactDetails.relationship }}
+    </li>
+    <li v-if="contactDetails.lastUpdated" class="text-secondary fst-italic">
+      Last updated: {{ contactDetails.lastUpdated }}
+    </li>
+  </ul>
+  <div v-else class="text-secondary fst-italic">
+    No contact information provided.
+  </div>
 </template>
 
 <script>
@@ -13,7 +21,6 @@ export default {
   props: {
     contactDetails: {
       type: Object,
-      required: true,
     },
   },
   data() {
