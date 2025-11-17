@@ -31,12 +31,15 @@ if settings.DEBUG:
 urlpatterns += [
     # Photo API
     re_path(
-        r"^api/internal/photo/$", PhotoView.as_view(), name="photo",
+        r"^api/internal/photo/$",
+        PhotoView.as_view(),
+        name="photo-api",
     ),
     # Emergency comtact API
     re_path(
-        r"^api/v1/emergency_contact/(?P<system_key>[\d]*)$",
-        EmergencyContactView.as_view(), name="emergency-contact"),
+        r"^api/internal/emergency_contact/$",
+        EmergencyContactView.as_view(),
+        name="emergency-contact-api"),
 
     # Vue-router paths
     re_path(r"^emergency$", DefaultPageView.as_view(), name="emergency"),

@@ -1,56 +1,51 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-
 from uw_pws import PWS, InvalidNetID, DataFailureException
 from uw_saml.utils import get_attribute
 from userservice.user import UserService
+from student_personal.exceptions import MissingStudentAffiliation
 
 
-def get_user_context(request):
+class SPSPerson():
     """
-    Get the actual login attributes for the logged-in user. If user override
-    is active, the attributes must be retrieved via the Person Web Service,
+    Get the login attributes for the logged-in user. If user override is
+    active, the attributes must be retrieved via the Person Web Service,
     otherwise the SAML session will contain the asserted attributes.
     """
-    us = UserService()
-    if us.get_override_user() is not None:
-        person = PWS().get_person_by_netid(us.get_user())
-        system_key = person.student_system_key
-        is_student = person.is_student
-        display_name = person.display_name
-        preferred_first_name = person.preferred_first_name
-        preferred_surname = person.preferred_surname
-    else:
-        system_key = get_attribute(request, "uwStudentSystemKey")
-        is_student = "student" in get_attribute(request, "affiliations")
-        display_name = get_attribute(request, "displayName")
-        preferred_first_name = get_attribute(request, "preferredFirst")
-        preferred_surname = get_attribute(request, "preferredSurname")
+    def __init__(self, request):
+        us = UserService()
+        if us.get_override_user() is not None:
+            person = PWS().get_person_by_netid(us.get_user())
+            self.is_student = person.is_student
+            self.display_name = person.display_name
+            self.preferred_first_name = person.preferred_first_name
+            self.preferred_surname = person.preferred_surname
+            self.system_key = person.student_system_key
+            self.uwregid = person.uwregid
+        else:
+            self.is_student = "student" in get_attribute(
+                request, "affiliations")
+            self.display_name = get_attribute(request, "displayName")
+            self.preferred_first_name = get_attribute(
+                request, "preferredFirst")
+            self.preferred_surname = get_attribute(request, "preferredSurname")
+            self.system_key = get_attribute(request, "uwStudentSystemKey")
+            self.uwregid = get_attribute(request, "uwregid")
 
-    return {
-        "systemKey": system_key,
-        "isStudent": is_student,
-        "displayName": display_name,
-        "preferredFirst": preferred_first_name,
-        "preferredSurname": preferred_surname,
-    }
+    def get_view_context(self):
+        return {
+            "isStudent": self.is_student,
+            "displayName": self.display_name,
+            "preferredFirst": self.preferred_first_name,
+            "preferredSurname": self.preferred_surname,
+        }
 
+    def get_photo(self, image_size="medium"):
+        if not self.is_student:
+            raise MissingStudentAffiliation()
 
-def get_user_photo(request, image_size="medium"):
-    """
-    Get a photo for the logged-in user. If user override is active, the
-    required attribute must be retrieved via the Person Web Service,
-    otherwise the SAML session will contain the asserted attribute.
-    """
-    pws = PWS()
-    us = UserService()
-    if us.get_override_user() is not None:
-        person = pws.get_person_by_netid(us.get_user())
-        uwregid = person.uwregid
-    else:
-        uwregid = request.session.get("samlUserdata", {}).get("uwregid")
-    return pws.get_idcard_photo(uwregid, size=image_size)
+        return PWS().get_idcard_photo(self.uwregid, size=image_size)
 
 
 def is_overridable_uwnetid(username):
