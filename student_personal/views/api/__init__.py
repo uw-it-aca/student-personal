@@ -23,7 +23,7 @@ class BaseAPIView(View):
 
     def response_ok(self, content):
         return HttpResponse(
-            json.dumps(content), status=200, content_type="application/json")
+            content, status=200, content_type="application/json")
 
     def response_badrequest(self, content="Missing parameters"):
         return HttpResponse(content, status=400)

@@ -22,12 +22,17 @@ class EmergencyContactView(BaseAPIView):
 
         raise MissingStudentAffiliation()
 
-    def _serialize(self, contacts=[]):
+    def _serialize(self, contacts=None):
+        if contacts is None:
+            contacts = []
+
         # Ensure two EmergencyContact models for the response
         while len(contacts) < 2:
             contacts.append(EmergencyContact())
 
-        return {"emergency_contacts": [c.json_data() for c in contacts]}
+        return json.dumps({
+            "emergency_contacts": [c.json_data() for c in contacts]
+        })
 
     def get(self, request):
         try:

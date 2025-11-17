@@ -35,7 +35,7 @@ urlpatterns += [
         PhotoView.as_view(),
         name="photo-api",
     ),
-    # Emergency comtact API
+    # EmergencyContact API
     re_path(
         r"^api/internal/emergency_contact/$",
         EmergencyContactView.as_view(),
