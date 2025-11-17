@@ -31,8 +31,8 @@ if os.getenv("ENV") == "localdev":
     )
     MOCK_SAML_ATTRIBUTES = {
         "uwnetid": ["javerage"],
-        "uwregid": ["A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1"],
-        "uwStudentSystemKey": [123456789],
+        "uwregid": ["9136CCB8F66711D5BE060004AC494FFE"],
+        "uwStudentSystemKey": ["000083856"],
         "affiliations": ["student", "member"],
         "eppn": ["javerage@uw.edu"],
         "scopedAffiliations": [

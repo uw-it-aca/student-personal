@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from django.http import HttpResponse
-from student_personal.exceptions import OverrideNotPermitted
 from student_personal.views.api import BaseAPIView
-from student_personal.dao.emergency_contact import (
-    get_emergency_contacts, update_emergency_contacts)
-from student_personal.dao.person import get_user_context, DataFailureException
+from student_personal.exceptions import (
+    MissingStudentAffiliation, OverrideNotPermitted)
+from student_personal.dao.person import SPSPerson, DataFailureException
+from uw_sps_contacts import ContactsList
+from uw_sps_contacts.models import EmergencyContact
 from logging import getLogger
 import json
 
@@ -14,37 +15,53 @@ logger = getLogger(__name__)
 
 
 class EmergencyContactView(BaseAPIView):
-    def get(self, request, system_key):
+    def _authorize(self, request):
+        sps_person = SPSPerson(request)
+        if sps_person.system_key and sps_person.is_student:
+            return sps_person.system_key
+
+        raise MissingStudentAffiliation()
+
+    def _serialize(self, contacts=None):
+        if contacts is None:
+            contacts = []
+
+        # Ensure two EmergencyContact models for the response
+        while len(contacts) < 2:
+            contacts.append(EmergencyContact())
+
+        return json.dumps({
+            "emergency_contacts": [c.json_data() for c in contacts]
+        })
+
+    def get(self, request):
         try:
-            context = get_user_context(request)
-            if system_key != context.get("systemKey"):
-                return self.response_unauthorized()
-        except DataFailureException as ex:
-            return HttpResponse(ex, status=543)
-
-        contacts = get_emergency_contacts(system_key)
-
-        # TODO serialize contacts
-        return self.response_ok()
-
-    def put(self, request, system_key):
-        try:
-            self.valid_user_override()
-
-            context = get_user_context(request)
-            if system_key != context.get("systemKey"):
-                return self.response_unauthorized()
-        except OverrideNotPermitted as ex:
+            system_key = self._authorize(request)
+            contacts = ContactsList().get_contacts(system_key)
+            return self.response_ok(self._serialize(contacts))
+        except MissingStudentAffiliation as ex:
             return self.response_unauthorized(ex)
         except DataFailureException as ex:
-            return HttpResponse(ex, status=543)
+            return HttpResponse(ex, status=ex.status)
+
+    def put(self, request):
+        try:
+            system_key = self._authorize(request)
+            self.valid_user_override()
+        except (MissingStudentAffiliation, OverrideNotPermitted) as ex:
+            return self.response_unauthorized(ex)
+        except DataFailureException as ex:
+            return HttpResponse(ex, status=ex.status)
+
+        request_data = []
+        try:
+            request_data = json.loads(request.body)
+        except Exception as ex:
+            return self.response_badrequest(content=ex)
 
         try:
-            contact_data = json.loads(request.body)
-            contacts = update_emergency_contacts(system_key, contact_data)
-        except Exception as ex:
+            contacts = ContactsList().update_contacts(system_key, request_data)
+            return self.response_ok(self._serialize(contacts))
+        except DataFailureException as ex:
             logger.error(f"PUT contacts failed for {system_key}: {ex}")
-            return HttpResponse(ex, status=543)
-
-        # TODO serialize contacts
-        return self.response_ok()
+            return HttpResponse(ex, status=ex.status)
