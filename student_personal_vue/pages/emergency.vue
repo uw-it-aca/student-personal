@@ -49,7 +49,7 @@
             will be attempted.
           </div>
           <div class="my-3 mx-5">
-            <ContactDetails :contact-details="this.contacts[0]" />
+            <ContactDetails :contact-details="this.emergencyContacts[0]" />
           </div>
         </div>
 
@@ -65,7 +65,7 @@
             will be attempted.
           </div>
           <div class="my-3 mx-5">
-            <ContactDetails :contact-details="this.contacts[1]" />
+            <ContactDetails :contact-details="this.emergencyContacts[1]" />
           </div>
         </div>
 
@@ -94,6 +94,7 @@ import ContactDetails from "@/components/contact-details.vue";
 import ContactModal from "@/components/contact-modal.vue";
 import DefaultLayout from "@/layouts/default.vue";
 import { useContextStore } from "@/stores/context";
+import { getEmergencyContacts } from "@/utils/data"
 
 export default {
   name: "PagesEmergency",
@@ -107,29 +108,15 @@ export default {
   data() {
     return {
       pageTitle: "Additional Contacts",
+      emergencyContacts: [],
 
-      // mock contacts list
-      contacts: [
-        {
-          name: "Mommy Average",
-          phone: "+11234567890",
-          email: "john.average@example.com",
-          lastUpdated: new Date().toISOString(),
-        },
-        {
-          name: "Sister Average",
-          phone: "+569876543210",
-          email: "jane.smith@example.com",
-          relationship: "SIBLING",
-          lastUpdated: new Date().toISOString(),
-        },
-      ],
       // mock parent contact (separate api call?)
       parentContact: {
         name: "Daddy Average",
         email: "parent@example.com",
         phone: "+1234567890",
       },
+      errorResponse: null,
     };
   },
   computed: {
@@ -139,6 +126,19 @@ export default {
       return this.contacts.length > 0 && !("relationship" in this.contacts[0]);
     },
   },
-  methods: {},
+  methods: {
+    loadEmergencyContacts: function () {
+      this.getEmergencyContacts(this.contextStore.context.emergencyContactUrl)
+        .then((data) => {
+          this.emergencyContacts = data.emergency_contacts;
+        })
+        .catch((error) => {
+          this.errorResponse = error.data;
+        });
+    },
+  },
+  created() {
+    this.loadEmergencyContacts();
+  },
 };
 </script>
