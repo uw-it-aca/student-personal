@@ -29,7 +29,7 @@ function getSubscriberNumber(e164PhoneNumber) {
     }
   } catch (error) {
     // handle cases where the input string isn't a valid E.164 number
-    console.error("Error parsing phone number:", error.message);
+    console.error("Error parsing phone number for subscriber:", error.message);
   }
   return null;
 }
