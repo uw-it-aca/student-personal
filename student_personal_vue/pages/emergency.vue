@@ -2,14 +2,13 @@
 <template>
   <DefaultLayout :page-title="pageTitle">
     <!-- page content -->
-    <template #title>
-      {{ pageTitle }}
-    </template>
+    <template #title>{{ pageTitle }}</template>
     <template #content>
       <div v-if="!contextStore.context.isStudent">
         <BAlert variant="danger" :model-value="true">
-          <i class="bi-exclamation-triangle-fill me-1"></i
-          ><span class="fw-bold">Feature Unavailable</span>
+          <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
+            >Feature Unavailable</span
+          >
           <div>You must be an active student to use this tool.</div>
         </BAlert>
         <p>
@@ -32,8 +31,9 @@
         </p>
 
         <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
-          <i class="bi-exclamation-triangle-fill me-1"></i
-          ><span class="fw-bold">Incomplete Information</span>
+          <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
+            >Incomplete Information</span
+          >
           <div>Please add a relationship for your primary contact</div>
         </BAlert>
 
@@ -41,6 +41,7 @@
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Primary</h3>
             <div>
+              <ContactRemove v-if="this.emergencyContacts.length > 0"/>
               <ContactModal
                 v-if="this.emergencyContacts.length > 0"
                 modal-header-title="Primary"
@@ -53,7 +54,7 @@
             will be attempted.
           </div>
           <div class="my-3 mx-5">
-            <ContactDetails :contact-details="this.emergencyContacts[0]" />
+            <ContactDetails :contact-details="this.emergencyContacts[0]"/>
           </div>
         </div>
 
@@ -61,6 +62,7 @@
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Secondary</h3>
             <div>
+              <ContactRemove v-if="this.emergencyContacts.length > 0"/>
               <ContactModal
                 v-if="this.emergencyContacts.length > 0"
                 modal-header-title="Secondary"
@@ -73,11 +75,11 @@
             will be attempted.
           </div>
           <div class="my-3 mx-5">
-            <ContactDetails :contact-details="this.emergencyContacts[1]" />
+            <ContactDetails :contact-details="this.emergencyContacts[1]"/>
           </div>
         </div>
 
-        <hr class="my-5" />
+        <hr class="my-5">
 
         <h2 class="ff-encode-sans fw-semibold mb-3">
           Parent/Family Member Contact
@@ -94,7 +96,7 @@
         </p>
 
         <div class="my-3 mx-5">
-          <ContactDetails :contact-details="this.parentContact" />
+          <ContactDetails :contact-details="this.parentContact"/>
         </div>
       </div>
     </template>
@@ -102,85 +104,94 @@
 </template>
 
 <script>
-import { BAlert } from "bootstrap-vue-next";
-import ContactDetails from "@/components/contact-details.vue";
-import ContactModal from "@/components/contact-modal.vue";
-import DefaultLayout from "@/layouts/default.vue";
-import { useContextStore } from "@/stores/context";
-import { getEmergencyContacts } from "@/utils/data";
+  import { BAlert } from "bootstrap-vue-next";
 
-export default {
-  name: "PagesEmergency",
-  components: { DefaultLayout, ContactDetails, ContactModal, BAlert },
-  setup() {
-    const contextStore = useContextStore();
-    return {
-      contextStore,
-      getEmergencyContacts,
-    };
-  },
-  data() {
-    return {
-      pageTitle: "Additional Contacts",
-      emergencyContacts: [],
+  import ContactDetails from "@/components/contact-details.vue";
+  import ContactModal from "@/components/contact-modal.vue";
+  import ContactRemove from "@/components/contact-remove.vue";
+  import DefaultLayout from "@/layouts/default.vue";
 
-      // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
-      contacts: [
-        {
-          name: "Mommy Average",
-          phone: "+11234567890",
-          email: "john.average@example.com",
-          lastUpdated: new Date().toISOString(),
-        },
-        /*{
+  import { useContextStore } from "@/stores/context";
+  import { getEmergencyContacts } from "@/utils/data";
+
+  export default {
+    name: "PagesEmergency",
+    components: {
+      BAlert,
+      ContactDetails,
+      ContactModal,
+      ContactRemove,
+      DefaultLayout,
+    },
+    setup() {
+      const contextStore = useContextStore();
+      return {
+        contextStore,
+        getEmergencyContacts,
+      };
+    },
+    data() {
+      return {
+        pageTitle: "Additional Contacts",
+        emergencyContacts: [],
+
+        // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
+        contacts: [
+          {
+            name: "Mommy Average",
+            phone: "+11234567890",
+            email: "john.average@example.com",
+            lastUpdated: new Date().toISOString(),
+          },
+          /*{
           name: "Sister Average",
           phone: "+569876543210",
           email: "jane.smith@example.com",
           relationship: "SIBLING",
           lastUpdated: new Date().toISOString(),
         },*/
-        {
-          name: "",
-          phone: "",
-          email: "",
-          relationship: "",
-          lastUpdated: "",
+          {
+            name: "",
+            phone: "",
+            email: "",
+            relationship: "",
+            lastUpdated: "",
+          },
+        ],
+        // mock parent contact (separate api call?)
+        parentContact: {
+          name: "Daddy Average",
+          email: "parent@example.com",
+          //phoneNumber: "+442079460958", // uk example
+          //phoneNumber: "+861012345678", // china example
+          phoneNumber: "+912212345678 ", //india example
         },
-      ],
-      // mock parent contact (separate api call?)
-      parentContact: {
-        name: "Daddy Average",
-        email: "parent@example.com",
-        //phoneNumber: "+442079460958", // uk example
-        //phoneNumber: "+861012345678", // china example
-        phoneNumber: "+912212345678 ", //india example
+        errorResponse: null,
+      };
+    },
+    computed: {
+      isIncomplete() {
+        // check if contacts list returns missing relationship for primary contact (index 0)
+        // TODO: replace with API call later
+        return (
+          this.emergencyContacts.length > 0 &&
+          !("relationship" in this.emergencyContacts[0])
+        );
       },
-      errorResponse: null,
-    };
-  },
-  computed: {
-    isIncomplete() {
-      // check if contacts list returns missing relationship for primary contact (index 0)
-      // TODO: replace with API call later
-      return (
-        this.emergencyContacts.length > 0 &&
-        !("relationship" in this.emergencyContacts[0])
-      );
     },
-  },
-  methods: {
-    loadEmergencyContacts: function () {
-      this.getEmergencyContacts(this.contextStore.context.emergencyContactUrl)
-        .then((data) => {
-          this.emergencyContacts = data.emergency_contacts;
-        })
-        .catch((error) => {
-          this.errorResponse = error.data;
-        });
+    methods: {
+      loadEmergencyContacts: function () {
+        this.getEmergencyContacts(this.contextStore.context.emergencyContactUrl)
+          .then((data) => {
+            this.emergencyContacts = data.emergency_contacts;
+          })
+          .catch((error) => {
+            this.errorResponse = error.data;
+          });
+      },
     },
-  },
-  created() {
-    this.loadEmergencyContacts();
-  },
-};
+    created() {
+      this.loadEmergencyContacts();
+    },
+  };
 </script>
