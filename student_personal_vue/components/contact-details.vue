@@ -4,7 +4,9 @@
   <ul v-if="contactDetails" class="list-unstyled">
     <li>{{ contactDetails.name }}</li>
     <li>{{ contactDetails.email }}</li>
-    <li>{{ contactDetails.phoneNumber }}</li>
+    <li>
+      {{ this.formatE164ToPhoneNumber(contactDetails.phoneNumber) }}
+    </li>
     <li v-if="contactDetails.relationship">
       {{ contactDetails.relationship }}
     </li>
@@ -18,6 +20,8 @@
 </template>
 
 <script>
+import parsePhoneNumber, { formatPhoneNumberIntl } from "libphonenumber-js";
+
 export default {
   props: {
     contactDetails: {
@@ -27,6 +31,22 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    formatE164ToPhoneNumber(e164Number) {
+      const phoneNumber = parsePhoneNumber(e164Number);
+
+      if (phoneNumber && phoneNumber.isValid()) {
+        const countryCode = `+${phoneNumber.countryCallingCode}`;
+        const nationalFormat = phoneNumber.formatNational();
+
+        // Combine them: "+1" + " (213) 373-4253"
+        // Note: This works well for NANPA regions (US, Canada, etc.)
+        return `${countryCode} ${nationalFormat}`;
+      } else {
+        console.error(`Invalid or unsupported E.164 number: ${e164Number}`);
+        return null;
+      }
+    },
+  },
 };
 </script>
