@@ -4,14 +4,9 @@
     "calt": false
   },
   "lsp": {
-    "oxc": {
-      "initialization_options": {
-        "options": {
-          "run": "onType",
-          "configPath": ".oxlintrc.json",
-          "tsConfigPath": "tsconfig.json",
-          "typeAware": true
-        }
+    "biome": {
+      "settings": {
+        "require_config_file": true
       }
     },
     "ruff": {
@@ -33,11 +28,30 @@
     "Vue.js": {
       "formatter": {
         "external": {
-          "command": "node_modules/.bin/prettier",
-          "arguments": ["--stdin-filepath", "{buffer_path}"]
+          // use biome
+          "command": "./node_modules/.bin/biome",
+          "arguments": ["format", "--write", "--stdin-file-path={buffer_path}"]
         }
       },
-      "format_on_save": "on"
+      "format_on_save": "off"
+      // set line length more than default 80
+      // "preferred_line_length": 100
+      // "language_servers": ["biome"]
+    },
+    "JavaScript": {
+      "formatter": { "language_server": { "name": "biome" } },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+      // "language_servers": ["biome"]
+    },
+    "TypeScript": {
+      "formatter": { "language_server": { "name": "biome" } },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
     },
     "Python": {
       "formatter": { "language_server": { "name": "ruff" } },

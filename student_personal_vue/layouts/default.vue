@@ -77,7 +77,7 @@
     </template>
 
     <!-- TODO: hide system messages if empty -->
-    <template v-if="window.student_personal.messages" #system>
+    <template v-if="window.student_personal.messages.length > 0" #system>
       <div class="row">
         <div class="col">
           <ul
@@ -97,7 +97,7 @@
     <template #main>
       <div class="row justify-content-center my-5">
         <div class="col-6">
-          <h1 class="h1 fw-bold mb-5">{{ pageTitle }}</h1>
+          <h1 class="ff-encode-sans fw-bold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>
         </div>
       </div>
@@ -147,8 +147,12 @@ export default {
   methods: {
     clearUserOverride: function () {
       this.clearOverride(this.contextStore.context.clearOverrideUrl)
-        .then((data) => {})
-        .catch((error) => {})
+        .then((data) => {
+          console.log("Override cleared:", data);
+        })
+        .catch((error) => {
+          console.error("Error clearing override:", error);
+        })
         .finally(() => {
           window.location.href = this.contextStore.context.clearOverrideUrl;
         });
