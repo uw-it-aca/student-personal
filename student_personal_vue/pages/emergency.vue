@@ -174,8 +174,7 @@
         // check if contacts list returns missing relationship for primary contact (index 0)
         return (
           this.emergencyContacts.length > 0 &&
-          (!("relationship" in this.emergencyContacts[0]) ||
-            this.emergencyContacts[0].relationship === null ||
+          (this.emergencyContacts[0].relationship === null ||
             this.emergencyContacts[0].relationship.trim() === "")
         );
       },
