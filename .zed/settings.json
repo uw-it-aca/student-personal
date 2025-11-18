@@ -33,7 +33,7 @@
           "arguments": ["format", "--write", "--stdin-file-path={buffer_path}"]
         }
       },
-      "format_on_save": "on"
+      "format_on_save": "off"
       // set line length more than default 80
       // "preferred_line_length": 100
       // "language_servers": ["biome"]
