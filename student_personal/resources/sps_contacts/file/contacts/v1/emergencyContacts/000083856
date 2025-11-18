@@ -4,7 +4,7 @@
     "name": "Hank Average",
     "phoneNumber": "+12065551234",
     "email": "haverage@example.com",
-    "relationship": "PARENT",
+    "relationship": "",
     "lastModified": 1762896520.180882000
   },{
     "id": "eacccecd-8db7-48b7-8b0b-ff5d87e379f5",
@@ -12,6 +12,6 @@
     "name": "Jane Average",
     "phoneNumber": "+14255554321",
     "email": "javg@example.com",
-    "relationship": "PARENT",
+    "relationship": null,
     "lastModified": 1762896520.267776000
   }]

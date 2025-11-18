@@ -3,7 +3,7 @@
   <ul v-if="contactDetails && contactDetails.lastModified !== null" class="list-unstyled">
     <li>{{ contactDetails.name }}</li>
     <li>{{ contactDetails.email }}</li>
-    <li>{{ formatPhoneNumber(contactDetails.phoneNumber) }}</li>
+    <li v-if="contactDetails.phoneNumber !== null || contactDetails.phoneNumber.trim() !== ''">{{ formatPhoneNumber(contactDetails.phoneNumber) }}</li>
     <li v-if="contactDetails.relationship">
       {{ contactDetails.relationship }}
     </li>

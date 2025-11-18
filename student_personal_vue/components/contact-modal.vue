@@ -228,24 +228,30 @@
         if (this.modalHeaderTitle === "Primary") {
           this.fullName = this.tempContacts[0].name;
 
-          // get subscriber number only
-          this.phoneNumber = this.getSubscriberNumber(
-            this.tempContacts[0].phoneNumber,
-          );
+          // check if phone number exists, get subscriber number only
+          if (this.tempContacts[0].phoneNumber) {
+            this.phoneNumber = this.getSubscriberNumber(
+              this.tempContacts[0].phoneNumber,
+            );
+          }
 
           this.emailAddress = this.tempContacts[0].email;
+
           // check if relationship exists
           if (this.tempContacts[0].relationship) {
             this.relationshipChoice = this.tempContacts[0].relationship;
           }
+
           this.primaryContactChoice = true;
         } else {
           this.fullName = this.tempContacts[1].name;
 
-          // get subscriber number only
-          this.phoneNumber = this.getSubscriberNumber(
-            this.tempContacts[1].phoneNumber,
-          );
+          // check if phone number exists, get subscriber number only
+          if (this.tempContacts[1].phoneNumber) {
+            this.phoneNumber = this.getSubscriberNumber(
+              this.tempContacts[1].phoneNumber,
+            );
+          }
 
           this.emailAddress = this.tempContacts[1].email;
           // check if relationship exists

@@ -136,7 +136,7 @@
         emergencyContacts: [],
 
         // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
-        contacts: [
+        mockContacts: [
           {
             name: "Mommy Average",
             phone: "+11234567890",
