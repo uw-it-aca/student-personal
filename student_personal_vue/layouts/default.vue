@@ -147,8 +147,12 @@ export default {
   methods: {
     clearUserOverride: function () {
       this.clearOverride(this.contextStore.context.clearOverrideUrl)
-        .then((data) => {})
-        .catch((error) => {})
+        .then((data) => {
+          console.log("Override cleared:", data);
+        })
+        .catch((error) => {
+          console.error("Error clearing override:", error);
+        })
         .finally(() => {
           window.location.href = this.contextStore.context.clearOverrideUrl;
         });
