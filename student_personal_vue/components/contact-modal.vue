@@ -157,6 +157,7 @@ import {
   BInputGroupText,
   BModal,
 } from "bootstrap-vue-next";
+import { parsePhoneNumber } from "libphonenumber-js";
 import { SCountryCode } from "solstice-vue";
 
 export default {
@@ -223,6 +224,12 @@ export default {
 
       if (this.modalHeaderTitle === "Primary") {
         this.fullName = this.tempContacts[0].name;
+
+        // get subscriber number only
+        this.phoneNumber = this.getSubscriberNumber(
+          this.tempContacts[0].phoneNumber
+        );
+
         this.emailAddress = this.tempContacts[0].email;
         // check if relationship exists
         if (this.tempContacts[0].relationship) {
@@ -231,6 +238,12 @@ export default {
         this.primaryContactChoice = true;
       } else {
         this.fullName = this.tempContacts[1].name;
+
+        // get subscriber number only
+        this.phoneNumber = this.getSubscriberNumber(
+          this.tempContacts[1].phoneNumber
+        );
+
         this.emailAddress = this.tempContacts[1].email;
         // check if relationship exists
         if (this.tempContacts[1].relationship) {
@@ -333,6 +346,21 @@ export default {
         // TODO: call API to save contact data
         this.showModal = false;
       }
+    },
+
+    getSubscriberNumber(e164PhoneNumber) {
+      try {
+        const phoneNumber = parsePhoneNumber(e164PhoneNumber);
+
+        if (phoneNumber.isValid()) {
+          // This method returns the National Number (subscriber number) as a string.
+          return phoneNumber.nationalNumber;
+        }
+      } catch (error) {
+        // Handle cases where the input string isn't a valid E.164 number
+        console.error("Error parsing phone number:", error.message);
+      }
+      return null; // Return null or an error state if invalid
     },
   },
 };

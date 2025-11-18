@@ -151,7 +151,7 @@ export default {
       parentContact: {
         name: "Daddy Average",
         email: "parent@example.com",
-        phone: "+1234567890",
+        phoneNumber: "+1234567890",
       },
       errorResponse: null,
     };

@@ -4,7 +4,7 @@
   <ul v-if="contactDetails" class="list-unstyled">
     <li>{{ contactDetails.name }}</li>
     <li>{{ contactDetails.email }}</li>
-    <li>{{ contactDetails.phone }}</li>
+    <li>{{ contactDetails.phoneNumber }}</li>
     <li v-if="contactDetails.relationship">
       {{ contactDetails.relationship }}
     </li>
