@@ -220,6 +220,7 @@ export default {
       this.tempContacts = this.modalData;
 
       // load contacts from passed in prop
+
       if (this.modalHeaderTitle === "Primary") {
         this.fullName = this.tempContacts[0].name;
         this.emailAddress = this.tempContacts[0].email;

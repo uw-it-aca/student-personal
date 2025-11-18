@@ -42,6 +42,7 @@
             <h3 class="m-0">Primary</h3>
             <div>
               <ContactModal
+                v-if="this.emergencyContacts.length > 0"
                 modal-header-title="Primary"
                 :modal-data="this.emergencyContacts"
               />
@@ -61,6 +62,7 @@
             <h3 class="m-0">Secondary</h3>
             <div>
               <ContactModal
+                v-if="this.emergencyContacts.length > 0"
                 modal-header-title="Secondary"
                 :modal-data="this.emergencyContacts"
               />

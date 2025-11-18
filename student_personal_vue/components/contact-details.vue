@@ -1,6 +1,7 @@
 <template>
   <!-- check if contact details are empty -->
-  <ul v-if="contactDetails.name !== ''" class="list-unstyled">
+  <p>{{ contactDetails }}</p>
+  <ul v-if="contactDetails" class="list-unstyled">
     <li>{{ contactDetails.name }}</li>
     <li>{{ contactDetails.email }}</li>
     <li>{{ contactDetails.phone }}</li>
