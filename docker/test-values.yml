@@ -72,11 +72,11 @@ environmentVariables:
   - name: ENV
     value: test
   - name: SPS_CONTACTS_ENV
-    value: TEST
+    value: EVAL
   - name: SPS_CONTACTS_TIMEOUT
     value: "5"
   - name: SPS_CONTACTS_AUTH_ENV
-    value: TEST
+    value: EVAL
   - name: PWS_ENV
     value: PROD
   - name: PWS_TIMEOUT
