@@ -26,7 +26,7 @@
     </p>
     <template #footer>
       <BButton variant="subdued-danger" @click="cancelModal">Cancel</BButton>
-      <BButton variant="danger" @click="DeleteContact">Remove</BButton>
+      <BButton variant="danger" @click="removeContact">Remove</BButton>
     </template>
   </BModal>
 </template>
@@ -48,6 +48,9 @@
       cancelModal() {
         // close the modal
         this.showModal = false;
+      },
+      removeContact() {
+        // TODO: API call to remove contact
       },
     },
   };
