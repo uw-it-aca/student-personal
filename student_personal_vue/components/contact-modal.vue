@@ -121,7 +121,7 @@
         <BFormCheckbox
           id="checkboxPrimaryContact"
           v-model="primaryContactChoice"
-          :disabled="modalHeaderTitle === 'Primary'"
+          :disabled="this.isPrimary"
           class="fw-bold"
           @change="swapContacts"
         >
@@ -164,7 +164,6 @@
   import { getSubscriberNumber } from "@/utils/phones";
 
   export default {
-    name: "HelloWorld",
     components: {
       SCountryCode,
       BForm,
@@ -181,10 +180,6 @@
       BModal,
     },
     props: {
-      modalHeaderTitle: {
-        type: String,
-        required: true,
-      },
       modalData: {
         type: Array,
         required: true,
@@ -253,6 +248,7 @@
 
           this.primaryContactChoice = true;
         } else {
+
           this.fullName = this.tempContacts[1].name;
 
           // check if phone number exists, get subscriber number only

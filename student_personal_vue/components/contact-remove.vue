@@ -57,10 +57,6 @@
       BModal,
     },
     props: {
-      modalHeaderTitle: {
-        type: String,
-        required: true,
-      },
       modalData: {
         type: Array,
         required: true,

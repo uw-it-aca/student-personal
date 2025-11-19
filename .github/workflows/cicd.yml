@@ -73,13 +73,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Run Python Linters
         uses: uw-it-aca/actions/python-linters@main
         with:
           app_name: ${DJANGO_APP}
-          exclude_paths: 'migrations'
+          exclude_paths: "migrations"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -122,7 +122,8 @@ jobs:
           app-test-container
           bash -c ". ./docker/test.sh"
 
-      - name: Record Test Results
+      # Run Python Coverage and Upload to Coveralls
+      - name: Run Python Coverage and Upload to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
@@ -130,6 +131,36 @@ jobs:
           python -m pip install --upgrade pip coverage coveralls==3.3.1
           coverage combine
           coveralls
+
+      # Set up Node.js for Vue
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Install Vue Dependencies
+      - name: Install npm dependencies
+        run: npm install
+
+      # Run Vue Coverage
+      - name: Run Vue Coverage
+        run: npm run coverage
+
+      # Upload Vue Coverage to Coveralls
+      - name: Upload Vue Coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage/lcov.info
+          flag-name: app_name_vue
+          parallel: true
+
+      # Finalize Coveralls Parallel Build
+      - name: Finish Coveralls Build
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
 
       - name: Push Image to Repository
         if: github.event_name == 'push'
@@ -173,7 +204,7 @@ jobs:
           gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
           app_instance: eval
 
-      - name: 'Surface context from executed build step'
+      - name: "Surface context from executed build step"
         id: context
         shell: bash
         run: echo "context=$(< ${CONTEXT_FILENAME})" >> $GITHUB_OUTPUT

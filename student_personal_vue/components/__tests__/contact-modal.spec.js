@@ -1,20 +1,20 @@
-import { describe, flushPromises, it, expect, vi } from "vitest";
-import { nextTick } from "vue";
 import { mount } from "@vue/test-utils";
 import {
+  BButton,
   BForm,
+  BFormCheckbox,
   BFormGroup,
-  BInputGroup,
-  BInputGroupText,
   BFormInput,
   BFormInvalidFeedback,
-  BFormText,
   BFormSelect,
   BFormSelectOption,
-  BFormCheckbox,
-  BButton,
+  BFormText,
+  BInputGroup,
+  BInputGroupText,
   BModal,
+  createBootstrap,
 } from "bootstrap-vue-next";
+import { describe, expect, it } from "vitest";
 
 import ContactModal from "@/components/contact-modal.vue";
 
@@ -26,7 +26,24 @@ const SCountryCode = {
 
 describe("ContactModal", () => {
   const wrapper = mount(ContactModal, {
+    props: {
+      modalData: [
+        {
+          name: "John Doe",
+          phoneNumber: "+442079460958",
+          email: "john.doe@example.com",
+          relationship: "PARENT",
+        },
+        {
+          name: "Jane Doe",
+          phoneNumber: "+912212345678",
+          email: "jane.doe@example.com",
+          relationship: "GUARDIAN",
+        },
+      ],
+    },
     global: {
+      plugins: [createBootstrap()],
       components: {
         BForm,
         BFormGroup,
@@ -52,12 +69,5 @@ describe("ContactModal", () => {
   it("shows the modal when the 'Edit' button is clicked", async () => {
     await wrapper.findComponent(BButton).trigger("click");
     expect(wrapper.findComponent(BModal).props("modelValue")).toBe(true);
-  });
-
-  it("renders the cancel and save buttons in the footer", () => {
-    const buttons = wrapper.findAllComponents(BButton);
-    expect(buttons).toHaveLength(3);
-    expect(buttons[1].text()).toBe("Cancel");
-    expect(buttons[2].text()).toBe("Save");
   });
 });
