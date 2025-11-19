@@ -121,7 +121,7 @@
         <BFormCheckbox
           id="checkboxPrimaryContact"
           v-model="primaryContactChoice"
-          :disabled="modalHeaderTitle === 'Primary'"
+          :disabled="this.isPrimary"
           class="fw-bold"
           @change="swapContacts"
         >
@@ -181,10 +181,6 @@
       BModal,
     },
     props: {
-      modalHeaderTitle: {
-        type: String,
-        required: true,
-      },
       modalData: {
         type: Array,
         required: true,
