@@ -12,6 +12,7 @@ import json
 def put_contacts(self):
     return []
 
+
 ContactsList.put_contacts = put_contacts
 
 
@@ -37,8 +38,3 @@ class EmergencyContactAPITest(ApiTest):
     def test_put(self, mock_put_contacts):
         response = self.get_response("emergency-contact-api", "javerage")
         data = json.loads(response.content.decode("utf-8"))
-
-        #response = self.put_response("emergency-contact-api", "javerage", data)
-        #self.assertEqual(response.status_code, 200, "OK")
-        #self.assertEqual(response.content, b"")
-
