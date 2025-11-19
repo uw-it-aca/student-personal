@@ -41,11 +41,15 @@
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Primary</h3>
             <div>
-              <ContactRemove v-if="this.emergencyContacts.length > 0"/>
+              <ContactRemove
+                v-if="this.emergencyContacts.length > 0"
+                :modal-data="this.emergencyContacts"
+                :is-primary=true
+              />
               <ContactModal
                 v-if="this.emergencyContacts.length > 0"
-                modal-header-title="Primary"
                 :modal-data="this.emergencyContacts"
+                :is-primary=true
               />
             </div>
           </div>
@@ -62,10 +66,12 @@
           <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Secondary</h3>
             <div>
-              <ContactRemove v-if="this.emergencyContacts.length > 0"/>
+              <ContactRemove
+                v-if="this.emergencyContacts.length > 0"
+                :modal-data="this.emergencyContacts"
+              />
               <ContactModal
                 v-if="this.emergencyContacts.length > 0"
-                modal-header-title="Secondary"
                 :modal-data="this.emergencyContacts"
               />
             </div>

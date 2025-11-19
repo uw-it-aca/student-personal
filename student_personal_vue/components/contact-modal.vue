@@ -6,9 +6,12 @@
     v-model="showModal"
     no-close-on-backdrop
     no-close-on-esc
-    :title="modalHeaderTitle"
+    :title="this.isPrimary ? 'Primary' : 'Secondary'"
     body-class="px-5 py-4"
   >
+
+     <p>primary: {{ this.isPrimary }}</p>
+
     <p>Required fields are indicated by *</p>
 
     <BForm novalidate>
@@ -68,7 +71,9 @@
           </BFormInvalidFeedback>
         </BInputGroup>
       </div>
-      <div class="border border-danger">{{ formattedPhoneNumber }}</div>
+      <div class="border p-2 small mb-3">
+        formattedPhoneNumber: {{ formattedPhoneNumber }}
+      </div>
       <BFormInput
         type="hidden"
         name="formattedPhoneNumber"
@@ -184,6 +189,10 @@
         type: Array,
         required: true,
       },
+      isPrimary: {
+        type: Boolean,
+        default: false,
+      },
     },
     setup() {
       return {
@@ -225,7 +234,7 @@
 
         // load contacts from passed in prop
 
-        if (this.modalHeaderTitle === "Primary") {
+        if (this.isPrimary) {
           this.fullName = this.tempContacts[0].name;
 
           // check if phone number exists, get subscriber number only
@@ -277,7 +286,7 @@
         this.fullNameState = nameRegex.test(this.fullName);
 
         // update contacts after validattion
-        if (this.modalHeaderTitle === "Primary") {
+        if (this.isPrimary) {
           this.tempContacts[0].name = this.fullName;
         } else {
           this.tempContacts[1].name = this.fullName;
@@ -295,7 +304,7 @@
         this.formattedPhoneNumber = formatPhoneNum;
 
         // update phone number after validation and formatting
-        if (this.modalHeaderTitle === "Primary") {
+        if (this.isPrimary) {
           this.tempContacts[0].phoneNumber = this.formattedPhoneNumber;
         } else {
           this.tempContacts[1].phoneNumber = this.formattedPhoneNumber;
@@ -307,7 +316,7 @@
         this.emailAddressState = emailRegex.test(this.emailAddress);
 
         // update email after validattion
-        if (this.modalHeaderTitle === "Primary") {
+        if (this.isPrimary) {
           this.tempContacts[0].email = this.emailAddress;
         } else {
           this.tempContacts[1].email = this.emailAddress;
@@ -318,7 +327,7 @@
         this.relationshipState = this.relationshipChoice !== "";
 
         // update relationship after validattion
-        if (this.modalHeaderTitle === "Primary") {
+        if (this.isPrimary) {
           this.tempContacts[0].relationsip = this.relationshipChoice;
         } else {
           this.tempContacts[1].relationship = this.relationshipChoice;
@@ -342,7 +351,7 @@
         // build ISO-like format
         const lastModified = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${microseconds}`;
 
-        if (this.modalHeaderTitle === "Primary") {
+        if (this.isPrimary) {
           this.tempContacts[0].lastModified = lastModified;
         } else {
           this.tempContacts[1].lastModified = lastModified;
