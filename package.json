@@ -12,7 +12,8 @@
     "stylelint": "stylelint 'student_personal_vue/**/*.{vue,scss}'",
     "lighthouse": "lhci collect",
     "biome:format": "biome format --write ./student_personal_vue",
-    "biome:lint": "biome lint ./student_personal_vue"
+    "biome:lint": "biome lint ./student_personal_vue",
+    "coveralls": "coveralls < coverage/lcov.info"
   },
   "repository": {
     "type": "git",
