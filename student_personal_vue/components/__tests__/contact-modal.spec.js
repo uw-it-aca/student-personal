@@ -1,20 +1,20 @@
-import { describe, flushPromises, it, expect, vi } from "vitest";
-import { nextTick } from "vue";
 import { mount } from "@vue/test-utils";
 import {
+  BButton,
   BForm,
+  BFormCheckbox,
   BFormGroup,
-  BInputGroup,
-  BInputGroupText,
   BFormInput,
   BFormInvalidFeedback,
-  BFormText,
   BFormSelect,
   BFormSelectOption,
-  BFormCheckbox,
-  BButton,
+  BFormText,
+  BInputGroup,
+  BInputGroupText,
   BModal,
 } from "bootstrap-vue-next";
+import { describe, expect, flushPromises, it, vi } from "vitest";
+import { nextTick } from "vue";
 
 import ContactModal from "@/components/contact-modal.vue";
 
@@ -26,6 +26,23 @@ const SCountryCode = {
 
 describe("ContactModal", () => {
   const wrapper = mount(ContactModal, {
+    props: {
+      modalData: [
+        {
+          name: "John Smith",
+          phoneNumber: "+1234567890",
+          email: "john.smith@example.com",
+          relationship: "FRIEND",
+        },
+        {
+          name: "Jane Doe",
+          phoneNumber: "+1987654321",
+          email: "jane.doe@example.com",
+          relationship: "OTHER",
+        },
+      ],
+      isPrimary: true,
+    },
     global: {
       components: {
         BForm,
