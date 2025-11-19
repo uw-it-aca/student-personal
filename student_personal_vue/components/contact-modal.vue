@@ -164,7 +164,6 @@
   import { getSubscriberNumber } from "@/utils/phones";
 
   export default {
-    name: "HelloWorld",
     components: {
       SCountryCode,
       BForm,
