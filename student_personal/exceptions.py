@@ -7,6 +7,11 @@ class MissingStudentAffiliation(Exception):
         return "Person is not a current student"
 
 
+class InvalidContactList(Exception):
+    def __str__(self):
+        return "Incorrect ContactList count"
+
+
 class OverrideNotPermitted(Exception):
     def __str__(self):
         return "Action not permitted while using admin override"
