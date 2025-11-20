@@ -4,7 +4,8 @@
 from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import User
 from django.contrib.sessions.backends.db import SessionStore
-from student_personal.dao.person import SPSPerson, UserService, PWS
+from student_personal.dao.person import (
+    SPSPerson, UserService, PWS, is_overridable_uwnetid)
 from student_personal.tests import MOCK_SAML_ATTRIBUTES
 from userservice.user import UserServiceMiddleware
 from uw_pws.util import fdao_pws_override
@@ -70,3 +71,17 @@ class PersonDAOTest(TestCase):
         sps = SPSPerson(request)
         photo = sps.get_photo()
         self.assertEqual(len(photo.read()), 4661)
+
+
+@fdao_pws_override
+class OverridableNetidTest(TestCase):
+    def test_username(self):
+        self.assertEqual(is_overridable_uwnetid("javerage"), None)
+        self.assertEqual(is_overridable_uwnetid("jbothell"),
+                         "Current UWNetID: javerage, Prior UWNetID: ")
+        self.assertEqual(is_overridable_uwnetid("1average"),
+                         "Not a valid UWNetID: ")
+        self.assertEqual(is_overridable_uwnetid("z1z1z1z1"),
+                         "UWNetID not found: ")
+        self.assertEqual(is_overridable_uwnetid(""),
+                         "No override user supplied, please enter a UWNetID")

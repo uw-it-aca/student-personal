@@ -8,6 +8,7 @@ from uw_pws.util import fdao_pws_override
 from student_personal.tests import MOCK_SAML_ATTRIBUTES
 from student_personal.views.pages import DefaultPageView
 
+
 @fdao_pws_override
 class DefaultPageTest(TestCase):
     def setUp(self):
@@ -17,7 +18,7 @@ class DefaultPageTest(TestCase):
     def test_get_context_data(self):
         request = self.factory.get("/")
         request.session = {}
-        request.session["samlUserdata"] = MOCK_SAML_ATTRIBUTES.get("javerage", {})
+        request.session["samlUserdata"] = MOCK_SAML_ATTRIBUTES.get("javerage")
 
         request.user = self.user
         UserServiceMiddleware().process_request(request)
