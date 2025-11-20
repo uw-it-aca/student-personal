@@ -27,8 +27,8 @@
         <li>
           <a
             class="dropdown-item"
-            href="https://sdb.admin.uw.edu/sisStudents/uwnetid/regnotice_ack.aspx"
-            >Student Government / International Insurance</a
+            href="https://register-eval.sis.uw.edu/register/#/au25/choices"
+            >Optional Charges / Insurance</a
           >
         </li>
       </ul>

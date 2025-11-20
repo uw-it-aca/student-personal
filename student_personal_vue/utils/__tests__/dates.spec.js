@@ -35,21 +35,25 @@ describe("formatUTCToLocalDate", () => {
 
 describe("formatUTCToLocalDateAndTimeZone", () => {
   it("should format a UTC date and add PST timezone", () => {
+    vi.spyOn(dayjs.tz, "guess").mockReturnValue("America/New_York");
     const utcDate = "2024-01-01T12:00:00.000Z"; // A date in winter
     const formattedDate = formatUTCToLocalDateAndTimeZone(
       utcDate,
       "YYYY-MM-DD HH:mm:ss",
     );
     expect(formattedDate).toBe("2024-01-01 04:00:00 PST");
+    vi.restoreAllMocks();
   });
 
   it("should format a UTC date and add PDT timezone", () => {
+    vi.spyOn(dayjs.tz, "guess").mockReturnValue("America/New_York");
     const utcDate = "2024-07-01T12:00:00.000Z"; // A date in summer
     const formattedDate = formatUTCToLocalDateAndTimeZone(
       utcDate,
       "YYYY-MM-DD HH:mm:ss",
     );
     expect(formattedDate).toBe("2024-07-01 05:00:00 PDT");
+    vi.restoreAllMocks();
   });
 
   it("should not add timezone if guess is America/Los_Angeles", () => {
