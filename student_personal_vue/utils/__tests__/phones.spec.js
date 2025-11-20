@@ -9,7 +9,7 @@ describe("formatPhoneNumber", () => {
   });
 
   it("should return null for an invalid number", () => {
-    const phoneNumber = "12345";
+    const phoneNumber = "+12065";
     const formattedNumber = formatPhoneNumber(phoneNumber);
     expect(formattedNumber).toBeNull();
   });
@@ -23,7 +23,7 @@ describe("getSubscriberNumber", () => {
   });
 
   it("should return null for an invalid number", () => {
-    const phoneNumber = "12345";
+    const phoneNumber = "+12065";
     const subscriberNumber = getSubscriberNumber(phoneNumber);
     expect(subscriberNumber).toBeNull();
   });
