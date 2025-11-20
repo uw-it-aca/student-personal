@@ -40,7 +40,7 @@ describe("formatUTCToLocalDateAndTimeZone", () => {
       utcDate,
       "YYYY-MM-DD HH:mm:ss",
     );
-    expect(formattedDate).toBe("2024-01-01 04:00:00");
+    expect(formattedDate).toBe("2024-01-01 04:00:00 PST");
   });
 
   it("should format a UTC date and add PDT timezone", () => {
@@ -49,7 +49,7 @@ describe("formatUTCToLocalDateAndTimeZone", () => {
       utcDate,
       "YYYY-MM-DD HH:mm:ss",
     );
-    expect(formattedDate).toBe("2024-07-01 05:00:00");
+    expect(formattedDate).toBe("2024-07-01 05:00:00 PDT");
   });
 
   it("should not add timezone if guess is America/Los_Angeles", () => {
