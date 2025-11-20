@@ -60,7 +60,7 @@ function getWeeksApart(quarterStartDate, compareDate) {
   if (days < 0) {
     return 0;
   } else {
-    return parseInt(days / 7) + 1;
+    return parseInt(days / 7, 10) + 1;
   }
 }
 
