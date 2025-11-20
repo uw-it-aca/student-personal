@@ -1,6 +1,6 @@
 <template>
   <!-- check if contact details are empty -->
-  <ul v-if="contactDetails && contactDetails.lastModified !== null" class="list-unstyled">
+  <ul v-if="contactDetails && contactDetails.name" class="list-unstyled">
     <li>{{ contactDetails.name }}</li>
     <li>{{ contactDetails.email }}</li>
     <li v-if="contactDetails.phoneNumber !== null || contactDetails.phoneNumber.trim() !== ''">{{ formatPhoneNumber(contactDetails.phoneNumber) }}</li>
