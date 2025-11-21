@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from student_personal.views.api import BaseAPIView
 from student_personal.exceptions import (
     MissingStudentAffiliation, InvalidContactList, OverrideNotPermitted)
-from student_personal.dao.person import SPSPerson, DataFailureException
+from student_personal.dao.person import DataFailureException
 from uw_sps_contacts import ContactsList
 from uw_sps_contacts.models import EmergencyContact
 from logging import getLogger
@@ -16,13 +16,6 @@ logger = getLogger(__name__)
 
 class EmergencyContactView(BaseAPIView):
     CONTACT_LIMIT = 2
-
-    def _authorize(self, request):
-        sps_person = SPSPerson(request)
-        if sps_person.system_key and sps_person.is_student:
-            return sps_person.system_key
-
-        raise MissingStudentAffiliation()
 
     def _serialize(self, contacts=None):
         if contacts is None:
@@ -53,7 +46,7 @@ class EmergencyContactView(BaseAPIView):
 
     def get(self, request):
         try:
-            system_key = self._authorize(request)
+            system_key = self.valid_user(request)
             contacts = ContactsList().get_contacts(system_key)
             return self.response_ok(self._serialize(contacts))
         except MissingStudentAffiliation as ex:
@@ -63,7 +56,7 @@ class EmergencyContactView(BaseAPIView):
 
     def put(self, request):
         try:
-            system_key = self._authorize(request)
+            system_key = self.valid_user(request)
             self.valid_user_override()
         except (MissingStudentAffiliation, OverrideNotPermitted) as ex:
             return self.response_unauthorized(ex)
