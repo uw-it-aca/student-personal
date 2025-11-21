@@ -25,13 +25,13 @@ uw_sps_contacts.FamilyContact = FamilyContact
 
 
 class FamilyContactView(BaseAPIView):
+    def _serialize(self, contact=None):
+        if contact is None:
+            return json.dumps({"family_contact": None})
+
+        return json.dumps({"family_contact": contact.json_data()})
+
     def get(self, request):
-        def _serialize(self, contact=None):
-            if contact is None:
-                pass
-
-            return json.dumps({"family_contact": contact.json_data()})
-
         try:
             system_key = self.valid_user(request)
             contact = FamilyContact().get_contact(system_key)
