@@ -6,7 +6,9 @@ from django.views import View
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from student_personal.views.decorators import xhr_login_required
-from student_personal.exceptions import OverrideNotPermitted
+from student_personal.exceptions import (
+        MissingStudentAffiliation, OverrideNotPermitted)
+from student_personal.dao.person import SPSPerson
 from userservice.user import UserService
 from logging import getLogger
 import json
@@ -16,6 +18,13 @@ logger = getLogger(__name__)
 
 @method_decorator(xhr_login_required, name="dispatch")
 class BaseAPIView(View):
+    def valid_user(self, request):
+        sps_person = SPSPerson(request)
+        if sps_person.system_key and sps_person.is_student:
+            return sps_person.system_key
+
+        raise MissingStudentAffiliation()
+
     def valid_user_override(self):
         if (not getattr(settings, "ALLOW_USER_OVERRIDE_FOR_WRITE", False) and
                 UserService().get_override_user() is not None):

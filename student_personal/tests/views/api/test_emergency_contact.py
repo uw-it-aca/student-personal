@@ -9,13 +9,6 @@ import mock
 import json
 
 
-def put_contacts(self):
-    return []
-
-
-ContactsList.put_contacts = put_contacts
-
-
 @fdao_pws_override
 @fdao_sps_contacts_override
 class EmergencyContactAPITest(ApiTest):
@@ -31,10 +24,24 @@ class EmergencyContactAPITest(ApiTest):
         self.assertEqual(len(data.get("emergency_contacts")), 2)
 
         response = self.get_response("emergency-contact-api", "jstaff")
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 401, "Not authorized")
         self.assertEqual(response.content, b"Person is not a current student")
 
     @mock.patch.object(ContactsList, "put_contacts")
     def test_put(self, mock_put_contacts):
+        # Get some data
         response = self.get_response("emergency-contact-api", "javerage")
-        data = json.loads(response.content.decode("utf-8"))
+        olddata = json.loads(response.content.decode("utf-8"))
+
+        response = self.put_response("emergency-contact-api", "javerage",
+                                     data="{}")
+        self.assertEqual(response.status_code, 400, "No data")
+
+        response = self.put_response("emergency-contact-api", "javerage",
+                                     data="{\"emergency_contacts\": []}")
+        self.assertEqual(response.status_code, 400, "Empty list")
+
+        response = self.put_response(
+            "emergency-contact-api", "jstaff", data="{}")
+        self.assertEqual(response.status_code, 401, "Not authorized")
+        self.assertEqual(response.content, b"Person is not a current student")

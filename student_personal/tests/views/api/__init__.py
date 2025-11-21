@@ -32,9 +32,8 @@ class ApiTest(TestCase):
         url = reverse(url_name, **kwargs)
         return self.client.get(url, get_args, **kwargs)
 
-    def put_response(self, url_name, netid=None, body=None, **kwargs):
+    def put_response(self, url_name, netid=None, data=None, **kwargs):
         self._set_user(netid)
         url = reverse(url_name, **kwargs)
-        return self.client.put(url,
-                               data=body,
-                               content_type="application/json")
+        return self.client.put(
+            url, data=data, content_type="application/json")

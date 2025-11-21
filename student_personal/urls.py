@@ -6,9 +6,9 @@ from django.conf import settings
 from django.urls import re_path
 from django.views.generic import TemplateView
 from student_personal.views.pages import DefaultPageView
-from student_personal.views.api.photo import PhotoView
 from student_personal.views.api.emergency_contact import EmergencyContactView
-
+from student_personal.views.api.family_contact import FamilyContactView
+from student_personal.views.api.photo import PhotoView
 
 # start with an empty url array
 urlpatterns = []
@@ -40,6 +40,11 @@ urlpatterns += [
         r"^api/internal/emergency_contact/$",
         EmergencyContactView.as_view(),
         name="emergency-contact-api"),
+    # FamilyContact API
+    re_path(
+        r"^api/internal/family_contact/$",
+        FamilyContactView.as_view(),
+        name="family-contact-api"),
 
     # Vue-router paths
     re_path(r"^emergency$", DefaultPageView.as_view(), name="emergency"),
