@@ -9,33 +9,27 @@
     :background-class="'bg-body'"
   >
     <template #settings>
-      <SProfile
+      <SUser
         v-if="
-          contextStore.context.overrideUser != contextStore.context.loginUser
-        "
-        :variant="'flyout'"
+        contextStore.context.overrideUser != contextStore.context.loginUser
+      "
         :user-netid="contextStore.context.loginUser"
         :user-override="contextStore.context.overrideUser"
-        :user-preferred-name="contextStore.context.displayName"
+        :photo-url="contextStore.context.photoUrl"
+        :signout-url="contextStore.context.signoutUrl"
+        :clear-override-url="contextStore.context.clearOverrideUrl"
       >
-        <div>lorem ipsum dolor sit amet</div>
-        <button
-          class="btn btn-link btn-sm text-danger p-0 m-0 border-0"
-          value="Clear override"
-          @click="clearUserOverride()"
-        >
-          Clear override
-        </button>
-      </SProfile>
-      <SProfile
+        i am the override in user, here is my info
+      </SUser>
+      <SUser
         v-else
-        variant="flyout"
         :user-netid="contextStore.context.loginUser"
-        :user-preferred-name="contextStore.context.displayName"
+        :photo-url="contextStore.context.photoUrl"
+        :signout-url="contextStore.context.signoutUrl"
       >
-        <div>lorem ipsum dolor sit amet</div>
-        <a :href="contextStore.context.signoutUrl" class=""> Sign out </a>
-      </SProfile>
+        i am the logged in user, here is my info
+      </SUser>
+
       <SColorMode color-class="text-white" class="ms-2"/>
     </template>
 
@@ -74,7 +68,7 @@
 </template>
 
 <script>
-  import { SColorMode, SProfile, STopbarNeo } from "solstice-vue";
+  import { SColorMode, SProfile, STopbarNeo, SUser } from "solstice-vue";
   import NavMenu from "@/components/_nav-menu.vue";
   import { useContextStore } from "@/stores/context";
   import { clearOverride } from "@/utils/data";
@@ -85,6 +79,7 @@
       NavMenu,
       STopbarNeo,
       SProfile,
+      SUser,
       SColorMode,
     },
     props: {
