@@ -70,7 +70,7 @@
   import { SColorMode, SProfile, STopbarNeo, SUser } from "solstice-vue";
   import NavMenu from "@/components/_nav-menu.vue";
   import { useContextStore } from "@/stores/context";
-  import { clearOverride } from "@/utils/data";
+  // import { clearOverride } from "@/utils/data";
 
   export default {
     name: "PersonaInformationApp",
@@ -91,7 +91,7 @@
       const contextStore = useContextStore();
       return {
         contextStore,
-        clearOverride,
+        // clearOverride,
       };
     },
     data() {
