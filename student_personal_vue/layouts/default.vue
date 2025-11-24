@@ -18,16 +18,22 @@
       >
         {{ contextStore.context.displayName }}
         <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </SUser>
-      <SUser v-if="false"
-        :user-netid="contextStore.context.loginUser"
-        :user-override="( contextStore.context.overrideUser !== contextStore.context.loginUser) ? contextStore.context.overrideUser : null"
+        <template #action>
+          <a
+            v-if="contextStore.context.overrideUser !== contextStore.context.loginUser"
+            role="button"
+            class="link-quiet-danger"
+            @click="clearUserOverride()"
+            ><i class="bi bi-x-circle me-1"></i>Clear override</a
+          >
 
-        :signout-url="contextStore.context.signoutUrl"
-        :clear-override-url="contextStore.context.clearOverrideUrl"
-      >
-        {{ contextStore.context.displayName }}
-        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <a
+            v-else
+            :href="contextStore.context.signoutUrl"
+            class="link-quiet-danger"
+            ><i class="bi bi-x-circle me-1"></i>Sign out</a
+          >
+        </template>
       </SUser>
       <SColorMode color-class="text-white" class="ms-2"/>
     </template>
@@ -70,7 +76,7 @@
   import { SColorMode, SProfile, STopbarNeo, SUser } from "solstice-vue";
   import NavMenu from "@/components/_nav-menu.vue";
   import { useContextStore } from "@/stores/context";
-  // import { clearOverride } from "@/utils/data";
+  import { clearOverride } from "@/utils/data";
 
   export default {
     name: "PersonaInformationApp",
@@ -91,7 +97,7 @@
       const contextStore = useContextStore();
       return {
         contextStore,
-        // clearOverride,
+        clearOverride,
       };
     },
     data() {
@@ -107,6 +113,19 @@
       // document.title = this.pageTitle + " - " + this.appName;
       document.title = `${this.pageTitle} - ${this.appName}`;
     },
-    methods: {}
+    methods: {
+      clearUserOverride: function () {
+        this.clearOverride(this.contextStore.context.clearOverrideUrl)
+          .then((data) => {
+            console.log("Override cleared:", data);
+          })
+          .catch((error) => {
+            console.error("Error clearing override:", error);
+          })
+          .finally(() => {
+            window.location.href = this.contextStore.context.clearOverrideUrl;
+          });
+      },
+    },
   };
 </script>
