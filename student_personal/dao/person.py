@@ -17,7 +17,9 @@ class SPSPerson():
         us = UserService()
         if us.get_override_user() is not None:
             person = PWS().get_person_by_netid(us.get_user())
-            self.is_student = person.is_student
+            self.is_student = (
+                person.is_student and person.is_stud_state_current())
+            person.is_stud_state_current()
             self.display_name = person.display_name
             self.preferred_first_name = person.preferred_first_name
             self.preferred_surname = person.preferred_surname

@@ -31,7 +31,7 @@ if settings.DEBUG:
 urlpatterns += [
     # Photo API
     re_path(
-        r"^api/internal/photo/$",
+        r"^api/internal/photo/(?P<uwregid>[a-fA-F0-9]{32})$",
         PhotoView.as_view(),
         name="photo-api",
     ),
