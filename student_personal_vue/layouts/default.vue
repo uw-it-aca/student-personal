@@ -107,19 +107,6 @@
       // document.title = this.pageTitle + " - " + this.appName;
       document.title = `${this.pageTitle} - ${this.appName}`;
     },
-    methods: {
-      clearUserOverride: function () {
-        this.clearOverride(this.contextStore.context.clearOverrideUrl)
-          .then((data) => {
-            console.log("Override cleared:", data);
-          })
-          .catch((error) => {
-            console.error("Error clearing override:", error);
-          })
-          .finally(() => {
-            window.location.href = this.contextStore.context.clearOverrideUrl;
-          });
-      },
-    },
+    methods: {}
   };
 </script>
