@@ -27,6 +27,8 @@ class DefaultPageView(TemplateView):
         try:
             person = SPSPerson(self.request)
             context.update(person.get_view_context())
+            context["photoUrl"] = reverse("photo-api", kwargs={
+                "uwregid": person.uwregid})
         except DataFailureException as ex:
             logger.error(ex)
 
@@ -36,6 +38,5 @@ class DefaultPageView(TemplateView):
         context["signoutUrl"] = reverse("saml_logout")
         context["clearOverrideUrl"] = reverse("userservice_override")
         context["emergencyContactUrl"] = reverse("emergency-contact-api")
-        context["photoUrl"] = reverse("photo-api")
         context["debugMode"] = settings.DEBUG
         return context

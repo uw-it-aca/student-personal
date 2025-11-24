@@ -27,21 +27,33 @@ class EmergencyContactAPITest(ApiTest):
         self.assertEqual(response.status_code, 401, "Not authorized")
         self.assertEqual(response.content, b"Person is not a current student")
 
-    @mock.patch.object(ContactsList, "put_contacts")
-    def test_put(self, mock_put_contacts):
-        # Get some data
-        response = self.get_response("emergency-contact-api", "javerage")
-        olddata = json.loads(response.content.decode("utf-8"))
+    def test_put(self):
+        putdata = {"emergency_contacts": [{
+            "name": "Hank Average", "phoneNumber": "+12065551234",
+            "email": "haverage@example.com", "relationship": "Parent",
+        }, {
+            "name": "Jane Average", "phoneNumber": "+14255554321",
+            "email": "javg@example.com", "relationship": None,
+        }]}
 
         response = self.put_response("emergency-contact-api", "javerage",
-                                     data="{}")
+                                     data=json.dumps(putdata))
+        self.assertEqual(response.status_code, 200, "OK")
+        data = json.loads(response.content.decode("utf-8"))
+        self.assertEqual(len(data.get("emergency_contacts")), 2)
+
+        response = self.put_response("emergency-contact-api", "javerage",
+                                     data=json.dumps({}))
         self.assertEqual(response.status_code, 400, "No data")
 
-        response = self.put_response("emergency-contact-api", "javerage",
-                                     data="{\"emergency_contacts\": []}")
+        response = self.put_response(
+            "emergency-contact-api", "javerage", data=json.dumps(
+                {"emergency_contacts": []}
+            )
+        )
         self.assertEqual(response.status_code, 400, "Empty list")
 
         response = self.put_response(
-            "emergency-contact-api", "jstaff", data="{}")
+            "emergency-contact-api", "jstaff", data=json.dumps({}))
         self.assertEqual(response.status_code, 401, "Not authorized")
         self.assertEqual(response.content, b"Person is not a current student")

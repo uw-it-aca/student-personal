@@ -14,6 +14,10 @@ class PhotoView(BaseAPIView):
     date_format = "%a, %d %b %Y %H:%M:%S GMT"
 
     def get(self, request, *args, **kwargs):
+        """
+        Displays the UW photo for the signed-in user.  The uwregid in the photo
+        url is for cache-busting while user-override is activated.
+        """
         now = datetime.utcnow()
         expires = now + timedelta(seconds=self.cache_time)
         try:

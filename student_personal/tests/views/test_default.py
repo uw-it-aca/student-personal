@@ -37,7 +37,7 @@ class DefaultPageTest(TestCase):
             "isStudent": True,
             "loginUser": "javerage",
             "overrideUser": "javerage",
-            "photoUrl": "/api/internal/photo/",
+            "photoUrl": "/api/internal/photo/9136CCB8F66711D5BE060004AC494FFE",
             "preferredFirst": "James",
             "preferredSurname": "Average",
             "signoutUrl": "/saml/logout"
