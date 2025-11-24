@@ -18,16 +18,22 @@
       >
         {{ contextStore.context.displayName }}
         <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </SUser>
-      <SUser v-if="false"
-        :user-netid="contextStore.context.loginUser"
-        :user-override="( contextStore.context.overrideUser !== contextStore.context.loginUser) ? contextStore.context.overrideUser : null"
+        <template #action>
+          <a
+            v-if="contextStore.context.overrideUser !== contextStore.context.loginUser"
+            role="button"
+            class="link-quiet-danger"
+            @click="clearUserOverride()"
+            ><i class="bi bi-x-circle me-1"></i>Clear override</a
+          >
 
-        :signout-url="contextStore.context.signoutUrl"
-        :clear-override-url="contextStore.context.clearOverrideUrl"
-      >
-        {{ contextStore.context.displayName }}
-        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <a
+            v-else
+            :href="contextStore.context.signoutUrl"
+            class="link-quiet-danger"
+            ><i class="bi bi-x-circle me-1"></i>Sign out</a
+          >
+        </template>
       </SUser>
       <SColorMode color-class="text-white" class="ms-2"/>
     </template>
