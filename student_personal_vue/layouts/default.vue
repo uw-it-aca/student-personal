@@ -10,26 +10,25 @@
   >
     <template #settings>
       <SUser
-        v-if="
-        contextStore.context.overrideUser != contextStore.context.loginUser
-      "
         :user-netid="contextStore.context.loginUser"
-        :user-override="contextStore.context.overrideUser"
-        :photo-url="contextStore.context.photoUrl"
+        :user-override="( contextStore.context.overrideUser !== contextStore.context.loginUser) ? contextStore.context.overrideUser : null"
+        :photo-url="contextStore.context.isStudent ? contextStore.context.photoUrl : null"
         :signout-url="contextStore.context.signoutUrl"
         :clear-override-url="contextStore.context.clearOverrideUrl"
       >
-        i am the override in user, here is my info
+        {{ contextStore.context.displayName }}
+        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       </SUser>
-      <SUser
-        v-else
+      <SUser v-if="false"
         :user-netid="contextStore.context.loginUser"
-        :photo-url="contextStore.context.photoUrl"
-        :signout-url="contextStore.context.signoutUrl"
-      >
-        i am the logged in user, here is my info
-      </SUser>
+        :user-override="( contextStore.context.overrideUser !== contextStore.context.loginUser) ? contextStore.context.overrideUser : null"
 
+        :signout-url="contextStore.context.signoutUrl"
+        :clear-override-url="contextStore.context.clearOverrideUrl"
+      >
+        {{ contextStore.context.displayName }}
+        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </SUser>
       <SColorMode color-class="text-white" class="ms-2"/>
     </template>
 
