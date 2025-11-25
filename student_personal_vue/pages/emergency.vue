@@ -145,7 +145,7 @@
     },
     data() {
       return {
-        pageTitle: "Emergency Contacts",
+        pageTitle: "Your Contacts",
         emergencyContacts: [],
 
         // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
