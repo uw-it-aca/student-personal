@@ -1,6 +1,6 @@
 <template>
   <BButton
-    variant="quiet-danger"
+    variant="quiet-primary"
     class="me-1"
     size="sm"
     @click="showModal = !showModal"

@@ -13,34 +13,45 @@
         :user-netid="contextStore.context.loginUser"
         :user-override="( contextStore.context.overrideUser !== contextStore.context.loginUser) ? contextStore.context.overrideUser : null"
         :photo-url="contextStore.context.isStudent ? contextStore.context.photoUrl : null"
-        :signout-url="contextStore.context.signoutUrl"
-        :clear-override-url="contextStore.context.clearOverrideUrl"
       >
-        {{ contextStore.context.displayName }}
-        <p>lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="fw-bold mb-1">{{ contextStore.context.displayName }}</div>
+        <ul class="list-unstyled text-secondary">
+          <li>{{ contextStore.context.loginUser }}</li>
+          <li>he/him</li>
+          <li>9532403</li>
+        </ul>
+
+        <ul class="list-unstyled">
+          <li><a
+            href="https://identity.uw.edu"
+            class="link-dark"
+            ><i class="bi bi-pencil me-2"></i>Edit in Identity.UW</a
+          ></li>
+        </ul>
+
         <template #action>
           <a
             v-if="contextStore.context.overrideUser !== contextStore.context.loginUser"
             role="button"
             class="link-quiet-danger"
             @click="clearUserOverride()"
-            ><i class="bi bi-x-circle me-1"></i>Clear override</a
+            ><i class="bi bi-x-circle me-2"></i>Clear override</a
           >
 
           <a
             v-else
             :href="contextStore.context.signoutUrl"
             class="link-quiet-danger"
-            ><i class="bi bi-x-circle me-1"></i>Sign out</a
+            ><i class="bi bi-box-arrow-left me-2"></i>Sign out</a
           >
         </template>
       </SUser>
       <SColorMode color-class="text-white" class="ms-2"/>
     </template>
 
-    <template #navigation>
+    <!--<template #navigation>
       <NavMenu/>
-    </template>
+    </template>-->
 
     <!-- TODO: hide system messages if empty -->
     <template v-if="window.student_personal.messages.length > 0" #system>
@@ -61,10 +72,13 @@
     </template>
 
     <template #main>
-      <div class="row justify-content-center my-5">
-        <div class="col-6">
-          <h1 class="ff-encode-sans fw-bold mb-5">{{ pageTitle }}</h1>
+      <div class="row my-5">
+        <div class="col-9">
+          <h1 class="ff-encode-sans fw-semibold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>
+        </div>
+        <div class="col-3">
+          <slot name="sidebar"></slot>
         </div>
       </div>
     </template>
@@ -102,8 +116,8 @@
     },
     data() {
       return {
-        appName: "Personal Information",
-        deptName: "Student Personal Services",
+        appName: "Emergency Contacts",
+        // deptName: "Student Personal Services",
         appRootUrl: "/",
       };
     },
