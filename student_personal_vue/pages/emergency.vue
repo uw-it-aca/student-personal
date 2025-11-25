@@ -43,12 +43,12 @@
               <ContactRemove
                 v-if="this.emergencyContacts.length > 0"
                 :modal-data="this.emergencyContacts"
-                :is-primary=true
+                :is-primary="true"
               />
               <ContactModal
                 v-if="this.emergencyContacts.length > 0"
                 :modal-data="this.emergencyContacts"
-                :is-primary=true
+                :is-primary="true"
               />
             </div>
           </div>
@@ -104,6 +104,14 @@
           <ContactDetails :contact-details="this.parentContact"/>
         </div>
       </div>
+    </template>
+    <template #sidebar>
+      <p>
+        lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+        voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
+        elit. Quisquam, voluptatum.
+      </p>
     </template>
   </DefaultLayout>
 </template>
