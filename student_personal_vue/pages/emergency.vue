@@ -17,7 +17,6 @@
         </p>
       </div>
       <div v-else>
-        <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
         <p>
           It&rsquo;s important that UW has a way to contact a trusted individual
           (parent, friend, spouse etc.) about your safety, if an emergency
@@ -39,7 +38,7 @@
 
         <div class="mb-5">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="m-0">Primary</h3>
+            <h2 class="fs-3 m-0">Primary</h2>
             <div>
               <ContactRemove
                 v-if="this.emergencyContacts.length > 0"
@@ -64,7 +63,7 @@
 
         <div class="mb-5">
           <div class="d-flex justify-content-between align-items-center mb-3">
-            <h3 class="m-0">Secondary</h3>
+            <h2 class="fs-3 m-0">Secondary</h2>
             <div>
               <ContactRemove
                 v-if="this.emergencyContacts.length > 0"
@@ -138,7 +137,7 @@
     },
     data() {
       return {
-        pageTitle: "Additional Contacts",
+        pageTitle: "Emergency Contacts",
         emergencyContacts: [],
 
         // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
