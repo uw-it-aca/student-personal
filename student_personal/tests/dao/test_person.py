@@ -5,7 +5,8 @@ from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import User
 from django.contrib.sessions.backends.db import SessionStore
 from student_personal.dao.person import (
-    SPSPerson, UserService, PWS, is_overridable_uwnetid)
+    SPSPerson, UserService, PWS, is_overridable_uwnetid, can_override_user,
+    can_proxy_restclient, can_manage_persistent_messages)
 from student_personal.tests import MOCK_SAML_ATTRIBUTES
 from userservice.user import UserServiceMiddleware
 from uw_pws.util import fdao_pws_override
@@ -77,6 +78,47 @@ class PersonDAOTest(TestCase):
         sps = SPSPerson(request)
         photo = sps.get_photo()
         self.assertEqual(len(photo.read()), 4661)
+
+
+class AuthFunctionsTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def _get_request_for_user(self, netid):
+        user = User.objects.get_or_create(username=netid)[0]
+
+        session = SessionStore()
+        session["samlUserdata"] = MOCK_SAML_ATTRIBUTES.get(netid, {})
+        session.save()
+
+        request = self.factory.get("/")
+        request.user = user
+        request.session = session
+
+        UserServiceMiddleware().process_request(request)
+
+        return request
+
+    def test_can_override_user(self):
+        request = self._get_request_for_user("bill")
+        self.assertTrue(can_override_user(request))
+
+        request = self._get_request_for_user("jbothell")
+        self.assertFalse(can_override_user(request))
+
+    def test_can_proxy_restclient(self):
+        request = self._get_request_for_user("bill")
+        self.assertTrue(can_override_user(request))
+
+        request = self._get_request_for_user("jbothell")
+        self.assertFalse(can_override_user(request))
+
+    def test_can_manage_persistent_messages(self):
+        request = self._get_request_for_user("bill")
+        self.assertTrue(can_override_user(request))
+
+        request = self._get_request_for_user("jbothell")
+        self.assertFalse(can_override_user(request))
 
 
 @fdao_pws_override
