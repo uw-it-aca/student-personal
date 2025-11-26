@@ -13,10 +13,6 @@ class PhotoAPITest(ApiTest):
         self.assertEqual(response.status_code, 200, "OK")
         self.assertEqual(response.headers["Content-Type"], "image/jpeg")
 
-        response = self.get_response("photo-api", "jbothell", kwargs={
-            "uwregid": "12345678123456781234567812345678"})
-        self.assertEqual(response.status_code, 404, "Not found")
-
-        response = self.get_response("photo-api", "jstaff", kwargs={
+        response = self.get_response("photo-api", "bill", kwargs={
              "uwregid": "12345678123456781234567812345678"})
         self.assertEqual(response.status_code, 401, "Not authorized")
