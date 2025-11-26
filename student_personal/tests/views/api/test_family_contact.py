@@ -20,6 +20,6 @@ class FamilyContactAPITest(ApiTest):
         data = json.loads(response.content.decode("utf-8"))
         self.assertEqual(data.get("family_contact"), {})
 
-        response = self.get_response("family-contact-api", "jstaff")
+        response = self.get_response("family-contact-api", "bill")
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.content, b"Person is not a current student")

@@ -20,18 +20,19 @@ MOCK_SAML_ATTRIBUTES = {
         "preferredFirst": ["Jane"],
         "preferredSurname": ["Bothell"],
     },
-    "jstaff": {
-        "uwnetid": ["jstaff"],
-        "uwregid": ["9136CCB8F66711D5BE060004AC490000"],
-        "affiliations": ["staff", "member"],
-        "eppn": ["jstaff@uw.edu"],
+    "bill": {
+        "uwnetid": ["bill"],
+        "uwregid": ["FBB38FE46A7C11D5A4AE0004AC494FFE"],
+        "affiliations": ["staff", "alum", "member"],
+        "eppn": ["bill@uw.edu"],
         "scopedAffiliations": [
             "staff@washington.edu",
+            "alum@washington.edu",
             "member@washington.edu",
         ],
         "isMemberOf": ["u_test_group"],
-        "displayName": ["Jack Staff"],
-        "preferredFirst": ["Jack"],
-        "preferredSurname": ["Staff"],
+        "displayName": ["Bill Teacher"],
+        "preferredFirst": ["Bill"],
+        "preferredSurname": ["Teacher"],
     },
 }

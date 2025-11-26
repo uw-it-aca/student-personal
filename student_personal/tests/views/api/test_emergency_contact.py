@@ -12,22 +12,18 @@ import json
 @fdao_pws_override
 @fdao_sps_contacts_override
 class EmergencyContactAPITest(ApiTest):
-    def test_get(self):
+    def test_get_student(self):
         response = self.get_response("emergency-contact-api", "javerage")
         self.assertEqual(response.status_code, 200, "OK")
         data = json.loads(response.content.decode("utf-8"))
         self.assertEqual(len(data.get("emergency_contacts")), 2)
 
-        response = self.get_response("emergency-contact-api", "jbothell")
-        self.assertEqual(response.status_code, 200, "OK")
-        data = json.loads(response.content.decode("utf-8"))
-        self.assertEqual(len(data.get("emergency_contacts")), 2)
-
-        response = self.get_response("emergency-contact-api", "jstaff")
+    def test_get_staff(self):
+        response = self.get_response("emergency-contact-api", "bill")
         self.assertEqual(response.status_code, 401, "Not authorized")
         self.assertEqual(response.content, b"Person is not a current student")
 
-    def test_put(self):
+    def test_put_student(self):
         putdata = {"emergency_contacts": [{
             "name": "Hank Average", "phoneNumber": "+12065551234",
             "email": "haverage@example.com", "relationship": "Parent",
@@ -53,7 +49,8 @@ class EmergencyContactAPITest(ApiTest):
         )
         self.assertEqual(response.status_code, 400, "Empty list")
 
+    def test_put_staff(self):
         response = self.put_response(
-            "emergency-contact-api", "jstaff", data=json.dumps({}))
+            "emergency-contact-api", "bill", data=json.dumps({}))
         self.assertEqual(response.status_code, 401, "Not authorized")
         self.assertEqual(response.content, b"Person is not a current student")

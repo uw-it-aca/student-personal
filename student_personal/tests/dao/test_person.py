@@ -47,22 +47,28 @@ class PersonDAOTest(TestCase):
         sps = SPSPerson(request)
         mock_get_person_by_netid.assert_called_once_with("javerage")
 
-    @mock.patch("student_personal.dao.person.get_attribute")
-    def test_init_saml(self, mock_get_attribute):
+    def test_get_view_context_student(self):
         request = self._get_request_for_user("javerage")
-
-        sps = SPSPerson(request)
-        mock_get_attribute.assert_called_with(request, "uwregid")
-
-    def test_get_view_context(self):
-        request = self._get_request_for_user("javerage")
-
         sps = SPSPerson(request)
         self.assertEqual(sps.get_view_context(), {
-            "displayName": "James Average",
             "isStudent": True,
-            "preferredFirst": "James",
-            "preferredSurname": "Average"
+            "displayName": "Jamesy McJamesy",
+            "preferredFirst": "Jamesy",
+            "preferredSurname": "McJamesy",
+            "pronouns": None,
+            "studentNumber": "1033334",
+            "emergencyContactUrl": "/api/internal/emergency_contact/",
+            "photoUrl": "/api/internal/photo/9136CCB8F66711D5BE060004AC494FFE",
+        })
+
+    def test_get_view_context_staff(self):
+        request = self._get_request_for_user("bill")
+        sps = SPSPerson(request)
+        self.assertEqual(sps.get_view_context(), {
+            "isStudent": False,
+            "displayName": "Bill Teacher",
+            "preferredFirst": None,
+            "preferredSurname": None,
         })
 
     def test_get_photo(self):

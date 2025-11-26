@@ -69,10 +69,10 @@ SUPPORTTOOLS_PARENT_APP = "StudentPersonal"
 SUPPORTTOOLS_PARENT_APP_URL = "/"
 
 USERSERVICE_VALIDATION_MODULE = "student_personal.dao.person.is_overridable_uwnetid"
-USERSERVICE_OVERRIDE_AUTH_MODULE = "student_personal.dao.group.can_override_user"
-RESTCLIENTS_ADMIN_AUTH_MODULE = "student_personal.dao.group.can_proxy_restclient"
+USERSERVICE_OVERRIDE_AUTH_MODULE = "student_personal.dao.person.can_override_user"
+RESTCLIENTS_ADMIN_AUTH_MODULE = "student_personal.dao.person.can_proxy_restclient"
 PERSISTENT_MESSAGE_AUTH_MODULE = (
-    "student_personal.dao.group.can_manage_persistent_messages"
+    "student_personal.dao.person.can_manage_persistent_messages"
 )
 ALLOW_USER_OVERRIDE_FOR_WRITE = os.getenv("ENV", "localdev") != "prod"
 

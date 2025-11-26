@@ -1,8 +1,10 @@
 # Copyright 2025 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+from django.conf import settings
+from django.urls import reverse
 from uw_pws import PWS, InvalidNetID, DataFailureException
-from uw_saml.utils import get_attribute
+from uw_saml.utils import get_attribute, is_member_of_group
 from userservice.user import UserService
 from student_personal.exceptions import MissingStudentAffiliation
 
@@ -14,40 +16,60 @@ class SPSPerson():
     otherwise the SAML session will contain the asserted attributes.
     """
     def __init__(self, request):
-        us = UserService()
-        if us.get_override_user() is not None:
-            person = PWS().get_person_by_netid(us.get_user())
-            self.is_student = (
-                person.is_student and person.is_stud_state_current())
-            person.is_stud_state_current()
-            self.display_name = person.display_name
-            self.preferred_first_name = person.preferred_first_name
-            self.preferred_surname = person.preferred_surname
-            self.system_key = person.student_system_key
-            self.uwregid = person.uwregid
-        else:
-            self.is_student = "student" in get_attribute(
-                request, "affiliations")
-            self.display_name = get_attribute(request, "displayName")
-            self.preferred_first_name = get_attribute(
-                request, "preferredFirst")
-            self.preferred_surname = get_attribute(request, "preferredSurname")
-            self.system_key = get_attribute(request, "uwStudentSystemKey")
-            self.uwregid = get_attribute(request, "uwregid")
+        person = PWS().get_person_by_netid(UserService().get_user())
+
+        self.is_student = person.is_student and person.is_stud_state_current()
+        self.display_name = person.display_name
+        self.preferred_first_name = person.preferred_first_name
+        self.preferred_surname = person.preferred_surname
+        self.pronouns = person.pronouns
+        self.student_number = person.student_number
+        self.system_key = person.student_system_key
+        self.uwregid = person.uwregid
 
     def get_view_context(self):
-        return {
+        context = {
             "isStudent": self.is_student,
             "displayName": self.display_name,
             "preferredFirst": self.preferred_first_name,
             "preferredSurname": self.preferred_surname,
         }
 
+        if self.is_student:
+            context.update({
+                "pronouns": self.pronouns,
+                "studentNumber": self.student_number,
+                "photoUrl": reverse("photo-api", kwargs={
+                    "uwregid": self.uwregid}),
+                "emergencyContactUrl": reverse("emergency-contact-api"),
+            })
+
+        return context
+
     def get_photo(self, image_size="medium"):
         if not self.is_student:
             raise MissingStudentAffiliation()
 
         return PWS().get_idcard_photo(self.uwregid, size=image_size)
+
+
+"""
+Authorization functions that permit activities in dependent apps.
+"""
+
+
+def can_override_user(request):
+    return (is_member_of_group(request, settings.ADMIN_GROUP) or
+            is_member_of_group(request, settings.SUPPORT_GROUP))
+
+
+def can_proxy_restclient(request, service, url):
+    return (is_member_of_group(request, settings.ADMIN_GROUP) or
+            is_member_of_group(request, settings.SUPPORT_GROUP))
+
+
+def can_manage_persistent_messages(request):
+    return is_member_of_group(request, settings.ADMIN_GROUP)
 
 
 def is_overridable_uwnetid(username):
