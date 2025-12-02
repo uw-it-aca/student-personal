@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from student_personal.tests.views.api import ApiTest
-from student_personal.views.api.emergency_contact import ContactsList
 from uw_sps_contacts.utils import fdao_sps_contacts_override
 from uw_pws.util import fdao_pws_override
 import mock

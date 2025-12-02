@@ -1,0 +1,16 @@
+{
+    "parent_name": "Average, Hank",
+    "parent_address": {
+        "line_1": "C/O STUDENT TEAM",
+        "line_2": "UW TOWER O-3 BOX 359565",
+        "city": "SEATTLE",
+        "state": "WA",
+        "zip_5": "98195",
+        "zip_filler_b": null,
+        "phone_area": "206",
+        "phone_prefix": "444",
+        "phone_suffix": "4444",
+        "country": "",
+        "postal_cd": ""
+    }
+}
