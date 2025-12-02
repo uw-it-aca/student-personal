@@ -6,22 +6,12 @@ from student_personal.views.api import BaseAPIView
 from student_personal.exceptions import (
     MissingStudentAffiliation, InvalidContactList)
 from student_personal.dao.person import DataFailureException
-# from uw_sps_contacts import FamilyContact
+from uw_sps_contacts import FamilyContacts
 from logging import getLogger
 import uw_sps_contacts
 import json
 
 logger = getLogger(__name__)
-
-
-# TODO
-class FamilyContact():
-    def get(self):
-        pass
-
-
-uw_sps_contacts.FamilyContact = FamilyContact
-# TODO
 
 
 class FamilyContactView(BaseAPIView):
@@ -34,9 +24,11 @@ class FamilyContactView(BaseAPIView):
     def get(self, request):
         try:
             system_key = self.valid_user(request)
-            contact = FamilyContact().get_contact(system_key)
+            contact = FamilyContacts().get_contact(system_key)
             return self.response_ok(self._serialize(contact))
+
         except MissingStudentAffiliation as ex:
             return self.response_unauthorized(ex)
+
         except DataFailureException as ex:
             return HttpResponse(ex, status=ex.status)

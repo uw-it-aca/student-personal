@@ -6,7 +6,7 @@ from student_personal.views.api import BaseAPIView
 from student_personal.exceptions import (
     MissingStudentAffiliation, InvalidContactList, OverrideNotPermitted)
 from student_personal.dao.person import DataFailureException
-from uw_sps_contacts import ContactsList
+from uw_sps_contacts import EmergencyContacts
 from uw_sps_contacts.models import EmergencyContact
 from logging import getLogger
 import json
@@ -49,7 +49,7 @@ class EmergencyContactView(BaseAPIView):
     def get(self, request):
         try:
             system_key = self.valid_user(request)
-            contacts = ContactsList().get_contacts(system_key)
+            contacts = EmergencyContacts().get_contacts(system_key)
             return self.response_ok(self._serialize(contacts))
         except MissingStudentAffiliation as ex:
             return self.response_unauthorized(ex)
@@ -75,7 +75,8 @@ class EmergencyContactView(BaseAPIView):
             return self.response_badrequest(content=ex)
 
         try:
-            contacts = ContactsList().put_contacts(system_key, contact_list)
+            contacts = EmergencyContacts().put_contacts(
+                system_key, contact_list)
             return self.response_ok(self._serialize(contacts))
         except DataFailureException as ex:
             logger.error(f"PUT contacts failed for {system_key}: {ex}")
