@@ -35,6 +35,7 @@ class DefaultPageTest(TestCase):
             "debugMode": False,
             "displayName": "Jamesy McJamesy",
             "emergencyContactUrl": "/api/internal/emergency_contact/",
+            "familyContactUrl": "/api/internal/family_contact/",
             "isStudent": True,
             "loginUser": "javerage",
             "overrideUser": "javerage",

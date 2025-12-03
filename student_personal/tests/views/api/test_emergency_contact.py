@@ -16,6 +16,15 @@ class EmergencyContactAPITest(ApiTest):
         self.assertEqual(response.status_code, 200, "OK")
         data = json.loads(response.content.decode("utf-8"))
         self.assertEqual(len(data.get("emergency_contacts")), 2)
+        self.assertEqual(data.get("emergency_contacts")[0], {
+                "email": "haverage@example.com",
+                "id": "ab269f37-2807-4b10-b9d3-b5f7c602d45f",
+                "last_modified": "2025-11-11T21:28:40.180882",
+                "name": "Hank Average",
+                "phone_number": "+12065551234",
+                "relationship": "",
+                "syskey": "000083856"
+            })
 
     def test_get_staff(self):
         response = self.get_response("emergency-contact-api", "bill")

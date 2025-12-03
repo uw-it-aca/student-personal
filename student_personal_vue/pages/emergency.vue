@@ -101,7 +101,7 @@
         </p>
 
         <div class="my-3 mx-5">
-          <ContactDetails :contact-details="this.parentContact"/>
+          <FamilyContactDetails :contact="this.familyContact"/>
         </div>
       </div>
     </template>
@@ -119,13 +119,14 @@
 <script>
   import { BAlert } from "bootstrap-vue-next";
 
-  import ContactDetails from "@/components/contact-details.vue";
-  import ContactModal from "@/components/contact-modal.vue";
-  import ContactRemove from "@/components/contact-remove.vue";
+  import ContactDetails from "@/components/emergency/contact-details.vue";
+  import ContactModal from "@/components/emergency/contact-modal.vue";
+  import ContactRemove from "@/components/emergency/contact-remove.vue";
+  import FamilyContactDetails from "@/components/family/contact-details.vue";
   import DefaultLayout from "@/layouts/default.vue";
 
   import { useContextStore } from "@/stores/context";
-  import { getEmergencyContacts } from "@/utils/data";
+  import { getEmergencyContacts, getFamilyContact } from "@/utils/data";
 
   export default {
     name: "PagesEmergency",
@@ -135,50 +136,21 @@
       ContactModal,
       ContactRemove,
       DefaultLayout,
+      FamilyContactDetails,
     },
     setup() {
       const contextStore = useContextStore();
       return {
         contextStore,
         getEmergencyContacts,
+        getFamilyContact,
       };
     },
     data() {
       return {
         pageTitle: "Your Contacts",
         emergencyContacts: [],
-
-        // mock contacts list. expect list of 2 objects. secondary can be blank/empty if not provided
-        mockContacts: [
-          {
-            name: "Mommy Average",
-            phone: "+11234567890",
-            email: "john.average@example.com",
-            lastUpdated: new Date().toISOString(),
-          },
-          /*{
-          name: "Sister Average",
-          phone: "+569876543210",
-          email: "jane.smith@example.com",
-          relationship: "SIBLING",
-          lastUpdated: new Date().toISOString(),
-        },*/
-          {
-            name: "",
-            phone: "",
-            email: "",
-            relationship: "",
-            lastModified: null,
-          },
-        ],
-        // mock parent contact (separate api call?)
-        parentContact: {
-          name: "Daddy Average",
-          email: "parent@example.com",
-          //phoneNumber: "+442079460958", // uk example
-          //phoneNumber: "+861012345678", // china example
-          phoneNumber: "+912212345678 ", //india example
-        },
+        familyContact: null,
         errorResponse: null,
       };
     },
@@ -202,9 +174,19 @@
             this.errorResponse = error.data;
           });
       },
+      loadFamilyContact: function () {
+        this.getFamilyContact(this.contextStore.context.familyContactUrl)
+          .then((data) => {
+            this.familyContact = data.family_contact;
+          })
+          .catch((error) => {
+            this.errorResponse = error.data;
+          });
+      },
     },
     created() {
       this.loadEmergencyContacts();
+      this.loadFamilyContact();
     },
   };
 </script>

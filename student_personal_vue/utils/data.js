@@ -14,6 +14,10 @@ async function updateEmergencyContacts(url, data) {
   });
 }
 
+async function getFamilyContact(url) {
+  return useCustomFetch(url);
+}
+
 async function getPhoto(url) {
   return useCustomFetch(url);
 }
@@ -31,6 +35,7 @@ async function clearOverride(url) {
 export {
   getEmergencyContacts,
   updateEmergencyContacts,
+  getFamilyContact,
   getPhoto,
   clearOverride,
 };

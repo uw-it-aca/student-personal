@@ -3,7 +3,6 @@
   <!-- layout.vue: this is where you override the layout -->
   <STopbarNeo
     :app-name="appName"
-    :app-dept-name="deptName"
     :app-root-url="appRootUrl"
     :page-title="pageTitle"
     :background-class="'bg-body'"
@@ -117,7 +116,6 @@
     data() {
       return {
         appName: "Emergency Contacts",
-        // deptName: "Student Personal Services",
         appRootUrl: "/",
       };
     },
