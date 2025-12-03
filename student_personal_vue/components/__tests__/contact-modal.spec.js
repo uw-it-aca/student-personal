@@ -16,7 +16,7 @@ import {
 } from "bootstrap-vue-next";
 import { describe, expect, it } from "vitest";
 
-import ContactModal from "@/components/contact-modal.vue";
+import ContactModal from "@/components/emergency/contact-modal.vue";
 
 // Mock the SCountryCode component
 const SCountryCode = {

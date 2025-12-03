@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 
-import ContactDetails from "@/components/contact-details.vue";
+import ContactDetails from "@/components/emergency/contact-details.vue";
 
 describe("ContactDetails", () => {
   it("renders the contact details", () => {
