@@ -132,10 +132,11 @@
         </BFormText>
       </div>
 
+      <!--
       <div class="border p-2 small mb-3">
         <p>tempContacts:</p>
         <p>{{ this.tempContacts }}</p>
-      </div>
+      </div> -->
     </BForm>
 
     <template #footer>
@@ -278,7 +279,7 @@
 
       validateFullName() {
         // validate full name for latin characters only
-        const nameRegex = /^[a-zA-Z\s'-]+$/;
+        const nameRegex = /^[a-zA-Z0-9\s\.'-]+$/;
         this.fullNameState = nameRegex.test(this.fullName);
 
         // update contacts after validattion

@@ -42,6 +42,7 @@ class SPSPerson():
                 "photoUrl": reverse("photo-api", kwargs={
                     "uwregid": self.uwregid}),
                 "emergencyContactUrl": reverse("emergency-contact-api"),
+                "familyContactUrl": reverse("family-contact-api"),
             })
 
         return context

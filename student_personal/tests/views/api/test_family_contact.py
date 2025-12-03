@@ -18,7 +18,18 @@ class FamilyContactAPITest(ApiTest):
         data = json.loads(response.content.decode("utf-8"))
         self.assertEqual(data, {
             "family_contact": {
-                "name": "Average, Hank", "phone_number": "2064444444"}})
+                "address_line_1": "C/O STUDENT TEAM",
+                "address_line_2": "UW TOWER O-3 BOX 359565",
+                "city": "SEATTLE",
+                "country": "",
+                "name": "Average, Hank",
+                "phone_number": "+12064444444",
+                "postal_cd": "",
+                "state": "WA",
+                "zip_5": "98195",
+                "zip_filler_b": None
+            }
+        })
 
         response = self.get_response("family-contact-api", "bill")
         self.assertEqual(response.status_code, 401)

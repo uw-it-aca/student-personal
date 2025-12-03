@@ -19,7 +19,13 @@ class FamilyContactView(BaseAPIView):
         if contact is None:
             return json.dumps({"family_contact": None})
 
-        return json.dumps({"family_contact": contact.json_data()})
+        data = contact.json_data()
+        phone_number = data.get("phone_number", "")
+        if phone_number is not None and len(phone_number) == 10:
+            # Coerce phone number to US format
+            data["phone_number"] = "+1" + phone_number
+
+        return json.dumps({"family_contact": data})
 
     def get(self, request):
         try:

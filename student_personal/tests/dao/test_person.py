@@ -59,6 +59,7 @@ class PersonDAOTest(TestCase):
             "pronouns": None,
             "studentNumber": "1033334",
             "emergencyContactUrl": "/api/internal/emergency_contact/",
+            "familyContactUrl": "/api/internal/family_contact/",
             "photoUrl": "/api/internal/photo/9136CCB8F66711D5BE060004AC494FFE",
         })
 
