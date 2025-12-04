@@ -13,7 +13,7 @@
       <div>
         <ContactRemove
           v-if="emergencyContactStore.hasContacts" :is-primary="true" />
-        <ContactModal
+        <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="true"
           @reload="loadEmergencyContacts"
@@ -38,7 +38,7 @@
       <div>
         <ContactRemove
           v-if="emergencyContactStore.hasContacts" :is-primary="false" />
-        <ContactModal
+        <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="false"
           @reload="loadEmergencyContacts"
@@ -60,7 +60,7 @@
 
 <script>
   import ContactDetails from "@/components/emergency/contact-details.vue";
-  import ContactModal from "@/components/emergency/contact-modal.vue";
+  import ContactEdit from "@/components/emergency/contact-edit.vue";
   import ContactRemove from "@/components/emergency/contact-remove.vue";
   import { useContextStore } from "@/stores/context";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
@@ -71,7 +71,7 @@
     name: "EmergencyContacts",
     components: {
       ContactDetails,
-      ContactModal,
+      ContactEdit,
       ContactRemove,
       BAlert,
     },
