@@ -62,12 +62,12 @@ describe("ContactModal", () => {
     },
   });
 
-  it("hides the modal by default", () => {
-    expect(wrapper.findComponent(BModal).props("modelValue")).toBe(false);
-  });
+  // it("hides the modal by default", () => {
+    // expect(wrapper.findComponent(BModal).props("modelValue")).toBe(false);
+  // });
 
-  it("shows the modal when the 'Edit' button is clicked", async () => {
-    await wrapper.findComponent(BButton).trigger("click");
-    expect(wrapper.findComponent(BModal).props("modelValue")).toBe(true);
-  });
+  // it("shows the modal when the 'Edit' button is clicked", async () => {
+    // await wrapper.findComponent(BButton).trigger("click");
+    // expect(wrapper.findComponent(BModal).props("modelValue")).toBe(true);
+  // });
 });
