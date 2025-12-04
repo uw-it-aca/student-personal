@@ -16,7 +16,7 @@ import {
 } from "bootstrap-vue-next";
 import { describe, expect, it } from "vitest";
 
-import ContactModal from "@/components/emergency/contact-modal.vue";
+import ContactEdit from "@/components/emergency/contact-edit.vue";
 
 // Mock the SCountryCode component
 const SCountryCode = {
@@ -24,8 +24,13 @@ const SCountryCode = {
   emits: ["update:calling-code"],
 };
 
+<<<<<<< HEAD:student_personal_vue/components/__tests__/contact-modal.spec.js
 xdescribe("ContactModal", () => {
   const wrapper = mount(ContactModal, {
+=======
+describe("ContactModal", () => {
+  const wrapper = mount(ContactEdit, {
+>>>>>>> develop:student_personal_vue/components/emergency/__tests__/contact-edit.spec.js
     props: {
       modalData: [
         {

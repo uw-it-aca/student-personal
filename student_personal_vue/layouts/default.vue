@@ -15,9 +15,10 @@
       >
         <div class="fw-bold mb-1">{{ contextStore.context.displayName }}</div>
         <ul class="list-unstyled text-secondary">
-          <li>{{ contextStore.context.loginUser }}</li>
-          <li>he/him</li>
-          <li>9532403</li>
+          <li v-if="( contextStore.context.overrideUser !== contextStore.context.loginUser)">{{ contextStore.context.overrideUser }}</li>
+          <li v-else>{{ contextStore.context.loginUser }}</li>
+          <li v-if="contextStore.context.pronouns !== null" class="text-lowercase">{{ contextStore.context.pronouns }}</li>
+          <li>{{ contextStore.context.studentNumber }}</li>
         </ul>
 
         <ul class="list-unstyled">

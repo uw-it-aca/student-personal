@@ -29,7 +29,7 @@
           to date contact information.
         </p>
 
-        <EmergencyContacts />
+        <EmergencyContacts/>
 
         <hr class="my-5">
 
@@ -48,7 +48,7 @@
         </p>
 
         <div class="my-3 mx-5">
-          <FamilyContactDetails />
+          <FamilyContactDetails/>
         </div>
       </div>
     </template>
@@ -65,6 +65,9 @@
 
 <script>
   import { BAlert } from "bootstrap-vue-next";
+  import ContactDetails from "@/components/emergency/contact-details.vue";
+  import ContactEdit from "@/components/emergency/contact-edit.vue";
+  import ContactRemove from "@/components/emergency/contact-remove.vue";
   import EmergencyContacts from "@/components/emergency/default.vue";
   import FamilyContactDetails from "@/components/family/contact-details.vue";
   import DefaultLayout from "@/layouts/default.vue";
