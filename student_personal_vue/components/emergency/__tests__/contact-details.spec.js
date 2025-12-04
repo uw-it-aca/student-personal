@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import ContactDetails from "@/components/emergency/contact-details.vue";
 
-xdescribe("ContactDetails", () => {
+describe("ContactDetails", () => {
   it("renders the contact details", () => {
     const wrapper = mount(ContactDetails, {
       props: {

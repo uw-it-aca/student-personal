@@ -59,13 +59,13 @@
 </template>
 
 <script>
+  import { BAlert } from "bootstrap-vue-next";
   import ContactDetails from "@/components/emergency/contact-details.vue";
   import ContactEdit from "@/components/emergency/contact-edit.vue";
   import ContactRemove from "@/components/emergency/contact-remove.vue";
   import { useContextStore } from "@/stores/context";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
   import { getEmergencyContacts } from "@/utils/data";
-  import { BAlert } from "bootstrap-vue-next";
 
   export default {
     name: "EmergencyContacts",
