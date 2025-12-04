@@ -45,7 +45,7 @@
                 :modal-data="this.emergencyContacts"
                 :is-primary="true"
               />
-              <ContactModal
+              <ContactEdit
                 v-if="this.emergencyContacts.length > 0"
                 :modal-data="this.emergencyContacts"
                 :is-primary="true"
@@ -69,7 +69,7 @@
                 v-if="this.emergencyContacts.length > 0"
                 :modal-data="this.emergencyContacts"
               />
-              <ContactModal
+              <ContactEdit
                 v-if="this.emergencyContacts.length > 0"
                 :modal-data="this.emergencyContacts"
               />
@@ -120,7 +120,7 @@
   import { BAlert } from "bootstrap-vue-next";
 
   import ContactDetails from "@/components/emergency/contact-details.vue";
-  import ContactModal from "@/components/emergency/contact-modal.vue";
+  import ContactEdit from "@/components/emergency/contact-edit.vue";
   import ContactRemove from "@/components/emergency/contact-remove.vue";
   import FamilyContactDetails from "@/components/family/contact-details.vue";
   import DefaultLayout from "@/layouts/default.vue";
@@ -133,7 +133,7 @@
     components: {
       BAlert,
       ContactDetails,
-      ContactModal,
+      ContactEdit,
       ContactRemove,
       DefaultLayout,
       FamilyContactDetails,

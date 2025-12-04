@@ -16,7 +16,7 @@ import {
 } from "bootstrap-vue-next";
 import { describe, expect, it } from "vitest";
 
-import ContactModal from "@/components/emergency/contact-modal.vue";
+import ContactEdit from "@/components/emergency/contact-edit.vue";
 
 // Mock the SCountryCode component
 const SCountryCode = {
@@ -25,7 +25,7 @@ const SCountryCode = {
 };
 
 describe("ContactModal", () => {
-  const wrapper = mount(ContactModal, {
+  const wrapper = mount(ContactEdit, {
     props: {
       modalData: [
         {
