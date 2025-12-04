@@ -6,11 +6,10 @@
     v-model="showModal"
     no-close-on-backdrop
     no-close-on-esc
-    :title="this.isPrimary ? 'Primary' : 'Secondary'"
+    :title="modalTitle"
     body-class="px-5 py-4"
+    @close="cancelEdit"
   >
-
-     <p>primary: {{ this.isPrimary }}</p>
 
     <p>Required fields are indicated by *</p>
 
@@ -19,14 +18,14 @@
         <label for="" class="form-label fw-bold">Full name *</label>
         <BFormInput
           id="inputFullName"
-          v-model="fullName"
+          v-model="formName"
+          :state="stateName"
           class=""
-          :state="fullNameState"
           aria-describedby=""
           trim
           @blur="validateFullName"
         />
-        <BFormText v-if="fullNameState == null" id="">
+        <BFormText v-if="formName == null" id="">
           Field only supports Latin and Latin-type characters.
         </BFormText>
         <!-- This will only be shown if the preceding input has an invalid state -->
@@ -54,14 +53,14 @@
 
           <BFormInput
             id="inputPhoneNumber"
-            v-model="phoneNumber"
+            v-model="formPhone"
+            :state="statePhone"
             type="text"
-            :state="phoneNumberState"
             class="rounded-end"
             @blur="validatePhoneNumber"
           />
 
-          <BFormText v-if="phoneNumberState == null" id="">
+          <BFormText v-if="formPhone == null" id="">
             Please select appropriate country code. Number format examples:
             222-123-4567, 2221234567 or (222) 123-4567
           </BFormText>
@@ -87,8 +86,8 @@
       >
         <BFormInput
           id="inputEmailAddress"
-          v-model="emailAddress"
-          :state="emailAddressState"
+          v-model="formEmail"
+          :state="stateEmail"
           type="email"
           @blur="validateEmailAddress"
         />
@@ -102,9 +101,9 @@
         </label>
         <BFormSelect
           id="selectRelationshipChoice"
-          v-model="relationshipChoice"
+          v-model="formRelationship"
+          :state="stateRelationship"
           :options="relationshipOptions"
-          :state="relationshipState"
           @blur="validateRelationshipChoice"
         >
           <template #first>
@@ -120,10 +119,9 @@
       <div role="group" class="mb-3">
         <BFormCheckbox
           id="checkboxPrimaryContact"
-          v-model="primaryContactChoice"
+          v-model="formPrimary"
           :disabled="this.isPrimary"
           class="fw-bold"
-          @change="swapContacts"
         >
           Make this my primary contact
         </BFormCheckbox>
@@ -131,16 +129,10 @@
           If you have two contacts, you can choose which one is your primary.
         </BFormText>
       </div>
-
-      <!--
-      <div class="border p-2 small mb-3">
-        <p>tempContacts:</p>
-        <p>{{ this.tempContacts }}</p>
-      </div> -->
     </BForm>
 
     <template #footer>
-      <BButton variant="outline-primary" @click="cancelModal">Cancel</BButton>
+      <BButton variant="outline-primary" @click="cancelEdit">Cancel</BButton>
       <BButton variant="primary" @click="saveContact">Save</BButton>
     </template>
   </BModal>
@@ -163,6 +155,9 @@
   } from "bootstrap-vue-next";
   import { SCountryCode } from "solstice-vue";
   import { getSubscriberNumber } from "@/utils/phones";
+  import { useEmergencyContactStore } from "@/stores/emergency-contact";
+  import { useContextStore } from "@/stores/context";
+  import { updateEmergencyContacts } from "@/utils/data";
 
   export default {
     components: {
@@ -181,33 +176,28 @@
       BModal,
     },
     props: {
-      modalData: {
-        type: Array,
-        required: true,
-      },
       isPrimary: {
         type: Boolean,
-        default: false,
+        required: true,
       },
     },
+    emits: ["reload"],
     setup() {
+      const contextStore = useContextStore();
+      const emergencyContactStore = useEmergencyContactStore();
       return {
+        contextStore,
+        emergencyContactStore,
+        updateEmergencyContacts,
         getSubscriberNumber,
       };
     },
     data() {
       return {
         showModal: false,
-        fullName: "",
-        fullNameState: null,
+        errorResponse: null,
         emergencyCallingCode: "1", // default to US
-        phoneNumber: "",
-        phoneNumberState: null,
         formattedPhoneNumber: "",
-        emailAddress: "",
-        emailAddressState: null,
-        relationshipChoice: "",
-        relationshipState: null,
         relationshipOptions: [
           { value: "PARENT", text: "Parent" },
           { value: "GUARDIAN", text: "Guardian" },
@@ -216,182 +206,117 @@
           { value: "FRIEND", text: "Friend" },
           { value: "OTHER", text: "Other" },
         ],
-        primaryContactChoice: false,
-        tempContacts: [],
+        formName: "",
+        formEmail: "",
+        formPhone: "",
+        formRelationship: "",
+        formPrimary: false,
+        stateName: true,
+        stateEmail: true,
+        statePhone: true,
+        stateRelationship: true,
       };
     },
     mounted() {
-      this.loadContacts();
+      this.loadContact();
     },
-    computed: {},
+    computed: {
+      modalTitle() {
+        return this.isPrimary ? "Primary" : "Secondary";
+      },
+    },
     methods: {
-      loadContacts() {
-        this.tempContacts = this.modalData;
+      loadContact() {
+        let contact = this.isPrimary
+          ? this.emergencyContactStore.primary
+          : this.emergencyContactStore.secondary;
 
-        // load contacts from passed in prop
+        this.formName = contact.name;
+        this.formEmail = contact.email;
+        this.formPhone = contact.phone_number;
+        this.formRelationship = contact.relationship;
+        this.formPrimary = this.isPrimary;
 
-        if (this.isPrimary) {
-          this.fullName = this.tempContacts[0].name;
-
+        if (this.formPhone) {
           // check if phone number exists, get subscriber number only
-          if (this.tempContacts[0].phoneNumber) {
-            this.phoneNumber = this.getSubscriberNumber(
-              this.tempContacts[0].phoneNumber,
-            );
-          }
-
-          this.emailAddress = this.tempContacts[0].email;
-
-          // check if relationship exists
-          if (this.tempContacts[0].relationship) {
-            this.relationshipChoice = this.tempContacts[0].relationship;
-          }
-
-          this.primaryContactChoice = true;
-        } else {
-
-          this.fullName = this.tempContacts[1].name;
-
-          // check if phone number exists, get subscriber number only
-          if (this.tempContacts[1].phoneNumber) {
-            this.phoneNumber = this.getSubscriberNumber(
-              this.tempContacts[1].phoneNumber,
-            );
-          }
-
-          this.emailAddress = this.tempContacts[1].email;
-          // check if relationship exists
-          if (this.tempContacts[1].relationship) {
-            this.relationshipChoice = this.tempContacts[1].relationship;
-          }
-          this.primaryContactChoice = false;
+          this.phoneNumber = this.getSubscriberNumber(this.formPhone);
         }
       },
-
-      swapContacts() {
-        // swap the contacts in the tempContacts array
-        const reorderedContacts = [this.tempContacts[1], this.tempContacts[0]];
-        this.tempContacts[0] = reorderedContacts[0];
-        this.tempContacts[1] = reorderedContacts[1];
-        console.log("swapContacts");
-        console.log(this.tempContacts[0], this.tempContacts[1]);
-      },
-
       validateFullName() {
         // validate full name for latin characters only
         const nameRegex = /^[a-zA-Z0-9\s\.'-]+$/;
-        this.fullNameState = nameRegex.test(this.fullName);
-
-        // update contacts after validattion
-        if (this.isPrimary) {
-          this.tempContacts[0].name = this.fullName;
-        } else {
-          this.tempContacts[1].name = this.fullName;
-        }
+        this.stateName = nameRegex.test(this.formName);
       },
       validatePhoneNumber() {
         // validate phone number format
         const phoneRegex =
           /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
-        this.phoneNumberState = phoneRegex.test(this.phoneNumber);
+        this.statePhone = phoneRegex.test(this.formPhone);
 
         // additional step: format phone number to E.164
-        const phoneNum = this.phoneNumber.replace(/\D/g, "");
+        const phoneNum = this.formPhone.replace(/\D/g, "");
         const formatPhoneNum = `+${this.emergencyCallingCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
         this.formattedPhoneNumber = formatPhoneNum;
-
-        // update phone number after validation and formatting
-        if (this.isPrimary) {
-          this.tempContacts[0].phoneNumber = this.formattedPhoneNumber;
-        } else {
-          this.tempContacts[1].phoneNumber = this.formattedPhoneNumber;
-        }
       },
       validateEmailAddress() {
         // validate email address format
         const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        this.emailAddressState = emailRegex.test(this.emailAddress);
-
-        // update email after validattion
-        if (this.isPrimary) {
-          this.tempContacts[0].email = this.emailAddress;
-        } else {
-          this.tempContacts[1].email = this.emailAddress;
-        }
+        this.stateEmail = emailRegex.test(this.formEmail);
       },
       validateRelationshipChoice() {
         // validate relationship choice is not empty
-        this.relationshipState = this.relationshipChoice !== "";
-
-        // update relationship after validattion
-        if (this.isPrimary) {
-          this.tempContacts[0].relationsip = this.relationshipChoice;
-        } else {
-          this.tempContacts[1].relationship = this.relationshipChoice;
-        }
+        // TODO: check that value is actually in the options list
+        this.stateRelationship = this.formRelationship !== "";
       },
-
-      updateLastModified() {
-        // calculate last modified date
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, "0");
-        const day = String(now.getDate()).padStart(2, "0");
-        const hours = String(now.getHours()).padStart(2, "0");
-        const minutes = String(now.getMinutes()).padStart(2, "0");
-        const seconds = String(now.getSeconds()).padStart(2, "0");
-        const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
-
-        // add microseconds (JavaScript only gives ms, so append zeros)
-        const microseconds = `${milliseconds}000`;
-
-        // build ISO-like format
-        const lastModified = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${microseconds}`;
-
-        if (this.isPrimary) {
-          this.tempContacts[0].lastModified = lastModified;
-        } else {
-          this.tempContacts[1].lastModified = lastModified;
-        }
-      },
-
-      cancelModal() {
-        // reset state
-        this.fullNameState = null;
-        this.phoneNumberState = null;
-        this.emailAddressState = null;
-        this.relationshipState = null;
-
-        // force reload to clear state
-        window.location.reload();
-
+      cancelEdit() {
         // close the modal
         this.showModal = false;
+
+        // reset state
+        this.emergencyContactStore.$reset;
+        this.$emit("reload");
       },
 
       saveContact() {
+        let url = this.contextStore.context.emergencyContactUrl,
+          putData = {};
+
         // validate required fields
         this.validateFullName();
         this.validatePhoneNumber();
         this.validateEmailAddress();
         this.validateRelationshipChoice();
 
-        // update last modified date
-        this.updateLastModified();
-
-        // if validation state passes, save the contact data
-        if (
-          this.fullNameState &&
-          this.phoneNumberState &&
-          this.emailAddressState &&
-          this.relationshipState
-        ) {
-          console.log("saveContact");
-          console.log(this.tempContacts[0], this.tempContacts[1]);
-          //alert(JSON.stringify(this.tempContacts, null, 4));
-          // TODO: call API to save contact data
-          //this.showModal = false;
+        // Add the new data to the store object
+        if (this.stateName && this.statePhone && this.stateEmail &&
+             this.stateRelationship) {
+          this.emergencyContactStore.updateContact(
+            this.isPrimary, this.formName, this.formEmail, this.formPhone,
+            this.formRelationship);
+        } else {
+          return;
         }
+
+        // Reordering contacts?
+        if (!this.isPrimary && this.formPrimary) {
+          this.emergencyContactStore.reorder()
+        }
+
+        putData.emergency_contacts = this.emergencyContactStore.contacts;
+
+        this.updateEmergencyContacts(url, putData)
+          .then((data) => {
+            this.emergencyContactStore.contacts = data.emergency_contacts;
+
+            this.showModal = false;
+            this.emergencyContactStore.$reset;
+            this.$emit("reload");
+          })
+          .catch((error) => {
+            this.errorResponse = error.data;
+          })
+          .finally(() => {
+          });
       },
     },
   };

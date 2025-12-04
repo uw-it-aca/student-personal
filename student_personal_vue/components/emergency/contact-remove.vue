@@ -14,14 +14,14 @@
     title="Confirm Removal"
     body-class="px-5 py-4"
   >
-    <p>primary: {{ this.isPrimary }}</p>
+    <p>primary: {{ isPrimary }}</p>
     <p>
       Are you sure you want to remove
-      <template v-if="this.isPrimary">
-        <strong>{{ this.modalData[0].name }}</strong>
+      <template v-if="isPrimary">
+        <strong>{{ emergencyContactStore.primary.name }}</strong>
       </template>
       <template v-else>
-        <strong>{{ this.modalData[1].name }}</strong>
+        <strong>{{ emergencyContactStore.secondary.name }}</strong>
       </template>
       from your emergency contacts?
     </p>
@@ -33,11 +33,11 @@
 
     <div class="border p-2 small mb-3">
       <p>remove contact:</p>
-      <template v-if="this.isPrimary">
-        <p>{{ this.modalData[0] }}</p>
+      <template v-if="isPrimary">
+        <p>{{ emergencyContactStore.primary }}</p>
       </template>
       <template v-else>
-        <p>{{ this.modalData[1] }}</p>
+        <p>{{ emergencyContactStore.secondary }}</p>
       </template>
     </div>
 
@@ -50,6 +50,9 @@
 
 <script>
   import { BButton, BModal } from "bootstrap-vue-next";
+  import { useContextStore } from "@/stores/context";
+  import { useEmergencyContactStore } from "@/stores/emergency-contact";
+  import { updateEmergencyContacts } from "@/utils/data";
 
   export default {
     components: {
@@ -57,14 +60,19 @@
       BModal,
     },
     props: {
-      modalData: {
-        type: Array,
-        required: true,
-      },
       isPrimary: {
         type: Boolean,
-        default: false,
+        required: true,
       },
+    },
+    setup() {
+      const contextStore = useContextStore();
+      const emergencyContactStore = useEmergencyContactStore();
+      return {
+        contextStore,
+        emergencyContactStore,
+        updateEmergencyContacts,
+      };
     },
     data() {
       return {
@@ -72,12 +80,23 @@
       };
     },
     methods: {
-      cancelModal() {
-        // close the modal
+      cancelModal: function () {
         this.showModal = false;
       },
-      removeContact() {
-        // TODO: API call to remove contact
+      removeContact: function () {
+        let url = this.contextStore.context.emergencyContactUrl;
+
+        this.emergencyContactStore.removeContact(this.isPrimary);
+
+        this.updateEmergencyContacts(url, this.emergencyContactStore.contacts)
+          .then((data) => {
+            this.emergencyContactStore.contacts = data.emergency_contacts;
+          })
+          .catch((error) => {
+            this.errorResponse = error.data;
+          })
+          .finally(() => {
+          });
       },
     },
   };
