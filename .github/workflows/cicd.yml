@@ -143,8 +143,8 @@ jobs:
         run: npm install
 
       # Run Vue Coverage
-      - name: Run Vue Coverage
-        #  run: npm run coverage
+      #- name: Run Vue Coverage
+      #  run: npm run coverage
 
       # Upload Vue Coverage to Coveralls
       - name: Upload Vue Coverage to Coveralls
