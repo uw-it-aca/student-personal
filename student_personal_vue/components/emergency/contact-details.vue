@@ -1,15 +1,16 @@
 <template>
   <!-- check if contact details are empty -->
-  <ul v-if="contactDetails && contactDetails.name" class="list-unstyled">
-    <li>{{ contactDetails.name }}</li>
-    <li>{{ contactDetails.email }}</li>
-    <li v-if="contactDetails.phoneNumber !== null || contactDetails.phoneNumber.trim() !== ''">{{ formatPhoneNumber(contactDetails.phoneNumber) }}</li>
-    <li v-if="contactDetails.relationship">
-      {{ contactDetails.relationship }}
+  <ul v-if="contact && contact.name" class="list-unstyled">
+    <li>{{ contact.name }}</li>
+    <li>{{ contact.email }}</li>
+    <li v-if="hasPhoneNumber">
+      {{ formatPhoneNumber(contact.phone_number) }}
     </li>
-    <li v-if="contactDetails.lastModified" class="text-secondary fst-italic">
-      Last updated:
-      {{ formatDate(contactDetails.lastModified, "LLL") }}
+    <li v-if="contact.relationship">
+      {{ contact.relationship }}
+    </li>
+    <li v-if="contact.last_modified" class="text-secondary fst-italic">
+      Last updated: {{ formatDate(contact.last_modified, "LLL") }}
     </li>
   </ul>
   <div v-else class="text-secondary fst-italic">
@@ -23,8 +24,9 @@
 
   export default {
     props: {
-      contactDetails: {
+      contact: {
         type: Object,
+        required: true,
       },
     },
     setup() {
@@ -33,9 +35,13 @@
         formatPhoneNumber,
       };
     },
-    data() {
-      return {};
+    computed: {
+      hasPhoneNumber() {
+        return (
+          this.contact.phone_number !== null &&
+          this.contact.phone_number.trim() !== ""
+        );
+      },
     },
-    methods: {},
   };
 </script>
