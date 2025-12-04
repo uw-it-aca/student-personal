@@ -147,13 +147,13 @@ jobs:
       #  run: npm run coverage
 
       # Upload Vue Coverage to Coveralls
-      - name: Upload Vue Coverage to Coveralls
-        uses: coverallsapp/github-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: ./coverage/lcov.info
-          flag-name: student_personal_vue
-          parallel: true
+      #- name: Upload Vue Coverage to Coveralls
+      #  uses: coverallsapp/github-action@v2
+      #  with:
+      #    github-token: ${{ secrets.GITHUB_TOKEN }}
+      #    path-to-lcov: ./coverage/lcov.info
+      #    flag-name: student_personal_vue
+      #    parallel: true
 
       # Finalize Coveralls Parallel Build
       - name: Finish Coveralls Build
