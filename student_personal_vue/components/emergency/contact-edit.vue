@@ -154,7 +154,7 @@
     BModal,
   } from "bootstrap-vue-next";
   import { SCountryCode } from "solstice-vue";
-  import { getSubscriberNumber } from "@/utils/phones";
+  import { getSubscriberNumber, isValidSubscriberNumber } from "@/utils/phones";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
   import { useContextStore } from "@/stores/context";
   import { updateEmergencyContacts } from "@/utils/data";
@@ -190,6 +190,7 @@
         emergencyContactStore,
         updateEmergencyContacts,
         getSubscriberNumber,
+        isValidSubscriberNumber,
       };
     },
     data() {
@@ -233,14 +234,19 @@
 
         this.formName = contact.name;
         this.formEmail = contact.email;
-        this.formPhone = contact.phone_number;
+        //this.formPhone = contact.phone_number;
+        this.formPhone = this.getSubscriberNumber(contact.phone_number);
         this.formRelationship = contact.relationship;
         this.formPrimary = this.isPrimary;
 
-        if (this.formPhone) {
+       //if (this.formPhone) {
+          //console.log(this.formPhone);
           // check if phone number exists, get subscriber number only
-          this.phoneNumber = this.getSubscriberNumber(this.formPhone);
-        }
+          //this.phoneNumber = this.getSubscriberNumber(this.formPhone);
+          //console.log(this.phoneNumber);
+        //}
+        //
+
       },
       validateFullName() {
         // validate full name for latin characters only
@@ -248,12 +254,15 @@
         this.stateName = nameRegex.test(this.formName);
       },
       validatePhoneNumber() {
-        // validate phone number format
-        const phoneRegex =
-          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+        // validate phone number format (remove country codes if provided)
+        const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+        //const phoneRegex = /^[+]?[0-9]{1,3}[-\s.]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
         this.statePhone = phoneRegex.test(this.formPhone);
 
-        // additional step: format phone number to E.164
+        console.log(this.formPhone);
+        //this.statePhone = this.isValidSubscriberNumber(this.formPhone);
+
+        // additional step: format phone number to E.164 for saving to database
         const phoneNum = this.formPhone.replace(/\D/g, "");
         const formatPhoneNum = `+${this.emergencyCallingCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
         this.formattedPhoneNumber = formatPhoneNum;
@@ -266,7 +275,7 @@
       validateRelationshipChoice() {
         // validate relationship choice is not empty
         // TODO: check that value is actually in the options list
-        this.stateRelationship = this.formRelationship !== "";
+        this.stateRelationship = (this.formRelationship !== "" || this.formRelationship !== null);
       },
       cancelEdit() {
         // close the modal
@@ -274,7 +283,7 @@
 
         // reset state
         this.emergencyContactStore.$reset;
-        this.$emit("reload");
+        // this.$emit("reload");
       },
 
       saveContact() {
