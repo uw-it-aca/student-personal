@@ -1,4 +1,4 @@
-import { isValidPhoneNumber, parsePhoneNumber } from "libphonenumber-js";
+import { parsePhoneNumber } from "libphonenumber-js";
 
 function formatPhoneNumber(e164PhoneNumber) {
   try {
@@ -20,6 +20,15 @@ function formatPhoneNumber(e164PhoneNumber) {
     return null;
   }
 }
+function getCountryCode(phoneNumber, defaultCountry) {
+  try {
+    const parsed = parsePhoneNumber(phoneNumber, defaultCountry);
+    return parsed.countryCallingCode; // Returns '1', '44', etc.
+  } catch (error) {
+    console.error("Invalid phone number:", error.message);
+    return null;
+  }
+}
 
 function getSubscriberNumber(e164PhoneNumber) {
   try {
@@ -35,21 +44,4 @@ function getSubscriberNumber(e164PhoneNumber) {
   }
   return null;
 }
-
-function isValidSubscriberNumber(phoneNumber, defaultCountry = "US") {
-  try {
-    // Check if phone number has international prefix
-    const hasCountryCode = phoneNumber.trim().startsWith("+");
-    if (hasCountryCode) {
-      // Validate as international number
-      return isValidPhoneNumber(phoneNumber) === true;
-    } else {
-      // Validate as national number with default country
-      return isValidPhoneNumber(phoneNumber, defaultCountry) === true;
-    }
-  } catch (error) {
-    return false;
-  }
-}
-
-export { formatPhoneNumber, getSubscriberNumber, isValidSubscriberNumber };
+export { formatPhoneNumber, getCountryCode, getSubscriberNumber };

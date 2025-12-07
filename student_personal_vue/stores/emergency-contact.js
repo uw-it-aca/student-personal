@@ -20,7 +20,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
   },
   actions: {
     updateContact(isPrimary, name, email, phone, relationship) {
-      let idx = (isPrimary) ? 0 : 1;
+      let idx = isPrimary ? 0 : 1;
       this.contacts[idx].name = name;
       this.contacts[idx].email = email;
       this.contacts[idx].phone_number = phone;
@@ -30,7 +30,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       this.contacts.reverse();
     },
     removeContact(isPrimary) {
-      let idx = (isPrimary) ? 0 : 1;
+      let idx = isPrimary ? 0 : 1;
       this.contacts.splice(idx, 1);
     },
   },

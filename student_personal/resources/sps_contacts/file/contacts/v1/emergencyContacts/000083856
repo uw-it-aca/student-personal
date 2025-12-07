@@ -12,6 +12,6 @@
     "name": "Jane Average",
     "phoneNumber": "+8675582326560",
     "email": "javg@example.com",
-    "relationship": null,
+    "relationship": "PARENT",
     "lastModified": 1762896520.267776000
   }]
