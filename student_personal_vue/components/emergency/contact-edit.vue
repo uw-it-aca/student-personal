@@ -41,14 +41,14 @@
           Phone Number *
         </label>
         <BInputGroup>
-          <SCountryCode @update:calling-code="emergencyCallingCode = $event"/>
+          <SCountryCode v-model:calling-code="countryCode" />
           <BFormInput
             type="hidden"
-            name="emergencyCallingCode"
-            :value="emergencyCallingCode"
+            name="countryCode"
+            :value="countryCode"
           />
           <BInputGroupText class="border border-secondary">
-            +{{ emergencyCallingCode }}
+            +{{ countryCode }}
           </BInputGroupText>
 
           <BFormInput
@@ -71,7 +71,11 @@
         </BInputGroup>
       </div>
       <div class="border p-2 small mb-3">
-        formattedPhoneNumber: {{ formattedPhoneNumber }}
+        <ul class="list-unstyled m-0">
+          <li>Country: {{ countryCode }}</li>
+          <li>Subscriber: {{ formPhone }}</li>
+          <li>Formatted: {{ formattedPhoneNumber }} (submit to database)</li>
+        </ul>
       </div>
       <BFormInput
         type="hidden"
@@ -154,7 +158,7 @@
     BModal,
   } from "bootstrap-vue-next";
   import { SCountryCode } from "solstice-vue";
-  import { getSubscriberNumber, isValidSubscriberNumber } from "@/utils/phones";
+  import { getCountryCode, getSubscriberNumber } from "@/utils/phones";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
   import { useContextStore } from "@/stores/context";
   import { updateEmergencyContacts } from "@/utils/data";
@@ -189,15 +193,15 @@
         contextStore,
         emergencyContactStore,
         updateEmergencyContacts,
+        getCountryCode,
         getSubscriberNumber,
-        isValidSubscriberNumber,
       };
     },
     data() {
       return {
         showModal: false,
         errorResponse: null,
-        emergencyCallingCode: "1", // default to US
+        countryCode: "",
         formattedPhoneNumber: "",
         relationshipOptions: [
           { value: "PARENT", text: "Parent" },
@@ -212,10 +216,10 @@
         formPhone: "",
         formRelationship: "",
         formPrimary: false,
-        stateName: true,
-        stateEmail: true,
-        statePhone: true,
-        stateRelationship: true,
+        stateName: null,
+        stateEmail: null,
+        statePhone: null,
+        stateRelationship: null,
       };
     },
     mounted() {
@@ -232,20 +236,27 @@
           ? this.emergencyContactStore.primary
           : this.emergencyContactStore.secondary;
 
+        // set form fields from context AND set state
         this.formName = contact.name;
-        this.formEmail = contact.email;
-        //this.formPhone = contact.phone_number;
-        this.formPhone = this.getSubscriberNumber(contact.phone_number);
-        this.formRelationship = contact.relationship;
-        this.formPrimary = this.isPrimary;
+        this.stateName = this.formName !== "" || this.formName !== null;
 
-       //if (this.formPhone) {
-          //console.log(this.formPhone);
-          // check if phone number exists, get subscriber number only
-          //this.phoneNumber = this.getSubscriberNumber(this.formPhone);
-          //console.log(this.phoneNumber);
-        //}
-        //
+        this.formEmail = contact.email;
+        this.stateEmail = this.formEmail !== "" || this.formEmail !== null;
+
+        this.formPhone = contact.phone_number;
+        this.statePhone = this.formPhone !== "" || this.formPhone !== null;
+
+        this.countryCode = this.getCountryCode(contact.phone_number);
+        this.formPhone = this.getSubscriberNumber(contact.phone_number);
+
+        this.formRelationship = contact.relationship;
+        if (this.relationshipOptions.some(option => option.value === contact.relationship)) {
+          this.stateRelationship = true;
+        } else {
+          this.stateRelationship = null;
+        }
+
+        this.formPrimary = this.isPrimary;
 
       },
       validateFullName() {
@@ -254,17 +265,13 @@
         this.stateName = nameRegex.test(this.formName);
       },
       validatePhoneNumber() {
-        // validate phone number format (remove country codes if provided)
-        const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
-        //const phoneRegex = /^[+]?[0-9]{1,3}[-\s.]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im;
+        // validate phone number format, don't allow country + codes
+        const phoneRegex = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
         this.statePhone = phoneRegex.test(this.formPhone);
-
-        console.log(this.formPhone);
-        //this.statePhone = this.isValidSubscriberNumber(this.formPhone);
 
         // additional step: format phone number to E.164 for saving to database
         const phoneNum = this.formPhone.replace(/\D/g, "");
-        const formatPhoneNum = `+${this.emergencyCallingCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
+        const formatPhoneNum = `+${this.countryCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
         this.formattedPhoneNumber = formatPhoneNum;
       },
       validateEmailAddress() {
@@ -275,7 +282,12 @@
       validateRelationshipChoice() {
         // validate relationship choice is not empty
         // TODO: check that value is actually in the options list
-        this.stateRelationship = (this.formRelationship !== "" || this.formRelationship !== null);
+        if (this.relationshipOptions.some(option => option.value === this.formRelationship)) {
+          this.stateRelationship = true;
+        } else {
+          this.stateRelationship = false;
+        }
+
       },
       cancelEdit() {
         // close the modal
@@ -283,12 +295,10 @@
 
         // reset state
         this.emergencyContactStore.$reset;
-        // this.$emit("reload");
+        this.$emit("reload");
       },
 
       saveContact() {
-        let url = this.contextStore.context.emergencyContactUrl,
-          putData = {};
 
         // validate required fields
         this.validateFullName();
@@ -300,7 +310,7 @@
         if (this.stateName && this.statePhone && this.stateEmail &&
              this.stateRelationship) {
           this.emergencyContactStore.updateContact(
-            this.isPrimary, this.formName, this.formEmail, this.formPhone,
+            this.isPrimary, this.formName, this.formEmail, this.formattedPhoneNumber,
             this.formRelationship);
         } else {
           return;
@@ -311,17 +321,29 @@
           this.emergencyContactStore.reorder()
         }
 
-        putData.emergency_contacts = this.emergencyContactStore.contacts;
+        // check to see if contacts in store are updated
+        console.log('Contacts updated:', this.emergencyContactStore.contacts);
 
+        // initial for api put request
+        let url = this.contextStore.context.emergencyContactUrl;
+        let putData = {};
+        // putData.emergency_contacts = this.emergencyContactStore.contacts;
+        putData = this.emergencyContactStore.contacts;
+
+        console.log('putData:', putData);
+
+        // save date to database via api call
         this.updateEmergencyContacts(url, putData)
           .then((data) => {
-            this.emergencyContactStore.contacts = data.emergency_contacts;
-
+            console.log('Data received:', data);
+            //this.emergencyContactStore.contacts = data.emergency_contacts;
             this.showModal = false;
-            this.emergencyContactStore.$reset;
-            this.$emit("reload");
+            //this.emergencyContactStore.$reset;
+            //this.$emit("reload");
           })
           .catch((error) => {
+            console.log('Error:', error);
+            this.showModal = false;
             this.errorResponse = error.data;
           })
           .finally(() => {
