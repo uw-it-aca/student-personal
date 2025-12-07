@@ -10,7 +10,6 @@
     body-class="px-5 py-4"
     @close="cancelEdit"
   >
-
     <p>Required fields are indicated by *</p>
 
     <BForm novalidate>
@@ -41,12 +40,8 @@
           Phone Number *
         </label>
         <BInputGroup>
-          <SCountryCode v-model:calling-code="countryCode" />
-          <BFormInput
-            type="hidden"
-            name="countryCode"
-            :value="countryCode"
-          />
+          <SCountryCode v-model:calling-code="countryCode"/>
+          <BFormInput type="hidden" name="countryCode" :value="countryCode"/>
           <BInputGroupText class="border border-secondary">
             +{{ countryCode }}
           </BInputGroupText>
@@ -74,7 +69,7 @@
         <ul class="list-unstyled m-0">
           <li>Country: {{ countryCode }}</li>
           <li>Subscriber: {{ formPhone }}</li>
-          <li>Formatted: {{ formattedPhoneNumber }} (submit to database)</li>
+          <li>Formatted: {{ formattedPhoneNumber }}(submit to database)</li>
         </ul>
       </div>
       <BFormInput
@@ -250,14 +245,17 @@
         this.formPhone = this.getSubscriberNumber(contact.phone_number);
 
         this.formRelationship = contact.relationship;
-        if (this.relationshipOptions.some(option => option.value === contact.relationship)) {
+        if (
+          this.relationshipOptions.some(
+            (option) => option.value === contact.relationship,
+          )
+        ) {
           this.stateRelationship = true;
         } else {
           this.stateRelationship = null;
         }
 
         this.formPrimary = this.isPrimary;
-
       },
       validateFullName() {
         // validate full name for latin characters only
@@ -282,12 +280,15 @@
       validateRelationshipChoice() {
         // validate relationship choice is not empty
         // TODO: check that value is actually in the options list
-        if (this.relationshipOptions.some(option => option.value === this.formRelationship)) {
+        if (
+          this.relationshipOptions.some(
+            (option) => option.value === this.formRelationship,
+          )
+        ) {
           this.stateRelationship = true;
         } else {
           this.stateRelationship = false;
         }
-
       },
       cancelEdit() {
         // close the modal
@@ -299,54 +300,58 @@
       },
 
       saveContact() {
-
         // validate required fields
         this.validateFullName();
         this.validatePhoneNumber();
         this.validateEmailAddress();
         this.validateRelationshipChoice();
 
-        // Add the new data to the store object
-        if (this.stateName && this.statePhone && this.stateEmail &&
-             this.stateRelationship) {
+        // update the store
+        if (
+          this.stateName &&
+          this.statePhone &&
+          this.stateEmail &&
+          this.stateRelationship
+        ) {
           this.emergencyContactStore.updateContact(
-            this.isPrimary, this.formName, this.formEmail, this.formattedPhoneNumber,
-            this.formRelationship);
+            this.isPrimary,
+            this.formName,
+            this.formEmail,
+            this.formattedPhoneNumber,
+            this.formRelationship,
+          );
         } else {
           return;
         }
 
-        // Reordering contacts?
+        // reorder store
         if (!this.isPrimary && this.formPrimary) {
-          this.emergencyContactStore.reorder()
+          this.emergencyContactStore.reorder();
         }
 
         // check to see if contacts in store are updated
-        console.log('Contacts updated:', this.emergencyContactStore.contacts);
+        console.log("Store updated:", this.emergencyContactStore.contacts);
 
         // initial for api put request
         let url = this.contextStore.context.emergencyContactUrl;
         let putData = {};
-        // putData.emergency_contacts = this.emergencyContactStore.contacts;
-        putData = this.emergencyContactStore.contacts;
 
-        console.log('putData:', putData);
+        putData.emergency_contacts = this.emergencyContactStore.contacts;
+        console.log("putData:", putData);
 
         // save date to database via api call
         this.updateEmergencyContacts(url, putData)
           .then((data) => {
-            console.log('Data received:', data);
-            //this.emergencyContactStore.contacts = data.emergency_contacts;
+            console.log("Data received:", data); // Will now have the actual response data
             this.showModal = false;
-            //this.emergencyContactStore.$reset;
-            //this.$emit("reload");
           })
           .catch((error) => {
-            console.log('Error:', error);
+            console.log("Data saving error:", error);
             this.showModal = false;
             this.errorResponse = error.data;
           })
           .finally(() => {
+            console.log("finally");
           });
       },
     },
