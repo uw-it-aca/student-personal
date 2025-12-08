@@ -25,7 +25,7 @@ class FamilyContactAPITest(ApiTest):
                     "address_line_1": "C/O STUDENT TEAM",
                     "address_line_2": "UW TOWER O-3 BOX 359565",
                     "city": "SEATTLE",
-                    "country": "",
+                    "country": "91",
                     "name": "Average, Hank",
                     "phone_number": "+912212345678",
                     "postal_cd": "",
