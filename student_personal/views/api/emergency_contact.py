@@ -35,8 +35,8 @@ class EmergencyContactView(BaseAPIView):
 
         contacts = []
         for cdata in contact_data:
+            contact = EmergencyContact()
             for key, val in cdata.items():
-                contact = EmergencyContact()
                 setattr(contact, key, val)
             if not contact.is_empty():
                 contacts.append(contact)
