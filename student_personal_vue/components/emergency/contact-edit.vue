@@ -251,15 +251,9 @@
         }
 
         this.formRelationship = contact.relationship;
-        if (
-          this.relationshipOptions.some(
-            (option) => option.value === contact.relationship,
-          )
-        ) {
-          this.stateRelationship = true;
-        } else {
-          this.stateRelationship = null;
-        }
+        this.stateRelationship = this.relationshipOptions.some(
+          option => option.value === contact.relationship
+        ) ? true : null;
 
         this.formPrimary = this.isPrimary;
       },
@@ -286,16 +280,9 @@
       },
       validateRelationshipChoice() {
         // validate relationship choice is not empty
-        // TODO: check that value is actually in the options list
-        if (
-          this.relationshipOptions.some(
-            (option) => option.value === this.formRelationship,
-          )
-        ) {
-          this.stateRelationship = true;
-        } else {
-          this.stateRelationship = false;
-        }
+        this.stateRelationship = this.relationshipOptions.some(
+          option => option.value === this.formRelationship
+        );
       },
       cancelEdit() {
         // close the modal
