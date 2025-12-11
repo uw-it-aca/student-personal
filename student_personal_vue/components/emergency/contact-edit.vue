@@ -227,7 +227,6 @@
     },
     methods: {
       loadContact() {
-        console.log("isPrimary: " + this.isPrimary);
 
         let contact = this.isPrimary
           ? this.emergencyContactStore.primary
@@ -252,8 +251,10 @@
 
         this.formRelationship = contact.relationship;
         this.stateRelationship = this.relationshipOptions.some(
-          option => option.value === contact.relationship
-        ) ? true : null;
+          (option) => option.value === contact.relationship,
+        )
+          ? true
+          : null;
 
         this.formPrimary = this.isPrimary;
       },
@@ -265,7 +266,6 @@
       validatePhoneNumber() {
         // validate phone number format, don't allow country + codes
         const phoneRegex = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
-        console.log(phoneRegex.test(this.formPhone));
         this.statePhone = phoneRegex.test(this.formPhone);
 
         // additional step: format phone number to E.164 for saving to database
@@ -281,7 +281,7 @@
       validateRelationshipChoice() {
         // validate relationship choice is not empty
         this.stateRelationship = this.relationshipOptions.some(
-          option => option.value === this.formRelationship
+          (option) => option.value === this.formRelationship,
         );
       },
       cancelEdit() {
