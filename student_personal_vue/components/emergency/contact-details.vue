@@ -10,7 +10,7 @@
       {{ contact.relationship }}
     </li>
     <li v-if="contact.last_modified" class="text-secondary fst-italic">
-      Last updated: {{ formatDate(contact.last_modified, "LLL") }}
+      Last updated: {{ formatUTCToLocalDate(contact.last_modified, "LLL") }}
     </li>
   </ul>
   <div v-else class="text-secondary fst-italic">
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import { formatDate } from "@/utils/dates";
+  import { formatUTCToLocalDate } from "@/utils/dates";
   import { formatPhoneNumber } from "@/utils/phones";
 
   export default {
@@ -31,7 +31,7 @@
     },
     setup() {
       return {
-        formatDate,
+        formatUTCToLocalDate,
         formatPhoneNumber,
       };
     },
