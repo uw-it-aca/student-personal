@@ -31,6 +31,25 @@ class EmergencyContactAPITest(ApiTest):
         self.assertEqual(response.status_code, 401, "Not authorized")
         self.assertEqual(response.content, b"Person is not a current student")
 
+    def test_validate_emergency_contacts(self):
+        from student_personal.views.api.emergency_contact import (
+            EmergencyContactView, InvalidContactList)
+        putdata = {"emergency_contacts": [{
+            "name": "Hank Average", "phoneNumber": "+12065551234",
+            "email": "haverage@example.com", "relationship": "Parent",
+        }, {
+            "name": "Jane Average", "phoneNumber": "+14255554321",
+            "email": "javg@example.com", "relationship": None,
+        }]}
+
+        contacts = EmergencyContactView()._validate(
+            "000083856", putdata["emergency_contacts"])
+        self.assertNotEqual("", contacts[0].syskey)
+        self.assertNotEqual("", contacts[1].syskey)
+        self.assertEqual("000083856", contacts[0].syskey)
+        self.assertEqual("000083856", contacts[1].syskey)
+        self.assertEqual(contacts[0].syskey, contacts[1].syskey)
+
     def test_put_student(self):
         putdata = {"emergency_contacts": [{
             "name": "Hank Average", "phoneNumber": "+12065551234",
