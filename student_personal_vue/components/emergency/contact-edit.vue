@@ -235,14 +235,12 @@
 
         // set form fields from context AND set state
         this.formName = contact.name;
-        this.stateName = this.formName !== "";
+        this.stateName = this.formName !== "" ? true : null;
 
         this.formEmail = contact.email;
-        this.stateEmail = this.formEmail !== "" || this.formEmail !== null;
+        this.stateEmail = this.formEmail !== "" ? true : null;
 
         this.formPhone = contact.phone_number;
-        //this.statePhone = this.formPhone !== "" || this.formPhone !== null;
-
         if (this.formPhone !== "") {
           this.countryCode = this.getCountryCode(contact.phone_number);
           this.formPhone = this.getSubscriberNumber(contact.phone_number);
