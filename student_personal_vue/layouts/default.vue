@@ -73,11 +73,11 @@
 
     <template #main>
       <div class="row my-5">
-        <div class="col-9">
+        <div class="col-md-9">
           <h1 class="ff-encode-sans fw-semibold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>
         </div>
-        <div class="col-3">
+        <div class="col-md-3">
           <slot name="sidebar"></slot>
         </div>
       </div>
