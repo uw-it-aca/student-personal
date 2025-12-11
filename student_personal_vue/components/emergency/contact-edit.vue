@@ -268,7 +268,7 @@
         const phoneRegex = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
         this.statePhone = phoneRegex.test(this.formPhone);
 
-        // additional step: format phone number to E.164 for saving to database
+        // additional step: format phone back to E.164 (add +) before saving
         const phoneNum = this.formPhone.replace(/\D/g, "");
         const formatPhoneNum = `+${this.countryCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
         this.formattedPhoneNumber = formatPhoneNum;
