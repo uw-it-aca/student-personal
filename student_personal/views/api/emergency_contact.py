@@ -29,7 +29,7 @@ class EmergencyContactView(BaseAPIView):
             "emergency_contacts": [c.json_data() for c in contacts]
         })
 
-    def _validate(self, contact_data=[]):
+    def _validate(self, system_key, contact_data=[]):
         if not len(contact_data) == self.CONTACT_LIMIT:
             raise InvalidContactList()
 
@@ -38,6 +38,11 @@ class EmergencyContactView(BaseAPIView):
             contact = EmergencyContact()
             for key, val in cdata.items():
                 setattr(contact, key, val)
+            #TODO: I'm not entirely happy with this approach
+            # Creating a new emergency contact (secondary) gets rejected with
+            # no syskey.
+            if contact.syskey == "":
+                contact.syskey = system_key
             if not contact.is_empty():
                 contacts.append(contact)
 
@@ -68,7 +73,7 @@ class EmergencyContactView(BaseAPIView):
         contact_list = []
         try:
             request_data = json.loads(request.body).get("emergency_contacts")
-            contact_list = self._validate(request_data)
+            contact_list = self._validate(system_key, request_data)
         except InvalidContactList as ex:
             return self.response_badrequest(content=ex)
         except Exception as ex:
