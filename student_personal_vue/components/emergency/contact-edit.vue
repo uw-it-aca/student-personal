@@ -12,7 +12,7 @@
   >
     <p>Required fields are indicated by *</p>
 
-    <BForm novalidate>
+    <BForm novalidate autocomplete="off">
       <div role="group" class="mb-3">
         <label for="" class="form-label fw-bold">Full name *</label>
         <BFormInput
@@ -69,7 +69,7 @@
         <ul class="list-unstyled m-0">
           <li>Country: {{ countryCode }}</li>
           <li>Subscriber: {{ formPhone }}</li>
-          <li>Formatted: {{ formattedPhoneNumber }}(submit to database)</li>
+          <li>Formatted: {{ formattedPhoneNumber }} (submit to database)</li>
         </ul>
       </div>
       <BFormInput
@@ -227,22 +227,30 @@
     },
     methods: {
       loadContact() {
+        console.log("isPrimary: " + this.isPrimary);
+
         let contact = this.isPrimary
           ? this.emergencyContactStore.primary
           : this.emergencyContactStore.secondary;
 
         // set form fields from context AND set state
         this.formName = contact.name;
-        this.stateName = this.formName !== "" || this.formName !== null;
+        this.stateName = this.formName !== "";
 
         this.formEmail = contact.email;
         this.stateEmail = this.formEmail !== "" || this.formEmail !== null;
 
         this.formPhone = contact.phone_number;
-        this.statePhone = this.formPhone !== "" || this.formPhone !== null;
+        //this.statePhone = this.formPhone !== "" || this.formPhone !== null;
 
-        this.countryCode = this.getCountryCode(contact.phone_number);
-        this.formPhone = this.getSubscriberNumber(contact.phone_number);
+        if (this.formPhone !== "") {
+          this.countryCode = this.getCountryCode(contact.phone_number);
+          this.formPhone = this.getSubscriberNumber(contact.phone_number);
+          this.statePhone = true;
+        } else {
+          this.countryCode = "1"; // manually to US if phone is empty string
+          this.statePhone = null;
+        }
 
         this.formRelationship = contact.relationship;
         if (
@@ -265,6 +273,7 @@
       validatePhoneNumber() {
         // validate phone number format, don't allow country + codes
         const phoneRegex = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
+        console.log(phoneRegex.test(this.formPhone));
         this.statePhone = phoneRegex.test(this.formPhone);
 
         // additional step: format phone number to E.164 for saving to database
