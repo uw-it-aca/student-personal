@@ -38,10 +38,7 @@ class EmergencyContactView(BaseAPIView):
             contact = EmergencyContact()
             for key, val in cdata.items():
                 setattr(contact, key, val)
-            #TODO: I'm not entirely happy with this approach
-            # Creating a new emergency contact (secondary) gets rejected with
-            # no syskey.
-            if contact.syskey == "":
+            if not contact.syskey:
                 contact.syskey = system_key
             if not contact.is_empty():
                 contacts.append(contact)
