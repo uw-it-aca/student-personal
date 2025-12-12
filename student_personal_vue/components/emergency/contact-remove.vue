@@ -18,10 +18,10 @@
     <p>
       Are you sure you want to remove
       <template v-if="isPrimary">
-        <strong>{{ emergencyContactStore.primary.name }}</strong>
+        <strong v-if="emergencyContactStore.primary">{{ emergencyContactStore.primary.name }}</strong>
       </template>
       <template v-else>
-        <strong>{{ emergencyContactStore.secondary.name }}</strong>
+        <strong v-if="emergencyContactStore.secondary">{{ emergencyContactStore.secondary.name }}</strong>
       </template>
       from your emergency contacts?
     </p>
@@ -91,6 +91,7 @@
         this.updateEmergencyContacts(url, this.emergencyContactStore.contacts)
           .then((data) => {
             this.emergencyContactStore.contacts = data.emergency_contacts;
+            // this.showModal = false;
           })
           .catch((error) => {
             this.errorResponse = error.data;
