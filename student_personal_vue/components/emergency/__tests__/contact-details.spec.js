@@ -7,11 +7,11 @@ describe("ContactDetails", () => {
   it("renders the contact details", () => {
     const wrapper = mount(ContactDetails, {
       props: {
-        contactDetails: {
+        contact: {
           name: "Hank Average",
           email: "haverage@example.com",
-          phoneNumber: "+12065551234",
-          lastModified: "2025-11-12T05:28:00Z",
+          phone_number: "+12065551234",
+          last_modified: "2025-11-12T05:28:00Z",
         },
       },
     });

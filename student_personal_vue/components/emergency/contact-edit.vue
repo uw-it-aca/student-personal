@@ -12,7 +12,7 @@
   >
     <p>Required fields are indicated by *</p>
 
-    <BForm novalidate>
+    <BForm novalidate autocomplete="off">
       <div role="group" class="mb-3">
         <label for="" class="form-label fw-bold">Full name *</label>
         <BFormInput
@@ -69,7 +69,7 @@
         <ul class="list-unstyled m-0">
           <li>Country: {{ countryCode }}</li>
           <li>Subscriber: {{ formPhone }}</li>
-          <li>Formatted: {{ formattedPhoneNumber }}(submit to database)</li>
+          <li>Formatted: {{ formattedPhoneNumber }} (submit to database)</li>
         </ul>
       </div>
       <BFormInput
@@ -227,33 +227,34 @@
     },
     methods: {
       loadContact() {
+
         let contact = this.isPrimary
           ? this.emergencyContactStore.primary
           : this.emergencyContactStore.secondary;
 
         // set form fields from context AND set state
         this.formName = contact.name;
-        this.stateName = this.formName !== "" || this.formName !== null;
+        this.stateName = this.formName !== "" ? true : null;
 
         this.formEmail = contact.email;
-        this.stateEmail = this.formEmail !== "" || this.formEmail !== null;
+        this.stateEmail = this.formEmail !== "" ? true : null;
 
         this.formPhone = contact.phone_number;
-        this.statePhone = this.formPhone !== "" || this.formPhone !== null;
-
-        this.countryCode = this.getCountryCode(contact.phone_number);
-        this.formPhone = this.getSubscriberNumber(contact.phone_number);
+        if (this.formPhone !== "") {
+          this.countryCode = this.getCountryCode(contact.phone_number);
+          this.formPhone = this.getSubscriberNumber(contact.phone_number);
+          this.statePhone = true;
+        } else {
+          this.countryCode = "1"; // manually to US if phone is empty string
+          this.statePhone = null;
+        }
 
         this.formRelationship = contact.relationship;
-        if (
-          this.relationshipOptions.some(
-            (option) => option.value === contact.relationship,
-          )
-        ) {
-          this.stateRelationship = true;
-        } else {
-          this.stateRelationship = null;
-        }
+        this.stateRelationship = this.relationshipOptions.some(
+          (option) => option.value === contact.relationship,
+        )
+          ? true
+          : null;
 
         this.formPrimary = this.isPrimary;
       },
@@ -267,7 +268,7 @@
         const phoneRegex = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
         this.statePhone = phoneRegex.test(this.formPhone);
 
-        // additional step: format phone number to E.164 for saving to database
+        // additional step: format phone back to E.164 (add +) before saving
         const phoneNum = this.formPhone.replace(/\D/g, "");
         const formatPhoneNum = `+${this.countryCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
         this.formattedPhoneNumber = formatPhoneNum;
@@ -279,16 +280,9 @@
       },
       validateRelationshipChoice() {
         // validate relationship choice is not empty
-        // TODO: check that value is actually in the options list
-        if (
-          this.relationshipOptions.some(
-            (option) => option.value === this.formRelationship,
-          )
-        ) {
-          this.stateRelationship = true;
-        } else {
-          this.stateRelationship = false;
-        }
+        this.stateRelationship = this.relationshipOptions.some(
+          (option) => option.value === this.formRelationship,
+        );
       },
       cancelEdit() {
         // close the modal
