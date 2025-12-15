@@ -23,11 +23,13 @@ function formatPhoneNumber(e164PhoneNumber) {
 function getCountryCode(phoneNumber, defaultCountry) {
   try {
     const parsed = parsePhoneNumber(phoneNumber, defaultCountry);
-    return parsed.countryCallingCode; // Returns '1', '44', etc.
+    if (parsed?.isValid()) {
+      return parsed.countryCallingCode; // Returns '1', '44', etc.
+    }
   } catch (error) {
     console.error("Invalid phone number:", error.message);
-    return null;
   }
+  return null;
 }
 
 function getSubscriberNumber(e164PhoneNumber) {

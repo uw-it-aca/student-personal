@@ -69,7 +69,7 @@
         <ul class="list-unstyled m-0">
           <li>Country: {{ countryCode }}</li>
           <li>Subscriber: {{ formPhone }}</li>
-          <li>Formatted: {{ formattedPhoneNumber }} (submit to database)</li>
+          <li>Formatted: {{ formattedPhoneNumber }}(submit to database)</li>
         </ul>
       </div>
       <BFormInput
@@ -77,12 +77,9 @@
         name="formattedPhoneNumber"
         :value="formattedPhoneNumber"
       />
-      <BFormGroup
-        label="Email *"
-        label-class="fw-bold"
-        :state="false"
-        class="mb-3"
-      >
+
+      <div role="group" class="mb-3">
+        <label for="" class="form-label fw-bold">Email *</label>
         <BFormInput
           id="inputEmailAddress"
           v-model="formEmail"
@@ -92,7 +89,7 @@
         />
         <!-- This will only be shown if the preceding input has an invalid state -->
         <BFormInvalidFeedback id="">Please add an email.</BFormInvalidFeedback>
-      </BFormGroup>
+      </div>
 
       <div role="group" class="mb-3">
         <label for="selectRelationshipChoice" class="form-label fw-bold">
@@ -142,7 +139,6 @@
     BButton,
     BForm,
     BFormCheckbox,
-    BFormGroup,
     BFormInput,
     BFormInvalidFeedback,
     BFormSelect,
@@ -161,17 +157,16 @@
   export default {
     components: {
       SCountryCode,
+      BButton,
       BForm,
-      BFormGroup,
-      BInputGroup,
-      BInputGroupText,
       BFormInput,
       BFormInvalidFeedback,
       BFormText,
       BFormSelect,
       BFormSelectOption,
       BFormCheckbox,
-      BButton,
+      BInputGroup,
+      BInputGroupText,
       BModal,
     },
     props: {
@@ -227,7 +222,6 @@
     },
     methods: {
       loadContact() {
-
         let contact = this.isPrimary
           ? this.emergencyContactStore.primary
           : this.emergencyContactStore.secondary;
