@@ -13,15 +13,16 @@
     no-close-on-esc
     title="Confirm Removal"
     body-class="px-5 py-4"
+    @close="cancelModal"
   >
     <p>primary: {{ isPrimary }}</p>
     <p>
       Are you sure you want to remove
       <template v-if="isPrimary">
-        <strong>{{ emergencyContactStore.primary.name }}</strong>
+        <strong v-if="emergencyContactStore.primary">{{ emergencyContactStore.primary.name }}</strong>
       </template>
       <template v-else>
-        <strong>{{ emergencyContactStore.secondary.name }}</strong>
+        <strong v-if="emergencyContactStore.secondary">{{ emergencyContactStore.secondary.name }}</strong>
       </template>
       from your emergency contacts?
     </p>
@@ -93,9 +94,12 @@
             this.emergencyContactStore.contacts = data.emergency_contacts;
           })
           .catch((error) => {
+            console.log("catch error");
             this.errorResponse = error.data;
+            this.showModal = false;
           })
           .finally(() => {
+            console.log("finally");
           });
       },
     },
