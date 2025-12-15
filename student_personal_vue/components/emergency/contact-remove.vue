@@ -92,6 +92,7 @@
         this.updateEmergencyContacts(url, this.emergencyContactStore.contacts)
           .then((data) => {
             this.emergencyContactStore.contacts = data.emergency_contacts;
+            // this.showModal = false;
           })
           .catch((error) => {
             console.log("catch error");
