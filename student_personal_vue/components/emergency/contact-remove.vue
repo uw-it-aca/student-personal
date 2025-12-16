@@ -23,7 +23,7 @@
         <div>Your request could not be processed.</div>
       </BAlert>
       <p>
-        We couldn’t complete your request to delete this item. Please check the
+        We couldn’t complete your request to delete this contact. Please check the
         following:
       </p>
       <ul>
