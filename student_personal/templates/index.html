@@ -5,7 +5,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="icon" href="{% static 'student_personal/img/favicon.png' %}">
 
     <!-- google fonts -->
@@ -25,11 +26,25 @@
     <!-- vite css bundle -->
     {% vite_styles 'student_personal_vue/main.js' %}
   </head>
-  <body class="bg-body ff-open-sans">
+  <body class="bg-spirit-purple ff-open-sans">
     {% csrf_token %}
     <!-- vue app will be injected here -->
-    <div id="app"></div>
+    <div id="app" class="bg-body"></div>
     <!-- vite js bundle -->
     {% vite_scripts 'student_personal_vue/main.js' %}
+
+    <script>
+      window.addEventListener('scroll', () => {
+        const { body } = document;
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        const documentHeight = document.body.offsetHeight;
+        const inTopHalf = scrollPosition < documentHeight / 2;
+        const inBottomHalf = scrollPosition >= documentHeight / 2;
+
+        body.classList.toggle('bg-spirit-purple', inTopHalf);
+        body.classList.toggle('bg-body-tertiary', inBottomHalf);
+      });
+    </script>
+
   </body>
 </html>
