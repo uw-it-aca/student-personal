@@ -1,10 +1,13 @@
 <template>
   <div v-if="isLoading">
-     Loading family contact...
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height:100px;"
+    >
+      <BSpinner/>
+    </div>
   </div>
-  <div v-else-if="errorResponse">
-    {{ errorResponse.message }}
-  </div>
+  <div v-else-if="errorResponse">{{ errorResponse.message }}</div>
   <ul v-else-if="contact && contact.name" class="list-unstyled">
     <li>{{ contact.name }}</li>
     <li v-if="hasMailingAddress" v-html="formatMailingAddress(contact)"></li>
@@ -16,6 +19,7 @@
 </template>
 
 <script>
+  import { BSpinner } from "bootstrap-vue-next";
   import { getFamilyContact } from "@/utils/data";
   import { formatDate } from "@/utils/dates";
   import { formatPhoneNumber } from "@/utils/phones";
@@ -23,6 +27,9 @@
   import { useContextStore } from "@/stores/context";
 
   export default {
+    components: {
+      BSpinner,
+    },
     setup() {
       const contextStore = useContextStore();
       return {
@@ -49,25 +56,29 @@
       },
       hasMailingAddress() {
         return (
-            this.contact.address_line_1 !== null &&
-            this.contact.address_line_1.trim() !== "" &&
-            this.contact.city !== null && this.contact.city.trim() !== "" &&
-            this.contact.state !== null && this.contact.state.trim() !== ""
-          );
+          this.contact.address_line_1 !== null &&
+          this.contact.address_line_1.trim() !== "" &&
+          this.contact.city !== null &&
+          this.contact.city.trim() !== "" &&
+          this.contact.state !== null &&
+          this.contact.state.trim() !== ""
+        );
       },
     },
     methods: {
       loadFamilyContact: function () {
-        this.getFamilyContact(this.contextStore.context.familyContactUrl)
-          .then((data) => {
-            this.contact = data.family_contact;
-          })
-          .catch((error) => {
-            this.errorResponse = error.data;
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
+        setTimeout(() => {
+          this.getFamilyContact(this.contextStore.context.familyContactUrl)
+            .then((data) => {
+              this.contact = data.family_contact;
+            })
+            .catch((error) => {
+              this.errorResponse = error.data;
+            })
+            .finally(() => {
+              this.isLoading = false;
+            });
+        }, 500);
       },
     },
     created() {
