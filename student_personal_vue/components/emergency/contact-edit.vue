@@ -7,7 +7,7 @@
     no-close-on-backdrop
     no-close-on-esc
     :title="modalTitle"
-    body-class="px-5 py-4"
+    body-class="p-4"
     @close="cancelEdit"
   >
     <p>Required fields are indicated by *</p>
@@ -65,13 +65,7 @@
           </BFormInvalidFeedback>
         </BInputGroup>
       </div>
-      <div class="border p-2 small mb-3">
-        <ul class="list-unstyled m-0">
-          <li>Country: {{ countryCode }}</li>
-          <li>Subscriber: {{ formPhone }}</li>
-          <li>Formatted: {{ formattedPhoneNumber }}(submit to database)</li>
-        </ul>
-      </div>
+
       <BFormInput
         type="hidden"
         name="formattedPhoneNumber"

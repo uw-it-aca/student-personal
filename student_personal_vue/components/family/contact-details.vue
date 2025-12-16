@@ -73,7 +73,7 @@
             .finally(() => {
               this.isLoading = false;
             });
-        }, 5000);
+        }, 500);
       },
     },
     created() {

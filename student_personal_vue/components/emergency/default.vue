@@ -131,7 +131,7 @@
               this.errorResponse = error.data;
             })
             .finally(() => {});
-        }, 5000);
+        }, 500);
       },
     },
     created() {
