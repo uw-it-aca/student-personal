@@ -15,48 +15,53 @@
     body-class="p-4"
     @close="cancelModal"
   >
-    <p>primary: {{ isPrimary }}</p>
-
-    <BAlert v-if="hasError" variant="danger" :model-value="true">
-      <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
-        >Server error</span
-      >
-      <div>Your request could not be processed.</div>
-    </BAlert>
-
-    <p>
-      Are you sure you want to remove
-      <template v-if="isPrimary">
-        <strong v-if="emergencyContactStore.primary"
-          >{{ emergencyContactStore.primary.name }}</strong
+    <template v-if="hasError">
+      <BAlert variant="danger" :model-value="true">
+        <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
+          >Server error</span
         >
-      </template>
-      <template v-else>
-        <strong v-if="emergencyContactStore.secondary"
-          >{{ emergencyContactStore.secondary.name }}</strong
-        >
-      </template>
-      from your emergency contacts?
-    </p>
+        <div>Your request could not be processed.</div>
+      </BAlert>
+      <p>
+        We couldn’t complete your request to delete this contact. Please check the
+        following:
+      </p>
+      <ul>
+        <li>You are logged in.</li>
+        <li>You are connected to the internet.</li>
+        <li>You might not have the required permissions.</li>
+      </ul>
 
-    <p>
-      If this contact is set as your primary, your secondary contact will
-      automatically become your primary contact.
-    </p>
+      <p>Try again later or contact your administrator for assistance.</p>
+    </template>
+    <template v-else>
+      <p>
+        Are you sure you want to remove
+        <template v-if="isPrimary">
+          <strong v-if="emergencyContactStore.primary"
+            >{{ emergencyContactStore.primary.name }}</strong
+          >
+        </template>
+        <template v-else>
+          <strong v-if="emergencyContactStore.secondary"
+            >{{ emergencyContactStore.secondary.name }}</strong
+          >
+        </template>
+        from your emergency contacts?
+      </p>
 
-    <div class="border p-2 small mb-3">
-      <p>remove contact:</p>
-      <template v-if="isPrimary">
-        <p>{{ emergencyContactStore.primary }}</p>
-      </template>
-      <template v-else>
-        <p>{{ emergencyContactStore.secondary }}</p>
-      </template>
-    </div>
+      <p>
+        If this contact is set as your primary, your secondary contact will
+        automatically become your primary contact.
+      </p>
+    </template>
 
     <template #footer>
-      <BButton variant="subdued-danger" @click="cancelModal">Cancel</BButton>
-      <BButton variant="danger" @click="removeContact">Remove</BButton>
+      <BButton variant="subdued-danger" @click="cancelModal">
+        <span v-if="!hasError">Cancel</span>
+        <span v-else>Close</span>
+      </BButton>
+      <BButton v-if="!hasError" variant="danger" @click="removeContact">Remove</BButton>
     </template>
   </BModal>
 </template>

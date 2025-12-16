@@ -1,12 +1,7 @@
 <template>
-  <div v-if="isLoading">
-    <div
-      class="d-flex justify-content-center align-items-center"
-      style="height:100px;"
-    >
-      <BSpinner/>
-    </div>
-  </div>
+  <template v-if="isLoading">
+    <ContactLoading/>
+  </template>
   <div v-else-if="errorResponse">{{ errorResponse.message }}</div>
   <ul v-else-if="contact && contact.name" class="list-unstyled">
     <li>{{ contact.name }}</li>
@@ -19,16 +14,16 @@
 </template>
 
 <script>
-  import { BSpinner } from "bootstrap-vue-next";
+  import ContactLoading from "@/components/_contact-loading.vue";
+  import { useContextStore } from "@/stores/context";
+  import { formatMailingAddress } from "@/utils/addresses";
   import { getFamilyContact } from "@/utils/data";
   import { formatDate } from "@/utils/dates";
   import { formatPhoneNumber } from "@/utils/phones";
-  import { formatMailingAddress } from "@/utils/addresses";
-  import { useContextStore } from "@/stores/context";
 
   export default {
     components: {
-      BSpinner,
+      ContactLoading,
     },
     setup() {
       const contextStore = useContextStore();
