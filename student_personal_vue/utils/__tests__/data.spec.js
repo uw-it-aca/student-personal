@@ -1,11 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import {
-  getEmergencyContacts,
-  updateEmergencyContacts,
-  getPhoto,
-  clearOverride,
-} from "../data"; // adjust path as needed
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useCustomFetch } from "@/composables/customFetch";
+import {
+  clearOverride,
+  getEmergencyContacts,
+  getFamilyContact,
+  getPhoto,
+  updateEmergencyContacts,
+} from "../data"; // adjust path as needed
 
 // Mock the composable
 vi.mock("@/composables/customFetch", () => ({
@@ -66,5 +67,15 @@ describe("Emergency Contacts Service", () => {
       body: JSON.stringify({ clear_override: true }),
     });
     expect(result).toEqual({ cleared: true });
+  });
+
+  it("should call useCustomFetch with correct URL for getFamilyContact", async () => {
+    useCustomFetch.mockResolvedValue({ data: "mocked" });
+    const familyUrl = "/api/family";
+
+    const result = await getFamilyContact(familyUrl);
+
+    expect(useCustomFetch).toHaveBeenCalledWith(familyUrl);
+    expect(result).toEqual({ data: "mocked" });
   });
 });

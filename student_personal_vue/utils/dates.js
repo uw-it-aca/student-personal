@@ -22,6 +22,9 @@ function formatUTCToLocalDate(date, format) {
 function formatUTCToLocalDateAndTimeZone(date, format) {
   let local_date = utcToLocalDate(date);
 
+  if (!local_date) {
+    return null;
+  }
   return formatDate(local_date, format) + nonLocalTimeZone(local_date);
 }
 
@@ -35,10 +38,6 @@ function nonLocalTimeZone(local_date) {
     : Math.abs(local_date.utcOffset()) === 420
       ? " PDT"
       : " PST";
-}
-
-function utcDate(date) {
-  return dayjs(date).tz(dayjs.tz.utc);
 }
 
 function getToday() {

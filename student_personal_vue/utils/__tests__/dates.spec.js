@@ -66,6 +66,14 @@ describe("formatUTCToLocalDateAndTimeZone", () => {
     expect(formattedDate).toBe("2024-01-01 04:00:00");
     vi.restoreAllMocks();
   });
+
+  it("should return null for a null date", () => {
+    const formattedDate = formatUTCToLocalDateAndTimeZone(
+      null,
+      "YYYY-MM-DD HH:mm:ss",
+    );
+    expect(formattedDate).toBeNull();
+  });
 });
 
 describe("getToday", () => {
