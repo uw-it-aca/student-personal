@@ -1,78 +1,83 @@
 <template>
-  <template v-if="isLoading">
-    <div class="d-flex justify-content-center align-items-center" style="height:300px;">
-      <BSpinner/>
-    </div>
-  </template>
-  <template v-else-if="errorResponse">error state</template>
-  <template v-else>
-    <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
-      <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
-        >Incomplete Information</span
-      >
-      <div>Please add a relationship for your primary contact.</div>
-    </BAlert>
+  <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
+    <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
+      >Incomplete Information</span
+    >
+    <div>Please add a relationship for your primary contact.</div>
+  </BAlert>
 
-    <div class="mb-5">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fs-3 m-0">Primary</h2>
-        <div>
-          <ContactRemove
-            v-if="emergencyContactStore.hasContacts"
-            :is-primary="true"
-          />
-          <ContactEdit
-            v-if="emergencyContactStore.hasContacts"
-            :is-primary="true"
-            @reload="loadEmergencyContacts"
-          />
-        </div>
-      </div>
+  <div class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="fs-3 m-0">Primary</h2>
       <div>
-        If your primary contact cannot be reached, your secondary contact will
-        be attempted.
+        <ContactRemove
+          v-if="emergencyContactStore.hasContacts"
+          :is-primary="true"
+        />
+        <ContactEdit
+          v-if="emergencyContactStore.hasContacts"
+          :is-primary="true"
+          @reload="loadEmergencyContacts"
+        />
       </div>
-      <div class="my-3 mx-5">
+    </div>
+    <div>
+      If your primary contact cannot be reached, your secondary contact will be
+      attempted.
+    </div>
+    <div class="my-3 mx-5">
+      <template v-if="isLoading">
+        <ContactLoading/>
+      </template>
+      <template v-else-if="errorResponse">unable to load contacts...</template>
+      <template v-else>
         <ContactDetails
           v-if="emergencyContactStore.primary"
           :contact="emergencyContactStore.primary"
         />
+      </template>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="fs-3 m-0">Secondary</h2>
+      <div>
+        <ContactRemove
+          v-if="emergencyContactStore.hasContacts"
+          :is-primary="false"
+        />
+        <ContactEdit
+          v-if="emergencyContactStore.hasContacts"
+          :is-primary="false"
+          @reload="loadEmergencyContacts"
+        />
       </div>
     </div>
-
-    <div class="mb-5">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fs-3 m-0">Secondary</h2>
-        <div>
-          <ContactRemove
-            v-if="emergencyContactStore.hasContacts"
-            :is-primary="false"
-          />
-          <ContactEdit
-            v-if="emergencyContactStore.hasContacts"
-            :is-primary="false"
-            @reload="loadEmergencyContacts"
-          />
-        </div>
-      </div>
-      <div>
-        If your primary contact cannot be reached, your secondary contact will
-        be attempted.
-      </div>
-      <div class="my-3 mx-5">
+    <div>
+      If your primary contact cannot be reached, your secondary contact will be
+      attempted.
+    </div>
+    <div class="my-3 mx-5">
+      <template v-if="isLoading">
+        <ContactLoading/>
+      </template>
+      <template v-else-if="errorResponse">unable to load contacts...</template>
+      <template v-else>
         <ContactDetails
           v-if="emergencyContactStore.secondary"
           :contact="emergencyContactStore.secondary"
         />
-      </div>
+      </template>
     </div>
-  </template>
+  </div>
 </template>
 
 <script>
-  import { BAlert, BSpinner } from "bootstrap-vue-next";
+  import { BAlert } from "bootstrap-vue-next";
   import ContactDetails from "@/components/emergency/contact-details.vue";
   import ContactEdit from "@/components/emergency/contact-edit.vue";
+  import ContactLoading from "@/components/_contact-loading.vue";
   import ContactRemove from "@/components/emergency/contact-remove.vue";
   import { useContextStore } from "@/stores/context";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
@@ -84,8 +89,8 @@
       ContactDetails,
       ContactEdit,
       ContactRemove,
+      ContactLoading,
       BAlert,
-      BSpinner,
     },
     setup() {
       const contextStore = useContextStore();
@@ -126,7 +131,7 @@
               this.errorResponse = error.data;
             })
             .finally(() => {});
-        }, 500);
+        }, 5000);
       },
     },
     created() {
