@@ -1,9 +1,23 @@
 <template>
-  <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
-    <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
-      >Incomplete Information</span
-    >
-    <div>Please add a relationship for your primary contact.</div>
+  <BAlert
+    v-if="isIncomplete"
+    variant="warning"
+    :model-value="true"
+    class="small"
+  >
+    <i class="bi-exclamation-triangle-fill me-2"></i>
+    <span class="fw-bold">Incomplete information</span>
+    <div>Please add a relationship for your primay contact.</div>
+  </BAlert>
+
+  <BAlert
+    v-if="this.emergencyContactStore.isSaved"
+    variant="success"
+    :model-value="true"
+    class="small"
+  >
+    <i class="bi-exclamation-triangle-fill me-2"></i>
+    <span class="fw-bold">Contact information successfully updated</span>
   </BAlert>
 
   <div class="mb-5">
@@ -125,6 +139,7 @@
           this.getEmergencyContacts(url)
             .then((data) => {
               this.emergencyContactStore.contacts = data.emergency_contacts;
+              this.emergencyContactStore.isSaved = false;
               this.isLoading = false;
             })
             .catch((error) => {
