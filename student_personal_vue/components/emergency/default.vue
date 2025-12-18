@@ -27,6 +27,7 @@
         <ContactRemove
           v-if="emergencyContactStore.hasContacts"
           :is-primary="true"
+          @reload="loadEmergencyContacts"
         />
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
@@ -61,6 +62,7 @@
         <ContactRemove
           v-if="emergencyContactStore.hasContacts"
           :is-primary="false"
+          @reload="loadEmergencyContacts"
         />
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"

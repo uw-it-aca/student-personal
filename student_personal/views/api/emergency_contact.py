@@ -30,7 +30,7 @@ class EmergencyContactView(BaseAPIView):
         })
 
     def _validate(self, system_key, contact_data=[]):
-        if not len(contact_data) == self.CONTACT_LIMIT:
+        if not (0 < len(contact_data) <= self.CONTACT_LIMIT):
             raise InvalidContactList()
 
         contacts = []
@@ -43,8 +43,10 @@ class EmergencyContactView(BaseAPIView):
             if not contact.is_empty():
                 contacts.append(contact)
 
-        if not len(contact_data):
+        if not len(contacts):
             raise InvalidContactList()
+        elif len(contacts) < self.CONTACT_LIMIT:
+            contacts.append(EmergencyContact())
 
         return contacts
 
