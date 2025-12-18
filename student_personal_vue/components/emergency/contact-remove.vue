@@ -16,15 +16,15 @@
     @close="cancelModal"
   >
     <template v-if="hasError">
-      <BAlert variant="danger" :model-value="true">
-        <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
+      <BAlert variant="danger" :model-value="true" class="small">
+        <i class="bi-exclamation-triangle-fill me-2"></i><span class="fw-bold"
           >Server error</span
         >
         <div>Your request could not be processed.</div>
       </BAlert>
       <p>
-        We couldn’t complete your request to delete this contact. Please check the
-        following:
+        We couldn’t complete your request to delete this contact. Please check
+        the following:
       </p>
       <ul>
         <li>You are logged in.</li>
@@ -61,7 +61,9 @@
         <span v-if="!hasError">Cancel</span>
         <span v-else>Close</span>
       </BButton>
-      <BButton v-if="!hasError" variant="danger" @click="removeContact">Remove</BButton>
+      <BButton v-if="!hasError" variant="danger" @click="removeContact">
+        Remove
+      </BButton>
     </template>
   </BModal>
 </template>

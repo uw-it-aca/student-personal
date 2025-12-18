@@ -169,7 +169,7 @@
         required: true,
       },
     },
-    emits: ["reload"],
+    emits: ["reload", "saved"],
     setup() {
       const contextStore = useContextStore();
       const emergencyContactStore = useEmergencyContactStore();
@@ -324,6 +324,7 @@
         this.updateEmergencyContacts(url, putData)
           .then((data) => {
             console.log("Data received:", data); // Will now have the actual response data
+            this.$emit("saved");
             this.$emit("reload");
             this.showModal = false;
           })
