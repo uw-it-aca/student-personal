@@ -7,7 +7,7 @@
   >
     <i class="bi-exclamation-triangle-fill me-2"></i>
     <span class="fw-bold">Incomplete information</span>
-    <div>Please add a relationship for your primay contact.</div>
+    <div>Please complete your primary contact.</div>
   </BAlert>
 
   <BAlert
