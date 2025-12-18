@@ -5,7 +5,6 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     return {
       name: "EmergencyContact",
       contacts: [],
-      isSaved: false,
     };
   },
   getters: {

@@ -11,7 +11,7 @@
   </BAlert>
 
   <BAlert
-    v-if="this.emergencyContactStore.isSaved"
+    v-if="isSaved"
     variant="success"
     :model-value="true"
     class="small"
@@ -32,6 +32,7 @@
           v-if="emergencyContactStore.hasContacts"
           :is-primary="true"
           @reload="loadEmergencyContacts"
+          @saved="showSavedAlert"
         />
       </div>
     </div>
@@ -65,6 +66,7 @@
           v-if="emergencyContactStore.hasContacts"
           :is-primary="false"
           @reload="loadEmergencyContacts"
+          @saved="showSavedAlert"
         />
       </div>
     </div>
@@ -119,6 +121,7 @@
       return {
         errorResponse: null,
         isLoading: true,
+        isSaved: false,
       };
     },
     computed: {
@@ -139,7 +142,6 @@
           this.getEmergencyContacts(url)
             .then((data) => {
               this.emergencyContactStore.contacts = data.emergency_contacts;
-              this.emergencyContactStore.isSaved = false;
               this.isLoading = false;
             })
             .catch((error) => {
@@ -147,6 +149,9 @@
             })
             .finally(() => {});
         }, 500);
+      },
+      showSavedAlert: function () {
+        this.isSaved = true;
       },
     },
     created() {
