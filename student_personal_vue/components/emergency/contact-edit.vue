@@ -282,6 +282,9 @@
       },
 
       saveContact() {
+        let url = this.contextStore.context.emergencyContactUrl,
+          putData = {};
+
         // validate required fields
         this.validateFullName();
         this.validatePhoneNumber();
@@ -306,17 +309,13 @@
           return;
         }
 
-        // reorder store
+        // reorder contacts
         if (!this.isPrimary && this.formPrimary) {
           this.emergencyContactStore.reorder();
         }
 
         // check to see if contacts in store are updated
         console.log("Store updated:", this.emergencyContactStore.contacts);
-
-        // initial for api put request
-        let url = this.contextStore.context.emergencyContactUrl;
-        let putData = {};
 
         putData.emergency_contacts = this.emergencyContactStore.contacts;
         console.log("putData:", putData);
@@ -325,6 +324,7 @@
         this.updateEmergencyContacts(url, putData)
           .then((data) => {
             console.log("Data received:", data); // Will now have the actual response data
+            this.$emit("reload");
             this.showModal = false;
           })
           .catch((error) => {
