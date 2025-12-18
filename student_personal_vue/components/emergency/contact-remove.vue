@@ -84,6 +84,7 @@
         required: true,
       },
     },
+    emits: ["reload"],
     setup() {
       const contextStore = useContextStore();
       const emergencyContactStore = useEmergencyContactStore();
@@ -102,24 +103,29 @@
     methods: {
       cancelModal: function () {
         this.showModal = false;
+        this.$emit("reload");
       },
       removeContact: function () {
-        let url = this.contextStore.context.emergencyContactUrl;
+        let url = this.contextStore.context.emergencyContactUrl,
+          putData = {};
 
         this.emergencyContactStore.removeContact(this.isPrimary);
 
-        this.updateEmergencyContacts(url, this.emergencyContactStore.contacts)
+        putData.emergency_contacts = this.emergencyContactStore.contacts;
+
+        this.updateEmergencyContacts(url, putData)
           .then((data) => {
-            this.emergencyContactStore.contacts = data.emergency_contacts;
-            // this.showModal = false;
+            this.$emit("reload");
+            this.showModal = false;
+
           })
           .catch((error) => {
             console.log("catch error");
-            this.errorResponse = error.data;
             this.hasError = true;
           })
           .finally(() => {
             console.log("finally");
+            this.showModal = false;
           });
       },
     },
