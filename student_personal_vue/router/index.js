@@ -13,7 +13,7 @@ const routes = [
   },
   {
     path: "/emergency",
-    name: "Emergency Contacts",
+    name: "Your Contacts",
     component: EmergencyPage,
   },
 ];

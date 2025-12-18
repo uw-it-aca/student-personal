@@ -86,7 +86,7 @@
     },
     data() {
       return {
-        pageTitle: "Your Contacts",
+        pageTitle: "Family & Emergency Contacts",
       };
     },
   };
