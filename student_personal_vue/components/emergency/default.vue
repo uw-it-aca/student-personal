@@ -143,7 +143,7 @@
         setTimeout(() => {
           this.getEmergencyContacts(url)
             .then((data) => {
-              this.emergencyContactStore.contacts = data.emergency_contacts;
+              this.emergencyContactStore.setContacts(data.emergency_contacts);
               this.isLoading = false;
             })
             .catch((error) => {

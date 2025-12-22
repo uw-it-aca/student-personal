@@ -3,14 +3,14 @@
   <ul v-if="contact && contact.name" class="list-unstyled">
     <li>{{ contact.name }}</li>
     <li>{{ contact.email }}</li>
-    <li v-if="hasPhoneNumber">
-      {{ formatPhoneNumber(contact.phone_number) }}
+    <li v-if="contact.phone_number">
+      {{ formattedPhoneNumber }}
     </li>
     <li v-if="contact.relationship">
       {{ contact.relationship }}
     </li>
     <li v-if="contact.last_modified" class="text-secondary fst-italic">
-      Last updated: {{ formatUTCToLocalDate(contact.last_modified, "LLL") }}
+      Last updated: {{ formattedLastUpdated }}
     </li>
   </ul>
   <div v-else class="text-secondary fst-italic">
@@ -36,11 +36,13 @@
       };
     },
     computed: {
-      hasPhoneNumber() {
-        return (
-          this.contact.phone_number !== null &&
-          this.contact.phone_number.trim() !== ""
-        );
+      formattedLastUpdated() {
+        return formatUTCToLocalDate(this.contact.last_modified, "LLL");
+      },
+      formattedPhoneNumber() {
+        return (this.contact.phone_number !== null &&
+          this.contact.phone_number.trim() !== "")
+            ? formatPhoneNumber(this.contact.phone_number) : "";
       },
     },
   };
