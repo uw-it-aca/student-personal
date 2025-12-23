@@ -19,7 +19,7 @@ class EmergencyContactAPITest(ApiTest):
         self.assertEqual(data.get("emergency_contacts")[0], {
                 "email": "haverage@example.com",
                 "id": "ab269f37-2807-4b10-b9d3-b5f7c602d45f",
-                "last_modified": "2025-11-11T21:28:40.180882",
+                "last_modified": "2025-11-11T13:28:40.180882-08:00",
                 "name": "Hank Average",
                 "phone_number": "+12065551234",
                 "relationship": "",

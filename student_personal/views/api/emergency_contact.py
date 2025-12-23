@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 from django.http import HttpResponse
+from django.utils import timezone
 from student_personal.views.api import BaseAPIView
 from student_personal.exceptions import (
     MissingStudentAffiliation, InvalidContactList, OverrideNotPermitted)
@@ -20,6 +21,12 @@ class EmergencyContactView(BaseAPIView):
     def _serialize(self, contacts=None):
         if contacts is None:
             contacts = []
+
+        current_tz = timezone.get_current_timezone()
+        for contact in contacts:
+            if contact.last_modified:
+                contact.last_modified = contact.last_modified.astimezone(
+                    current_tz)
 
         # Ensure two EmergencyContact models for the response
         while len(contacts) < self.CONTACT_LIMIT:
