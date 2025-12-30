@@ -111,10 +111,9 @@
 
         this.emergencyContactStore.removeContact(this.isPrimary);
 
-        let putData = this.emergencyContactStore.putData;
-        console.log(putData);
+        console.log(this.emergencyContactStore.putData);
 
-        this.updateEmergencyContacts(url, putData)
+        this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {
             this.$emit("reload");
             this.showModal = false;

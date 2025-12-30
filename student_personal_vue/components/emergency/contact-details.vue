@@ -7,7 +7,7 @@
       {{ formattedPhoneNumber }}
     </li>
     <li v-if="contact.relationship">
-      {{ contact.relationship }}
+      {{ formattedRelationship }}
     </li>
     <li v-if="contact.last_modified" class="text-secondary fst-italic">
       Last updated: {{ formattedLastUpdated }}
@@ -40,9 +40,19 @@
         return formatUTCToLocalDate(this.contact.last_modified, "LLL");
       },
       formattedPhoneNumber() {
-        return (this.contact.phone_number !== null &&
-          this.contact.phone_number.trim() !== "")
-            ? formatPhoneNumber(this.contact.phone_number) : "";
+        try {
+          return formatPhoneNumber(this.contact.formatted_phone_number);
+        } catch (error) {
+          return "";
+        }
+      },
+      formattedRelationship() {
+        try {
+          return this.contact.relationship.charAt(0).toUpperCase() +
+            this.contact.relationship.substr(1).toLowerCase();
+        } catch (error) {
+          return "";
+        }
       },
     },
   };

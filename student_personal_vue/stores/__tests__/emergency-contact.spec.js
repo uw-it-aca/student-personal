@@ -35,7 +35,7 @@ describe("Emergency Contact Store", () => {
     expect(store.contacts[0].id).toBe(1);
     expect(store.contacts[1].id).toBe(2);
 
-    store.reorder();
+    store.reorderContacts();
 
     expect(store.contacts[0].id).toBe(2);
     expect(store.contacts[1].id).toBe(1);

@@ -18,7 +18,7 @@
         <BFormInput
           id="inputFullName"
           v-model="formName"
-          :state="stateName"
+          :state="formContact.name_valid"
           class=""
           aria-describedby=""
           trim
@@ -49,7 +49,7 @@
           <BFormInput
             id="inputPhoneNumber"
             v-model="formPhone"
-            :state="statePhone"
+            :state="formContact.phone_number_valid"
             type="text"
             class="rounded-end"
             @blur="validatePhoneNumber"
@@ -77,7 +77,7 @@
         <BFormInput
           id="inputEmailAddress"
           v-model="formEmail"
-          :state="stateEmail"
+          :state="formContact.email_valid"
           type="email"
           @blur="validateEmailAddress"
         />
@@ -92,9 +92,9 @@
         <BFormSelect
           id="selectRelationshipChoice"
           v-model="formRelationship"
-          :state="stateRelationship"
-          :options="relationshipOptions"
-          @blur="validateRelationshipChoice"
+          :state="formContact.relationship_valid"
+          :options="emergencyContactStore.relationshipOptions"
+          @change="validateRelationshipChoice"
         >
           <template #first>
             <BFormSelectOption value="" disabled>Select...</BFormSelectOption>
@@ -143,7 +143,6 @@
     BModal,
   } from "bootstrap-vue-next";
   import { SCountryCode } from "solstice-vue";
-  import { getCountryCode, getSubscriberNumber } from "@/utils/phones";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
   import { useContextStore } from "@/stores/context";
   import { updateEmergencyContacts } from "@/utils/data";
@@ -177,33 +176,17 @@
         contextStore,
         emergencyContactStore,
         updateEmergencyContacts,
-        getCountryCode,
-        getSubscriberNumber,
       };
     },
     data() {
       return {
         showModal: false,
         errorResponse: null,
-        countryCode: "",
-        formattedPhoneNumber: "",
-        relationshipOptions: [
-          { value: "PARENT", text: "Parent" },
-          { value: "GUARDIAN", text: "Guardian" },
-          { value: "SIBLING", text: "Sibling" },
-          { value: "SPOUSE", text: "Spouse" },
-          { value: "FRIEND", text: "Friend" },
-          { value: "OTHER", text: "Other" },
-        ],
         formName: "",
         formEmail: "",
         formPhone: "",
         formRelationship: "",
         formPrimary: false,
-        stateName: null,
-        stateEmail: null,
-        statePhone: null,
-        stateRelationship: null,
       };
     },
     mounted() {
@@ -213,115 +196,61 @@
       modalTitle() {
         return this.isPrimary ? "Primary" : "Secondary";
       },
+      formContact() {
+        return this.isPrimary
+          ? this.emergencyContactStore.primary
+          : this.emergencyContactStore.secondary;
+      },
+      countryCode() {
+        return this.formContact.country_code;
+      },
+      formattedPhoneNumber() {
+        return this.formContact.formatted_phone_number;
+      },
     },
     methods: {
       loadContact() {
-        let contact = this.isPrimary
-          ? this.emergencyContactStore.primary
-          : this.emergencyContactStore.secondary;
+        let contact = this.formContact;
 
-        // set form fields from context AND set state
         this.formName = contact.name;
-        this.stateName = this.formName !== "" ? true : null;
-
         this.formEmail = contact.email;
-        this.stateEmail = this.formEmail !== "" ? true : null;
-
         this.formPhone = contact.phone_number;
-        if (this.formPhone !== "") {
-          this.countryCode = this.getCountryCode(contact.phone_number);
-          this.formPhone = this.getSubscriberNumber(contact.phone_number);
-          this.statePhone = true;
-        } else {
-          this.countryCode = "1"; // manually to US if phone is empty string
-          this.statePhone = null;
-        }
-
         this.formRelationship = contact.relationship;
-        this.stateRelationship = this.relationshipOptions.some(
-          (option) => option.value === contact.relationship,
-        )
-          ? true
-          : null;
-
         this.formPrimary = this.isPrimary;
       },
       validateFullName() {
-        // validate full name for latin characters only
-        const nameRegex = /^[a-zA-Z0-9\s\.'-]+$/;
-        this.stateName = nameRegex.test(this.formName);
+        this.emergencyContactStore.validateName(
+          this.formContact, this.formName);
       },
       validatePhoneNumber() {
-        // validate phone number format, don't allow country + codes
-        const phoneRegex = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
-        this.statePhone = phoneRegex.test(this.formPhone);
-
-        // additional step: format phone back to E.164 (add +) before saving
-        const phoneNum = this.formPhone.replace(/\D/g, "");
-        const formatPhoneNum = `+${this.countryCode}${phoneNum.slice(0, 1)}${phoneNum.slice(1, 4)}${phoneNum.slice(4, 7)}${phoneNum.slice(7)}`;
-        this.formattedPhoneNumber = formatPhoneNum;
+        this.emergencyContactStore.validatePhoneNumber(
+          this.formContact, this.formPhone);
       },
       validateEmailAddress() {
-        // validate email address format
-        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-        this.stateEmail = emailRegex.test(this.formEmail);
+        this.emergencyContactStore.validateEmail(
+          this.formContact, this.formEmail);
       },
       validateRelationshipChoice() {
-        // validate relationship choice is not empty
-        this.stateRelationship = this.relationshipOptions.some(
-          (option) => option.value === this.formRelationship,
-        );
+        this.emergencyContactStore.validateRelationship(
+          this.formContact, this.formRelationship);
       },
       cancelEdit() {
-        // close the modal
         this.showModal = false;
-
-        // reset state
         this.emergencyContactStore.$reset;
         this.$emit("reload");
       },
-
       saveContact() {
-        let url = this.contextStore.context.emergencyContactUrl,
-          putData = {};
+        let url = this.contextStore.context.emergencyContactUrl;
 
-        // validate required fields
-        this.validateFullName();
-        this.validatePhoneNumber();
-        this.validateEmailAddress();
-        this.validateRelationshipChoice();
-
-        // update the store
-        if (
-          this.stateName &&
-          this.statePhone &&
-          this.stateEmail &&
-          this.stateRelationship
-        ) {
-          this.emergencyContactStore.updateContact(
-            this.isPrimary,
-            this.formName,
-            this.formEmail,
-            this.formattedPhoneNumber,
-            this.formRelationship,
-          );
-        } else {
-          return;
-        }
-
-        // reorder contacts
+        // reorder contacts if needed
         if (!this.isPrimary && this.formPrimary) {
-          this.emergencyContactStore.reorder();
+          this.emergencyContactStore.reorderContacts();
         }
 
         // check to see if contacts in store are updated
-        console.log("Store updated:", this.emergencyContactStore.contacts);
+        console.log("Store updated:", this.emergencyContactStore.putData);
 
-        putData.emergency_contacts = this.emergencyContactStore.contacts;
-        console.log("putData:", putData);
-
-        // save date to database via api call
-        this.updateEmergencyContacts(url, putData)
+        this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {
             console.log("Data received:", data); // Will now have the actual response data
             this.$emit("saved");
