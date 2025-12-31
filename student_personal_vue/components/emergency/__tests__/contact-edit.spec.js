@@ -330,7 +330,7 @@ describe("contact-edit.vue", () => {
 
     it("updates store and calls API on successful save", async () => {
       updateEmergencyContacts.mockResolvedValue({});
-      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData");
+      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
 
       await wrapper.find("#inputFullName").setValue("Johnathan Doe");
       const saveButton = wrapper
@@ -346,7 +346,7 @@ describe("contact-edit.vue", () => {
 
     it("does not update store or call API if validation fails", async () => {
       updateEmergencyContacts.mockResolvedValue({});
-      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData");
+      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
 
       await wrapper.find("#inputFullName").setValue("");
 

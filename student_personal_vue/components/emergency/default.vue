@@ -140,8 +140,6 @@
       loadEmergencyContacts: function () {
         let url = this.contextStore.context.emergencyContactUrl;
 
-        this.emergencyContactStore.$reset;
-
         setTimeout(() => {
           this.getEmergencyContacts(url)
             .then((data) => {

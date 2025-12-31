@@ -64,8 +64,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
   },
   actions: {
     setContacts(data) {
-      //let contacts = [];
-      // this.contacts = data.emergency_contacts;
+      this.contacts = [];
       data.emergency_contacts.forEach((contact, idx) => {
         this.validateName(contact, contact.name);
         this.validatePhoneNumber(contact, contact.phone_number);
@@ -73,7 +72,6 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         this.validateRelationship(contact, contact.relationship);
         this.contacts.push(contact);
       });
-      //this.contacts = contacts;
     },
     validateName(contact, name) {
       // validate full name for latin characters only
