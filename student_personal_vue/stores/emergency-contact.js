@@ -77,20 +77,28 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       contact.name_valid = NAME_REGEX.test(name);
       contact.name = name;
     },
-    validatePhoneNumber(contact, phone_number) {
-      phone_number = this.normalize(phone_number);
-      if (phone_number !== "") {
-        contact.country_code = getCountryCode(contact.phone_number);
-        phone_number = getSubscriberNumber(contact.phone_number);
-      } else {
-        contact.country_code = DEFAULT_COUNTRY_CODE;
-      }
-      contact.phone_number_valid = PHONE_REGEX.test(phone_number);
-      contact.phone_number = phone_number;
+    validatePhoneNumber(contact, e164_phone_number) {
+      let country_code = "", phone_number = "", phone_number_valid = null;
 
-      // also create E.164-formatted phone number
-      const phone = phone_number.replace(/\D/g, "");
-      contact.formatted_phone_number = `+${contact.country_code}${phone.slice(0, 1)}${phone.slice(1, 4)}${phone.slice(4, 7)}${phone.slice(7)}`;
+      e164_phone_number = this.normalize(e164_phone_number);
+      if (e164_phone_number === "") {
+        country_code = DEFAULT_COUNTRY_CODE;
+      } else {
+        try {
+          country_code = getCountryCode(e164_phone_number);
+          phone_number = getSubscriberNumber(e164_phone_number);
+          phone_number_valid = PHONE_REGEX.test(phone_number);
+        } catch (error) {
+          console.log(error);
+          phone_number_valid = false;
+        }
+      }
+      contact.country_code = country_code;
+      contact.phone_number = phone_number;
+      contact.phone_number_valid = phone_number_valid;
+      if (contact.phone_number_valid) {
+        contact.formatted_phone_number = e164_phone_number;
+      }
     },
     validateEmail(contact, email) {
       email = this.normalize(email);

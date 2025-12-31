@@ -40,10 +40,10 @@
           Phone Number *
         </label>
         <BInputGroup>
-          <SCountryCode v-model:calling-code="countryCode"/>
-          <BFormInput type="hidden" name="countryCode" :value="countryCode"/>
+          <SCountryCode v-model:calling-code="formCountryCode"/>
+          <BFormInput type="hidden" name="countryCode" :value="formCountryCode"/>
           <BInputGroupText class="border border-secondary">
-            +{{ countryCode }}
+            +{{ formCountryCode }}
           </BInputGroupText>
 
           <BFormInput
@@ -185,6 +185,7 @@
         formName: "",
         formEmail: "",
         formPhone: "",
+        formCountryCode: "",
         formRelationship: "",
         formPrimary: false,
       };
@@ -201,9 +202,6 @@
           ? this.emergencyContactStore.primary
           : this.emergencyContactStore.secondary;
       },
-      countryCode() {
-        return this.formContact.country_code;
-      },
       formattedPhoneNumber() {
         return this.formContact.formatted_phone_number;
       },
@@ -211,10 +209,10 @@
     methods: {
       loadContact() {
         let contact = this.formContact;
-
         this.formName = contact.name;
         this.formEmail = contact.email;
         this.formPhone = contact.phone_number;
+        this.formCountryCode = contact.country_code;
         this.formRelationship = contact.relationship;
         this.formPrimary = this.isPrimary;
       },
@@ -223,8 +221,9 @@
           this.formContact, this.formName);
       },
       validatePhoneNumber() {
+        let phone_number = `+${this.formCountryCode}${this.formPhone}`;
         this.emergencyContactStore.validatePhoneNumber(
-          this.formContact, this.formPhone);
+          this.formContact, phone_number);
       },
       validateEmailAddress() {
         this.emergencyContactStore.validateEmail(
