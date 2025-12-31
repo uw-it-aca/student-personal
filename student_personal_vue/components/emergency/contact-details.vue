@@ -41,7 +41,7 @@
       },
       formattedPhoneNumber() {
         try {
-          return formatPhoneNumber(this.contact.formatted_phone_number);
+          return formatPhoneNumber(this.contact.e164_phone_number);
         } catch (error) {
           return "";
         }

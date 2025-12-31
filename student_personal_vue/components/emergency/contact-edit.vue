@@ -8,6 +8,7 @@
     no-close-on-esc
     :title="modalTitle"
     body-class="p-4"
+    @open="loadContact"
     @close="cancelEdit"
   >
     <p>Required fields are indicated by *</p>
@@ -191,7 +192,7 @@
       };
     },
     mounted() {
-      this.loadContact();
+    //  this.loadContact();
     },
     computed: {
       modalTitle() {
@@ -203,7 +204,7 @@
           : this.emergencyContactStore.secondary;
       },
       formattedPhoneNumber() {
-        return this.formContact.formatted_phone_number;
+        return this.formContact.e164_phone_number;
       },
     },
     methods: {
@@ -235,7 +236,6 @@
       },
       cancelEdit() {
         this.showModal = false;
-        this.emergencyContactStore.$reset;
         this.$emit("reload");
       },
       saveContact() {

@@ -1,15 +1,6 @@
 import { defineStore } from "pinia";
 import { getCountryCode, getSubscriberNumber } from "@/utils/phones";
 
-const EMPTY = {
-  "id": "",
-  "syskey": "",
-  "name": "",
-  "email": "",
-  "phone_number": "",
-  "relationship": "",
-  "last_modified": null,
-};
 const PUT_PROPS = ["id", "name", "email", "phone_number", "relationship"];
 const NAME_REGEX = /^[a-zA-Z0-9\s\.'-]+$/;
 const PHONE_REGEX = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
@@ -54,28 +45,41 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     putData(state) {
       let data = [];
       this.contacts.forEach((contact, idx) => {
+        if (contact.hasOwnProperty("is_deleted") && contact.is_deleted) {
+          return;
+        }
+
         let cdata = {};
-        PUT_PROPS.forEach((prop) => { cdata[prop] = contact[prop] });
+        PUT_PROPS.forEach((prop) => {
+          if (prop === "phone_number") {
+            cdata[prop] = contact.e164_phone_number;
+          } else {
+            cdata[prop] = contact[prop];
+          }
+        });
         data.push(cdata);
       });
       return { "emergency_contacts": data };
     },
   },
   actions: {
-    setContacts(contacts) {
-      this.contacts = contacts;
-      this.contacts.forEach((contact, idx) => {
+    setContacts(data) {
+      //let contacts = [];
+      // this.contacts = data.emergency_contacts;
+      data.emergency_contacts.forEach((contact, idx) => {
         this.validateName(contact, contact.name);
         this.validatePhoneNumber(contact, contact.phone_number);
         this.validateEmail(contact, contact.email);
         this.validateRelationship(contact, contact.relationship);
+        this.contacts.push(contact);
       });
+      //this.contacts = contacts;
     },
     validateName(contact, name) {
       // validate full name for latin characters only
       name = this.normalize(name);
-      contact.name_valid = NAME_REGEX.test(name);
       contact.name = name;
+      contact.name_valid = NAME_REGEX.test(name);
     },
     validatePhoneNumber(contact, e164_phone_number) {
       let country_code = "", phone_number = "", phone_number_valid = null;
@@ -96,9 +100,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       contact.country_code = country_code;
       contact.phone_number = phone_number;
       contact.phone_number_valid = phone_number_valid;
-      if (contact.phone_number_valid) {
-        contact.formatted_phone_number = e164_phone_number;
-      }
+      contact.e164_phone_number = e164_phone_number;
     },
     validateEmail(contact, email) {
       email = this.normalize(email);
@@ -115,8 +117,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     },
     removeContact(isPrimary) {
       let idx = isPrimary ? 0 : 1;
-      this.contacts.splice(idx, 1);
-      // this.contacts.push({ ...EMPTY });
+      this.contacts[idx].is_deleted = true;
     },
     normalize(val) {
       try {
