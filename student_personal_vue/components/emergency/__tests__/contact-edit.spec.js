@@ -41,15 +41,27 @@ describe("contact-edit.vue", () => {
     emergencyContactStore.contacts = storeState.contacts || [
       {
         name: "John Doe",
-        phone_number: "+442079460958",
+        name_valid: true,
+        phone_number: "2079460958",
+        phone_number_valid: true,
+        e164_phone_number: "+442079460958",
+        country_code: "44",
         email: "john.doe@example.com",
+        email_valid: true,
         relationship: "PARENT",
+        relationship_valid: true,
       },
       {
         name: "Jane Doe",
-        phone_number: "+912212345678",
+        name_valid: true,
+        phone_number: "2212345678",
+        phone_number_valid: true,
+        e164_phone_number: "+912212345678",
+        country_code: "91",
         email: "jane.doe@example.com",
+        email_valid: true,
         relationship: "GUARDIAN",
+        relationship_valid: true,
       },
     ];
 
@@ -139,7 +151,7 @@ describe("contact-edit.vue", () => {
       expect(wrapper.find("#selectRelationshipChoice").element.value).toBe(
         "PARENT",
       );
-      expect(wrapper.vm.countryCode).toBe("44");
+      expect(wrapper.vm.formCountryCode).toBe("44");
     });
 
     it("closes the modal when the 'Cancel' button is clicked", async () => {
@@ -173,7 +185,7 @@ describe("contact-edit.vue", () => {
       expect(wrapper.find("#selectRelationshipChoice").element.value).toBe(
         "GUARDIAN",
       );
-      expect(wrapper.vm.countryCode).toBe("91");
+      expect(wrapper.vm.formCountryCode).toBe("91");
     });
   });
 
@@ -189,8 +201,8 @@ describe("contact-edit.vue", () => {
           },
         ],
       });
-      expect(wrapper.vm.countryCode).toBe("1");
-      // expect(wrapper.vm.statePhone).toBe(null);
+      expect(wrapper.vm.formCountryCode).toBe("1");
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(null);
     });
   });
 
@@ -202,14 +214,14 @@ describe("contact-edit.vue", () => {
             name: "",
             phone_number: "+1234567890",
             email: "",
-            relationship: "INVALID_RELATIONSHIP",
+            relationship: "",
           },
         ],
       });
 
-      // expect(wrapper.vm.stateName).toBe(null);
-      // expect(wrapper.vm.stateEmail).toBe(null);
-      // expect(wrapper.vm.stateRelationship).toBe(null);
+      expect(wrapper.vm.formContact.name_valid).toBe(null);
+      expect(wrapper.vm.formContact.email_valid).toBe(null);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(null);
     });
   });
 
@@ -226,23 +238,23 @@ describe("contact-edit.vue", () => {
 
       await nameInput.setValue("John Doe");
       await nameInput.trigger("blur");
-      // expect(wrapper.vm.stateName).toBe(true);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John123");
       await nameInput.trigger("blur");
-      // expect(wrapper.vm.stateName).toBe(true);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John Doe-Smith. '");
       await nameInput.trigger("blur");
-      // expect(wrapper.vm.stateName).toBe(true);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John Doe$");
       await nameInput.trigger("blur");
-      // expect(wrapper.vm.stateName).toBe(false);
+      expect(wrapper.vm.formContact.name_valid).toBe(false);
 
       await nameInput.setValue("");
       await nameInput.trigger("blur");
-      // expect(wrapper.vm.stateName).toBe(false);
+      expect(wrapper.vm.formContact.name_valid).toBe(null);
     });
 
     it("validates phone number correctly", async () => {
@@ -250,23 +262,23 @@ describe("contact-edit.vue", () => {
 
       await phoneInput.setValue("222-123-4567");
       await phoneInput.trigger("blur");
-      // expect(wrapper.vm.statePhone).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
       await phoneInput.setValue("2221234567");
       await phoneInput.trigger("blur");
-      // expect(wrapper.vm.statePhone).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
       await phoneInput.setValue("(222) 123-4567");
       await phoneInput.trigger("blur");
-      // expect(wrapper.vm.statePhone).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
       await phoneInput.setValue("123-4567");
       await phoneInput.trigger("blur");
-      // expect(wrapper.vm.statePhone).toBe(false);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("invalid-phone");
       await phoneInput.trigger("blur");
-      // expect(wrapper.vm.statePhone).toBe(false);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
     });
 
     it("updates the country code when SCountryCode emits an event", async () => {
@@ -282,15 +294,15 @@ describe("contact-edit.vue", () => {
 
       await emailInput.setValue("test@example.com");
       await emailInput.trigger("blur");
-      // expect(wrapper.vm.stateEmail).toBe(true);
+      expect(wrapper.vm.formContact.email_valid).toBe(true);
 
       await emailInput.setValue("invalid-email");
       await emailInput.trigger("blur");
-      // expect(wrapper.vm.stateEmail).toBe(false);
+      expect(wrapper.vm.formContact.email_valid).toBe(false);
 
       await emailInput.setValue("");
       await emailInput.trigger("blur");
-      // expect(wrapper.vm.stateEmail).toBe(false);
+      expect(wrapper.vm.formContact.email_valid).toBe(null);
     });
 
     it("validates relationship choice correctly", async () => {
@@ -298,11 +310,11 @@ describe("contact-edit.vue", () => {
 
       await relationshipSelect.setValue("PARENT");
       await relationshipSelect.trigger("blur");
-      // expect(wrapper.vm.stateRelationship).toBe(true);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(true);
 
       await relationshipSelect.setValue("");
       await relationshipSelect.trigger("blur");
-      // expect(wrapper.vm.stateRelationship).toBe(false);
+      expect(wrapper.vm.relationship_valid).toBe(null);
     });
 
     it("updates formPrimary when checkbox is clicked", async () => {

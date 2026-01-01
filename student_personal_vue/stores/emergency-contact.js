@@ -77,7 +77,10 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       // validate full name for latin characters only
       name = this.normalize(name);
       contact.name = name;
-      contact.name_valid = NAME_REGEX.test(name);
+      contact.name_valid = null;
+      if (name !== "") {
+        contact.name_valid = NAME_REGEX.test(name);
+      }
     },
     validatePhoneNumber(contact, e164_phone_number) {
       let country_code = "", phone_number = "", phone_number_valid = null;
@@ -102,13 +105,19 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     },
     validateEmail(contact, email) {
       email = this.normalize(email);
-      contact.email_valid = EMAIL_REGEX.test(email);
       contact.email = email;
+      contact.email_valid = null;
+      if (email !== "") {
+        contact.email_valid = EMAIL_REGEX.test(email);
+      }
     },
     validateRelationship(contact, relationship) {
       relationship = this.normalize(relationship);
-      contact.relationship_valid = RELATIONSHIPS.includes(relationship);
       contact.relationship = relationship;
+      contact.relationship_valid = null;
+      if (relationship !== "") {
+        contact.relationship_valid = RELATIONSHIPS.includes(relationship);
+      }
     },
     reorderContacts() {
       this.contacts.reverse();
