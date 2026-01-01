@@ -38,32 +38,23 @@ describe("contact-edit.vue", () => {
   const createWrapper = (isPrimary, storeState = {}) => {
     pinia = createPinia();
     const emergencyContactStore = useEmergencyContactStore(pinia);
-    emergencyContactStore.contacts = storeState.contacts || [
-      {
-        name: "John Doe",
-        name_valid: true,
-        phone_number: "2079460958",
-        phone_number_valid: true,
-        e164_phone_number: "+442079460958",
-        country_code: "44",
-        email: "john.doe@example.com",
-        email_valid: true,
-        relationship: "PARENT",
-        relationship_valid: true,
-      },
-      {
-        name: "Jane Doe",
-        name_valid: true,
-        phone_number: "2212345678",
-        phone_number_valid: true,
-        e164_phone_number: "+912212345678",
-        country_code: "91",
-        email: "jane.doe@example.com",
-        email_valid: true,
-        relationship: "GUARDIAN",
-        relationship_valid: true,
-      },
-    ];
+
+    emergencyContactStore.setContacts(storeState || {
+      emergency_contacts: [
+        {
+          name: "John Doe",
+          phone_number: "2079460958",
+          email: "john.doe@example.com",
+          relationship: "PARENT",
+        },
+        {
+          name: "Jane Doe",
+          phone_number: "+912212345678",
+          email: "jane.doe@example.com",
+          relationship: "GUARDIAN",
+        },
+      ],
+    });
 
     return mount(ContactEdit, {
       props: {
@@ -192,7 +183,7 @@ describe("contact-edit.vue", () => {
   describe("when contact has no phone number", () => {
     it("initializes with default US country code", () => {
       const wrapper = createWrapper(true, {
-        contacts: [
+        emergency_contacts: [
           {
             name: "John Doe",
             phone_number: "", // Empty phone number
@@ -201,7 +192,7 @@ describe("contact-edit.vue", () => {
           },
         ],
       });
-      expect(wrapper.vm.formCountryCode).toBe("1");
+      expect(wrapper.vm.formContact.country_code).toBe("1");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(null);
     });
   });
@@ -209,7 +200,7 @@ describe("contact-edit.vue", () => {
   describe("when loading contact with incomplete data", () => {
     it("sets validation states to null for empty/invalid fields", () => {
       const wrapper = createWrapper(true, {
-        contacts: [
+        emergency_contacts: [
           {
             name: "",
             phone_number: "+1234567890",
