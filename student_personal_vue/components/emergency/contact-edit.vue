@@ -242,8 +242,8 @@
         let url = this.contextStore.context.emergencyContactUrl,
           contact = this.formContact;
 
-        if !(contact.name_valid && contact.email_valid &&
-            contact.phone_number_valid && contact.relationship_valid) {
+        if (!(contact.name_valid && contact.email_valid &&
+            contact.phone_number_valid && contact.relationship_valid)) {
           return;
         }
 
