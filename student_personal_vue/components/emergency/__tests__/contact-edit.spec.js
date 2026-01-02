@@ -253,15 +253,15 @@ describe("contact-edit.vue", () => {
     it("validates phone number correctly", async () => {
       const phoneInput = wrapper.find("#inputPhoneNumber");
 
-      await phoneInput.setValue("222-123-4567");
+      await phoneInput.setValue("+1-222-123-4567");
       await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
-      await phoneInput.setValue("2221234567");
+      await phoneInput.setValue("+12221234567");
       await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
-      await phoneInput.setValue("(222) 123-4567");
+      await phoneInput.setValue("+1 (222) 123-4567");
       await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
@@ -277,7 +277,7 @@ describe("contact-edit.vue", () => {
     it("updates the country code when SCountryCode emits an event", async () => {
       const countryCodeComponent = wrapper.findComponent(SCountryCode);
       await countryCodeComponent.vm.$emit("update:calling-code", "49");
-      expect(wrapper.vm.countryCode).toBe("49");
+      expect(wrapper.vm.formCountryCode).toBe("49");
       const countryCodeText = wrapper.findComponent(BInputGroupText);
       expect(countryCodeText.text()).toContain("+49");
     });
@@ -307,7 +307,7 @@ describe("contact-edit.vue", () => {
 
       await relationshipSelect.setValue("");
       await relationshipSelect.trigger("blur");
-      expect(wrapper.vm.relationship_valid).toBe(null);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(null);
     });
 
     it("updates formPrimary when checkbox is clicked", async () => {
@@ -353,7 +353,9 @@ describe("contact-edit.vue", () => {
       updateEmergencyContacts.mockResolvedValue({});
       const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
 
-      await wrapper.find("#inputFullName").setValue("");
+      const nameInput = wrapper.find("#inputFullName");
+      await nameInput.setValue("");
+      await nameInput.trigger("blur");
 
       const saveButton = wrapper
         .findAllComponents(BButton)
