@@ -35,11 +35,11 @@ vi.mock("@/utils/data", () => ({
 describe("contact-edit.vue", () => {
   let pinia;
 
-  const createWrapper = (isPrimary, storeState = {}) => {
+  const createWrapper = (isPrimary, storeState) => {
     pinia = createPinia();
     const emergencyContactStore = useEmergencyContactStore(pinia);
 
-    emergencyContactStore.setContacts(storeState || {
+    if (storeState === undefined) storeState = {
       emergency_contacts: [
         {
           name: "John Doe",
@@ -54,7 +54,9 @@ describe("contact-edit.vue", () => {
           relationship: "GUARDIAN",
         },
       ],
-    });
+    };
+
+    emergencyContactStore.setContacts(storeState);
 
     return mount(ContactEdit, {
       props: {
