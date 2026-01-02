@@ -23,7 +23,7 @@ describe("ContactDetails", () => {
     expect(wrapper.text()).toContain("Hank Average");
     expect(wrapper.text()).toContain("haverage@example.com");
     expect(wrapper.vm.formattedPhoneNumber).toBe("+1 (206) 555-1234");
-    expect(wrapper.vm.formattedLastUpdated).toBe("Last updated: November 11, 2025 9:28 PM");
+    expect(wrapper.vm.formattedLastUpdated).toBe("November 11, 2025 9:28 PM");
     expect(wrapper.vm.formattedRelationship).toBe("Parent");
   });
 });

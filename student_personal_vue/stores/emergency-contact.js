@@ -86,6 +86,8 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       let country_code = "", phone_number = "", phone_number_valid = null;
 
       e164_phone_number = this.normalize(e164_phone_number);
+      e164_phone_number = e164_phone_number.replace(/[^+0-9]/g, "");
+
       if (e164_phone_number === "") {
         country_code = DEFAULT_COUNTRY_CODE;
       } else {

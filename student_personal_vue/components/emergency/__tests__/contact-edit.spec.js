@@ -144,7 +144,7 @@ describe("contact-edit.vue", () => {
       expect(wrapper.find("#selectRelationshipChoice").element.value).toBe(
         "PARENT",
       );
-      expect(wrapper.vm.formCountryCode).toBe("44");
+      expect(wrapper.vm.formCountryCode).toBe("1");
     });
 
     it("closes the modal when the 'Cancel' button is clicked", async () => {
