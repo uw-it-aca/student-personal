@@ -43,7 +43,7 @@ describe("contact-edit.vue", () => {
       emergency_contacts: [
         {
           name: "John Doe",
-          phone_number: "2079460958",
+          phone_number: "+12079460958",
           email: "john.doe@example.com",
           relationship: "PARENT",
         },
@@ -253,7 +253,7 @@ describe("contact-edit.vue", () => {
     it("validates phone number correctly", async () => {
       const phoneInput = wrapper.find("#inputPhoneNumber");
 
-      await phoneInput.setValue("+1-222-123-4567");
+      await phoneInput.setValue("+1 222-123-4567");
       await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 

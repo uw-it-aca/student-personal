@@ -48,14 +48,14 @@
 
           <BFormInput
             id="inputPhoneNumber"
-            v-model="formPhone"
+            v-model="formPhoneNumber"
             :state="formContact.phone_number_valid"
             type="text"
             class="rounded-end"
             @blur="validatePhoneNumber"
           />
 
-          <BFormText v-if="formPhone == null" id="">
+          <BFormText v-if="formPhoneNumber == null" id="">
             Please select appropriate country code. Number format examples:
             222-123-4567, 2221234567 or (222) 123-4567
           </BFormText>
@@ -184,7 +184,7 @@
         errorResponse: null,
         formName: "",
         formEmail: "",
-        formPhone: "",
+        formPhoneNumber: "",
         formCountryCode: "",
         formRelationship: "",
         formPrimary: false,
@@ -211,7 +211,7 @@
         let contact = this.formContact;
         this.formName = contact.name;
         this.formEmail = contact.email;
-        this.formPhone = contact.phone_number;
+        this.formPhoneNumber = contact.phone_number;
         this.formCountryCode = contact.country_code;
         this.formRelationship = contact.relationship;
         this.formPrimary = this.isPrimary;
@@ -221,7 +221,7 @@
           this.formContact, this.formName);
       },
       validatePhoneNumber() {
-        let phone_number = `+${this.formCountryCode}${this.formPhone}`;
+        let phone_number = `+${this.formCountryCode}${this.formPhoneNumber}`;
         this.emergencyContactStore.validatePhoneNumber(
           this.formContact, phone_number);
       },
@@ -259,14 +259,14 @@
           .then((data) => {
             console.log("Data received:", data); // Will now have the actual response data
             this.emergencyContactStore.$reset;
+            this.emergencyContactStore.setContacts(data);
             this.$emit("saved");
-            this.$emit("reload");
             this.showModal = false;
           })
           .catch((error) => {
             console.log("Data saving error:", error);
-            this.showModal = false;
             this.errorResponse = error.data;
+            this.showModal = false;
           })
           .finally(() => {
             console.log("finally");

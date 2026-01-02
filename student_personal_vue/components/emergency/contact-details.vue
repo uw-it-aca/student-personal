@@ -37,7 +37,11 @@
     },
     computed: {
       formattedLastUpdated() {
-        return formatUTCToLocalDate(this.contact.last_modified, "LLL");
+        try {
+          return formatUTCToLocalDate(this.contact.last_modified, "LLL");
+        } catch (error) {
+          return "";
+        }
       },
       formattedPhoneNumber() {
         try {

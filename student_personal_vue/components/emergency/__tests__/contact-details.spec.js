@@ -10,7 +10,9 @@ describe("ContactDetails", () => {
         contact: {
           name: "Hank Average",
           email: "haverage@example.com",
-          phone_number: "+12065551234",
+          phone_number: "2065551234",
+          e164_phone_number: "+12065551234",
+          country_code: "1",
           last_modified: "2025-11-12T05:28:00Z",
           relationship: "PARENT",
         },
