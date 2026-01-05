@@ -221,7 +221,8 @@
           this.formContact, this.formName);
       },
       validatePhoneNumber() {
-        let phone_number = `+${this.formCountryCode}${this.formPhoneNumber}`;
+        let phone_number = "+" + this.formCountryCode + this.formPhoneNumber;
+            // `+${this.formCountryCode}${this.formPhoneNumber}`;
         this.emergencyContactStore.validatePhoneNumber(
           this.formContact, phone_number);
       },

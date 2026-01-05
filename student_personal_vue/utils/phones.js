@@ -20,12 +20,14 @@ function formatPhoneNumber(e164PhoneNumber) {
     return null;
   }
 }
+
 function getCountryCode(phoneNumber, defaultCountry) {
   try {
     const parsed = parsePhoneNumber(phoneNumber, defaultCountry);
-    if (parsed?.isValid()) {
-      return parsed.countryCallingCode; // Returns '1', '44', etc.
-    }
+
+    // Returns '1', '44', etc.
+    return parsed.countryCallingCode;
+
   } catch (error) {
     console.error("Invalid phone number:", error.message);
   }
@@ -36,10 +38,9 @@ function getSubscriberNumber(e164PhoneNumber) {
   try {
     const phoneNumber = parsePhoneNumber(e164PhoneNumber);
 
-    if (phoneNumber?.isValid()) {
-      // returns the national number (subscriber number) as a string
-      return phoneNumber.nationalNumber;
-    }
+    // returns the national number (subscriber number) as a string
+    return phoneNumber.nationalNumber;
+
   } catch (error) {
     // handle cases where the input string isn't a valid E.164 number
     console.error("Error parsing phone number for subscriber:", error.message);
