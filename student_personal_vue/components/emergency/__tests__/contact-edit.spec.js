@@ -252,16 +252,19 @@ describe("contact-edit.vue", () => {
 
     it("validates phone number correctly", async () => {
       const phoneInput = wrapper.find("#inputPhoneNumber");
+      const countryCodeComponent = wrapper.findComponent(SCountryCode);
+      await countryCodeComponent.vm.$emit("update:calling-code", "1");
+      expect(wrapper.vm.formCountryCode).toBe("1");
 
       await phoneInput.setValue("2221234567");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
-
-      await phoneInput.setValue("+12221234567");
-      await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
-      await phoneInput.setValue("+1 (222) 123-4567");
+      await phoneInput.setValue("+442221234567");
+      await phoneInput.trigger("blur");
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
+
+      await phoneInput.setValue("(222) 123-4567");
       await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
