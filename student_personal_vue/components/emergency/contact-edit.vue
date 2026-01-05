@@ -12,7 +12,7 @@
   >
     <p>Required fields are indicated by *</p>
 
-    <BForm novalidate autocomplete="off">
+    <BForm v-if="formContact" novalidate autocomplete="off">
       <div role="group" class="mb-3">
         <label for="" class="form-label fw-bold">Full name *</label>
         <BFormInput

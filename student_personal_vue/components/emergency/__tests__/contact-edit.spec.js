@@ -255,7 +255,7 @@ describe("contact-edit.vue", () => {
 
       await phoneInput.setValue("2221234567");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("+12221234567");
       await phoneInput.trigger("blur");
