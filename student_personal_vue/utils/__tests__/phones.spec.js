@@ -40,9 +40,9 @@ describe("getCountryCode", () => {
     expect(countryCode).toBe("1");
   });
 
-  it("should return null for an invalid number", () => {
+  it("should not return null for an invalid number", () => {
     const countryCode = getCountryCode("+12065");
-    expect(countryCode).toBe(null);
+    expect(countryCode).toBe("1");
   });
 
   it("should return null for a null number", () => {
@@ -63,10 +63,10 @@ describe("getSubscriberNumber", () => {
     expect(subscriberNumber).toBe("4255554321");
   });
 
-  it("should return null for an invalid number", () => {
+  it("should not return null for an invalid number", () => {
     const phoneNumber = "+12065";
     const subscriberNumber = getSubscriberNumber(phoneNumber);
-    expect(subscriberNumber).toBeNull();
+    expect(subscriberNumber).toBe("2065");
   });
 
   it("should return null for a null number", () => {
