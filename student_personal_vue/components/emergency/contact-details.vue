@@ -4,13 +4,13 @@
     <li>{{ contact.name }}</li>
     <li>{{ contact.email }}</li>
     <li v-if="contact.phone_number">
-      {{ formattedPhoneNumber }}
+      {{ contact.phone_number_formatted }}
     </li>
     <li v-if="contact.relationship">
       {{ formattedRelationship }}
     </li>
     <li v-if="contact.last_modified" class="text-secondary fst-italic">
-      Last updated: {{ formattedLastUpdated }}
+      Last updated: {{ contact.last_modified_formatted }}
     </li>
   </ul>
   <div v-else class="text-secondary fst-italic">
@@ -19,9 +19,6 @@
 </template>
 
 <script>
-  import { parsePhoneNumber } from "libphonenumber-js";
-  import { formatUTCToLocalDate } from "@/utils/dates";
-
   export default {
     props: {
       contact: {
@@ -30,28 +27,9 @@
       },
     },
     setup() {
-      return {
-        parsePhoneNumber,
-        formatUTCToLocalDate,
-      };
+      return {};
     },
     computed: {
-      formattedLastUpdated() {
-        try {
-          return formatUTCToLocalDate(this.contact.last_modified, "LLL");
-        } catch (error) {
-          return "";
-        }
-      },
-      formattedPhoneNumber() {
-        try {
-          const parsed = parsePhoneNumber(this.contact.phone_number);
-          return (parsed.countryCallingCode === "1")
-            ? parsed.formatNational() : parsed.formatInternational();
-        } catch (error) {
-          return "";
-        }
-      },
       formattedRelationship() {
         try {
           return this.contact.relationship.charAt(0).toUpperCase() +
