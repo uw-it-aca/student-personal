@@ -24,12 +24,12 @@
           are your emergency contact.
         </p>
 
-        <p class="fw-bold">
+        <p class="fw-bold mb-5">
           Please ensure you have at least a primary contact listed below with up
           to date contact information.
         </p>
 
-        <EmergencyContacts/>
+        <EmergencyContacts />
 
         <hr class="my-5">
 
@@ -48,7 +48,7 @@
         </p>
 
         <div class="my-3 mx-5">
-          <FamilyContactDetails/>
+          <FamilyContactDetails />
         </div>
       </div>
     </template>
@@ -86,7 +86,7 @@
     },
     data() {
       return {
-        pageTitle: "Family & Emergency Contacts",
+        pageTitle: "Emergency & Family Contacts",
       };
     },
   };

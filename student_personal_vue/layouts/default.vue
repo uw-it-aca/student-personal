@@ -116,7 +116,7 @@
     },
     data() {
       return {
-        appName: "Emergency Contacts",
+        appName: "Emergency & Family Contacts",
         appRootUrl: "/",
       };
     },

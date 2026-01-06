@@ -1,4 +1,6 @@
 <template>
+  <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
+
   <BAlert
     v-if="isIncomplete"
     variant="warning"
@@ -10,12 +12,7 @@
     <div>Please complete your primary contact.</div>
   </BAlert>
 
-  <BAlert
-    v-if="isSaved"
-    variant="success"
-    :model-value="true"
-    class="small"
-  >
+  <BAlert v-if="isSaved" variant="success" :model-value="true" class="small">
     <i class="bi-exclamation-triangle-fill me-2"></i>
     <span class="fw-bold">Contact information successfully updated</span>
   </BAlert>
@@ -43,7 +40,7 @@
     </div>
     <div class="my-3 mx-5">
       <template v-if="isLoading">
-        <ContactLoading/>
+        <ContactLoading />
       </template>
       <template v-else-if="errorResponse">unable to load contacts...</template>
       <template v-else>
@@ -78,7 +75,7 @@
     </div>
     <div class="my-3 mx-5">
       <template v-if="isLoading">
-        <ContactLoading/>
+        <ContactLoading />
       </template>
       <template v-else-if="errorResponse">unable to load contacts...</template>
       <template v-else>
