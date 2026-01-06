@@ -15,18 +15,27 @@
       >
         <div class="fw-bold mb-1">{{ contextStore.context.displayName }}</div>
         <ul class="list-unstyled text-secondary">
-          <li v-if="( contextStore.context.overrideUser !== contextStore.context.loginUser)">{{ contextStore.context.overrideUser }}</li>
+          <li
+            v-if="( contextStore.context.overrideUser !== contextStore.context.loginUser)"
+          >
+            {{ contextStore.context.overrideUser }}
+          </li>
           <li v-else>{{ contextStore.context.loginUser }}</li>
-          <li v-if="contextStore.context.pronouns !== null" class="text-lowercase">{{ contextStore.context.pronouns }}</li>
+          <li
+            v-if="contextStore.context.pronouns !== null"
+            class="text-lowercase"
+          >
+            {{ contextStore.context.pronouns }}
+          </li>
           <li>{{ contextStore.context.studentNumber }}</li>
         </ul>
 
         <ul class="list-unstyled">
-          <li><a
-            href="https://identity.uw.edu"
-            class="link-dark"
-            ><i class="bi bi-pencil me-2"></i>Edit in Identity.UW</a
-          ></li>
+          <li>
+            <a href="https://identity.uw.edu" class="link-dark"
+              ><i class="bi bi-pencil me-2"></i>Edit in Identity.UW</a
+            >
+          </li>
         </ul>
 
         <template #action>
@@ -46,7 +55,7 @@
           >
         </template>
       </SUser>
-      <SColorMode color-class="text-white" class="ms-2"/>
+      <SColorMode color-class="text-white" class="ms-2" />
     </template>
 
     <!--<template #navigation>
@@ -63,9 +72,8 @@
             <li
               v-for="(message, index) in window.student_personal.messages"
               :key="index"
-              class=""
               v-html="message"
-            ></li>
+            />
           </ul>
         </div>
       </div>
