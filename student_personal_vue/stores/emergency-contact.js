@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { parsePhoneNumber } from "libphonenumber-js";
+import { formatUTCToLocalDate } from "@/utils/dates";
 
 const PUT_PROPS = ["id", "name", "email", "phone_number", "relationship"];
 const NAME_REGEX = /^[a-zA-Z0-9\s\.'-]+$/;
@@ -19,7 +20,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     return {
       name: "EmergencyContact",
       contacts: [],
-      _staticContacts: [],
+      _static: [],
     };
   },
   getters: {
@@ -33,10 +34,10 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       return this.contacts[1];
     },
     staticPrimary(state) {
-      return this._staticContacts[0];
+      return this._static[0];
     },
     staticSecondary(state) {
-      return this._staticContacts[1];
+      return this._static[1];
     },
     relationshipOptions(state) {
       const options = [];
@@ -70,7 +71,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
   },
   actions: {
     setContacts(data) {
-      this._staticContacts = JSON.parse(JSON.stringify(data.emergency_contacts));
+      this._setStaticContacts(data);
       this.contacts = [];
       data.emergency_contacts.forEach((contact, idx) => {
         this.validateName(contact, contact.name);
@@ -78,6 +79,30 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         this.validateEmail(contact, contact.email);
         this.validateRelationship(contact, contact.relationship);
         this.contacts.push(contact);
+      });
+    },
+    _setStaticContacts(data) {
+      // Create a non-reactive view of the contact data
+      this._static = JSON.parse(JSON.stringify(data.emergency_contacts));
+      this._static.forEach((contact, idx) => {
+        try {
+          const parsed = parsePhoneNumber(contact.phone_number);
+          if (parsed) {
+            contact.phone_number_formatted = (
+              parsed.countryCallingCode === DEFAULT_COUNTRY_CODE)
+                ? parsed.formatNational() : parsed.formatInternational();
+          }
+        } catch (error) {
+          // console.log(error);
+          contact.phone_number_formatted = "";
+        }
+        try {
+          contact.last_modified_formatted = formatUTCToLocalDate(
+            contact.last_modified, "LLL");
+        } catch (error) {
+          // console.log(error);
+          contact.last_modified_formatted = "";
+        }
       });
     },
     validateName(contact, name) {
