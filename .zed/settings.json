@@ -25,6 +25,10 @@
   },
   // ... other settings
   "languages": {
+    "HTML": {
+      "format_on_save": "off",
+      "formatter": { "language_server": { "name": "biome" } },
+    },
     "Vue.js": {
       "formatter": { "language_server": { "name": "biome" } },
       "code_actions_on_format": {

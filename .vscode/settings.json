@@ -8,10 +8,10 @@
 
   "editor.formatOnSave": false,
   "editor.defaultFormatter": "biomejs.biome",
-
   "editor.codeActionsOnSave": {
     "source.organizeImports.biome": "explicit"
   },
+
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
