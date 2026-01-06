@@ -238,7 +238,6 @@
       },
       cancelEdit() {
         this.showModal = false;
-        this.emergencyContactStore.$reset;
         this.$emit("reload");
       },
       saveContact() {
@@ -260,9 +259,7 @@
 
         this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {
-            console.log("Data received:", data); // Will now have the actual response data
-            this.emergencyContactStore.$reset;
-            this.emergencyContactStore.setContacts(data);
+            this.$emit("reload");
             this.$emit("saved");
             this.showModal = false;
           })
