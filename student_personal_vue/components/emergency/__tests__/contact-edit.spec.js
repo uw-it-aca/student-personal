@@ -35,23 +35,28 @@ vi.mock("@/utils/data", () => ({
 describe("contact-edit.vue", () => {
   let pinia;
 
-  const createWrapper = (isPrimary, storeState = {}) => {
+  const createWrapper = (isPrimary, storeState) => {
     pinia = createPinia();
     const emergencyContactStore = useEmergencyContactStore(pinia);
-    emergencyContactStore.contacts = storeState.contacts || [
-      {
-        name: "John Doe",
-        phone_number: "+442079460958",
-        email: "john.doe@example.com",
-        relationship: "PARENT",
-      },
-      {
-        name: "Jane Doe",
-        phone_number: "+912212345678",
-        email: "jane.doe@example.com",
-        relationship: "GUARDIAN",
-      },
-    ];
+
+    if (storeState === undefined) storeState = {
+      emergency_contacts: [
+        {
+          name: "John Doe",
+          phone_number: "+12079460958",
+          email: "john.doe@example.com",
+          relationship: "PARENT",
+        },
+        {
+          name: "Jane Doe",
+          phone_number: "+912212345678",
+          email: "jane.doe@example.com",
+          relationship: "GUARDIAN",
+        },
+      ],
+    };
+
+    emergencyContactStore.setContacts(storeState);
 
     return mount(ContactEdit, {
       props: {
@@ -131,7 +136,7 @@ describe("contact-edit.vue", () => {
     it("loads the primary contact data into the form", () => {
       expect(wrapper.find("#inputFullName").element.value).toBe("John Doe");
       expect(wrapper.find("#inputPhoneNumber").element.value).toBe(
-        "2079460958",
+        "(207) 946-0958",
       );
       expect(wrapper.find("#inputEmailAddress").element.value).toBe(
         "john.doe@example.com",
@@ -139,7 +144,7 @@ describe("contact-edit.vue", () => {
       expect(wrapper.find("#selectRelationshipChoice").element.value).toBe(
         "PARENT",
       );
-      expect(wrapper.vm.countryCode).toBe("44");
+      expect(wrapper.vm.formCountryCode).toBe("1");
     });
 
     it("closes the modal when the 'Cancel' button is clicked", async () => {
@@ -165,7 +170,7 @@ describe("contact-edit.vue", () => {
     it("loads the secondary contact data into the form", () => {
       expect(wrapper.find("#inputFullName").element.value).toBe("Jane Doe");
       expect(wrapper.find("#inputPhoneNumber").element.value).toBe(
-        "2212345678",
+        "022 1234 5678",
       );
       expect(wrapper.find("#inputEmailAddress").element.value).toBe(
         "jane.doe@example.com",
@@ -173,14 +178,14 @@ describe("contact-edit.vue", () => {
       expect(wrapper.find("#selectRelationshipChoice").element.value).toBe(
         "GUARDIAN",
       );
-      expect(wrapper.vm.countryCode).toBe("91");
+      expect(wrapper.vm.formCountryCode).toBe("91");
     });
   });
 
   describe("when contact has no phone number", () => {
     it("initializes with default US country code", () => {
       const wrapper = createWrapper(true, {
-        contacts: [
+        emergency_contacts: [
           {
             name: "John Doe",
             phone_number: "", // Empty phone number
@@ -189,27 +194,27 @@ describe("contact-edit.vue", () => {
           },
         ],
       });
-      expect(wrapper.vm.countryCode).toBe("1");
-      expect(wrapper.vm.statePhone).toBe(null);
+      expect(wrapper.vm.formContact.country_code).toBe("1");
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(null);
     });
   });
 
   describe("when loading contact with incomplete data", () => {
     it("sets validation states to null for empty/invalid fields", () => {
       const wrapper = createWrapper(true, {
-        contacts: [
+        emergency_contacts: [
           {
             name: "",
             phone_number: "+1234567890",
             email: "",
-            relationship: "INVALID_RELATIONSHIP",
+            relationship: "",
           },
         ],
       });
 
-      expect(wrapper.vm.stateName).toBe(null);
-      expect(wrapper.vm.stateEmail).toBe(null);
-      expect(wrapper.vm.stateRelationship).toBe(null);
+      expect(wrapper.vm.formContact.name_valid).toBe(null);
+      expect(wrapper.vm.formContact.email_valid).toBe(null);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(null);
     });
   });
 
@@ -226,53 +231,60 @@ describe("contact-edit.vue", () => {
 
       await nameInput.setValue("John Doe");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.stateName).toBe(true);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John123");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.stateName).toBe(true);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John Doe-Smith. '");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.stateName).toBe(true);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John Doe$");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.stateName).toBe(false);
+      expect(wrapper.vm.formContact.name_valid).toBe(false);
 
       await nameInput.setValue("");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.stateName).toBe(false);
+      expect(wrapper.vm.formContact.name_valid).toBe(null);
     });
 
     it("validates phone number correctly", async () => {
       const phoneInput = wrapper.find("#inputPhoneNumber");
+      const countryCodeComponent = wrapper.findComponent(SCountryCode);
+      await countryCodeComponent.vm.$emit("update:calling-code", "1");
+      expect(wrapper.vm.formCountryCode).toBe("1");
 
-      await phoneInput.setValue("222-123-4567");
+      await phoneInput.setValue("3135556677");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.statePhone).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
 
       await phoneInput.setValue("2221234567");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.statePhone).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
+
+      await phoneInput.setValue("+442221234567");
+      await phoneInput.trigger("blur");
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("(222) 123-4567");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.statePhone).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("123-4567");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.statePhone).toBe(false);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("invalid-phone");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.statePhone).toBe(false);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
     });
 
     it("updates the country code when SCountryCode emits an event", async () => {
       const countryCodeComponent = wrapper.findComponent(SCountryCode);
       await countryCodeComponent.vm.$emit("update:calling-code", "49");
-      expect(wrapper.vm.countryCode).toBe("49");
+      expect(wrapper.vm.formCountryCode).toBe("49");
       const countryCodeText = wrapper.findComponent(BInputGroupText);
       expect(countryCodeText.text()).toContain("+49");
     });
@@ -282,15 +294,15 @@ describe("contact-edit.vue", () => {
 
       await emailInput.setValue("test@example.com");
       await emailInput.trigger("blur");
-      expect(wrapper.vm.stateEmail).toBe(true);
+      expect(wrapper.vm.formContact.email_valid).toBe(true);
 
       await emailInput.setValue("invalid-email");
       await emailInput.trigger("blur");
-      expect(wrapper.vm.stateEmail).toBe(false);
+      expect(wrapper.vm.formContact.email_valid).toBe(false);
 
       await emailInput.setValue("");
       await emailInput.trigger("blur");
-      expect(wrapper.vm.stateEmail).toBe(false);
+      expect(wrapper.vm.formContact.email_valid).toBe(null);
     });
 
     it("validates relationship choice correctly", async () => {
@@ -298,11 +310,11 @@ describe("contact-edit.vue", () => {
 
       await relationshipSelect.setValue("PARENT");
       await relationshipSelect.trigger("blur");
-      expect(wrapper.vm.stateRelationship).toBe(true);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(true);
 
       await relationshipSelect.setValue("");
       await relationshipSelect.trigger("blur");
-      expect(wrapper.vm.stateRelationship).toBe(false);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(null);
     });
 
     it("updates formPrimary when checkbox is clicked", async () => {
@@ -330,7 +342,7 @@ describe("contact-edit.vue", () => {
 
     it("updates store and calls API on successful save", async () => {
       updateEmergencyContacts.mockResolvedValue({});
-      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "updateContact");
+      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
 
       await wrapper.find("#inputFullName").setValue("Johnathan Doe");
       const saveButton = wrapper
@@ -346,9 +358,11 @@ describe("contact-edit.vue", () => {
 
     it("does not update store or call API if validation fails", async () => {
       updateEmergencyContacts.mockResolvedValue({});
-      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "updateContact");
+      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
 
-      await wrapper.find("#inputFullName").setValue("");
+      const nameInput = wrapper.find("#inputFullName");
+      await nameInput.setValue("");
+      await nameInput.trigger("blur");
 
       const saveButton = wrapper
         .findAllComponents(BButton)
@@ -366,7 +380,7 @@ describe("contact-edit.vue", () => {
       await secondaryWrapper.findComponent(BButton).trigger("click");
 
       updateEmergencyContacts.mockResolvedValue({});
-      const storeReorderSpy = vi.spyOn(secondaryStore, "reorder");
+      const storeReorderSpy = vi.spyOn(secondaryStore, "reorderContacts");
 
       await secondaryWrapper.find("#checkboxPrimaryContact").setChecked();
 

@@ -35,7 +35,7 @@ describe("Emergency Contact Store", () => {
     expect(store.contacts[0].id).toBe(1);
     expect(store.contacts[1].id).toBe(2);
 
-    store.reorder();
+    store.reorderContacts();
 
     expect(store.contacts[0].id).toBe(2);
     expect(store.contacts[1].id).toBe(1);
@@ -57,8 +57,8 @@ describe("Emergency Contact Store", () => {
 
     store.removeContact(true);
 
-    expect(store.contacts.length).toBe(1);
-    expect(store.contacts[0].id).toBe(2);
+    expect(store.contacts.length).toBe(2);
+    expect(store.contacts[0].is_deleted).toBe(true);
   });
 
   it("removes secondary contact", () => {
@@ -77,7 +77,7 @@ describe("Emergency Contact Store", () => {
 
     store.removeContact(false);
 
-    expect(store.contacts.length).toBe(1);
-    expect(store.contacts[0].id).toBe(1);
+    expect(store.contacts.length).toBe(2);
+    expect(store.contacts[1].is_deleted).toBe(true);
   });
 });

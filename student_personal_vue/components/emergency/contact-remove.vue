@@ -105,28 +105,24 @@
     methods: {
       cancelModal: function () {
         this.showModal = false;
-        this.$emit("reload");
       },
       removeContact: function () {
-        let url = this.contextStore.context.emergencyContactUrl,
-          putData = {};
+        let url = this.contextStore.context.emergencyContactUrl;
 
         this.emergencyContactStore.removeContact(this.isPrimary);
 
-        putData.emergency_contacts = this.emergencyContactStore.contacts;
+        console.log(this.emergencyContactStore.putData);
 
-        this.updateEmergencyContacts(url, putData)
+        this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {
+            this.emergencyContactStore.$reset;
             this.$emit("reload");
             this.showModal = false;
-
           })
           .catch((error) => {
-            console.log("catch error");
             this.hasError = true;
           })
           .finally(() => {
-            console.log("finally");
             this.showModal = false;
           });
       },

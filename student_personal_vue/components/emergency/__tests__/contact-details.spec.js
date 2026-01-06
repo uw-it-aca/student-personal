@@ -12,6 +12,7 @@ describe("ContactDetails", () => {
           email: "haverage@example.com",
           phone_number: "+12065551234",
           last_modified: "2025-11-12T05:28:00Z",
+          relationship: "PARENT",
         },
       },
     });
@@ -19,7 +20,8 @@ describe("ContactDetails", () => {
     // Check that the component renders the correct information
     expect(wrapper.text()).toContain("Hank Average");
     expect(wrapper.text()).toContain("haverage@example.com");
-    expect(wrapper.text()).toContain("+1 (206) 555-1234");
-    expect(wrapper.text()).toContain("Last updated: November 11, 2025 9:28 PM");
+    expect(wrapper.text()).toContain("(206) 555-1234");
+    expect(wrapper.vm.formattedLastUpdated).toBe("November 11, 2025 9:28 PM");
+    expect(wrapper.vm.formattedRelationship).toBe("Parent");
   });
 });

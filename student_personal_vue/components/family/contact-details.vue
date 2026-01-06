@@ -6,7 +6,7 @@
   <ul v-else-if="contact && contact.name" class="list-unstyled">
     <li>{{ contact.name }}</li>
     <li v-if="hasMailingAddress" v-html="formatMailingAddress(contact)"></li>
-    <li v-if="hasPhoneNumber">{{ formatPhoneNumber(contact.phone_number) }}</li>
+    <li v-if="hasPhoneNumber">{{ formattedPhoneNumber }}</li>
   </ul>
   <div v-else class="text-secondary fst-italic">
     No contact information provided.
@@ -19,7 +19,7 @@
   import { formatMailingAddress } from "@/utils/addresses";
   import { getFamilyContact } from "@/utils/data";
   import { formatDate } from "@/utils/dates";
-  import { formatPhoneNumber } from "@/utils/phones";
+  import { parsePhoneNumber } from "libphonenumber-js";
 
   export default {
     components: {
@@ -31,7 +31,7 @@
         contextStore,
         getFamilyContact,
         formatDate,
-        formatPhoneNumber,
+        parsePhoneNumber,
         formatMailingAddress,
       };
     },
@@ -48,6 +48,15 @@
           this.contact.phone_number !== null &&
           this.contact.phone_number.trim() !== ""
         );
+      },
+      formattedPhoneNumber() {
+        try {
+          const parsed = parsePhoneNumber(this.contact.phone_number);
+          return (parsed.countryCallingCode === "1")
+            ? parsed.formatNational() : parsed.formatInternational();
+        } catch (error) {
+          return "";
+        }
       },
       hasMailingAddress() {
         return (

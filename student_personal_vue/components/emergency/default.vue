@@ -48,8 +48,8 @@
       <template v-else-if="errorResponse">unable to load contacts...</template>
       <template v-else>
         <ContactDetails
-          v-if="emergencyContactStore.primary"
-          :contact="emergencyContactStore.primary"
+          v-if="emergencyContactStore.staticPrimary"
+          :contact="emergencyContactStore.staticPrimary"
         />
       </template>
     </div>
@@ -83,8 +83,8 @@
       <template v-else-if="errorResponse">unable to load contacts...</template>
       <template v-else>
         <ContactDetails
-          v-if="emergencyContactStore.secondary"
-          :contact="emergencyContactStore.secondary"
+          v-if="emergencyContactStore.staticSecondary"
+          :contact="emergencyContactStore.staticSecondary"
         />
       </template>
     </div>
@@ -131,8 +131,8 @@
         // check for missing relationship in the primary contact
         return (
           this.emergencyContactStore.contacts.length > 0 &&
-          (this.emergencyContactStore.primary.relationship === null ||
-            this.emergencyContactStore.primary.relationship.trim() === "")
+          (this.emergencyContactStore.staticPrimary.relationship === null ||
+            this.emergencyContactStore.staticPrimary.relationship.trim() === "")
         );
       },
     },
@@ -143,7 +143,7 @@
         setTimeout(() => {
           this.getEmergencyContacts(url)
             .then((data) => {
-              this.emergencyContactStore.contacts = data.emergency_contacts;
+              this.emergencyContactStore.setContacts(data);
               this.isLoading = false;
             })
             .catch((error) => {
