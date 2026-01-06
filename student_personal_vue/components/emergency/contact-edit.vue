@@ -211,7 +211,7 @@
         let contact = this.formContact;
         this.formName = contact.name;
         this.formEmail = contact.email;
-        this.formPhoneNumber = contact.phone_number;
+        this.formPhoneNumber = contact.phone_number_formatted;
         this.formCountryCode = contact.country_code;
         this.formRelationship = contact.relationship;
         this.formPrimary = this.isPrimary;
@@ -219,16 +219,18 @@
       validateFullName() {
         this.emergencyContactStore.validateName(
           this.formContact, this.formName);
+        this.formName = this.formContact.name;
       },
       validatePhoneNumber() {
         let phone_number = "+" + this.formCountryCode + this.formPhoneNumber;
-            // `+${this.formCountryCode}${this.formPhoneNumber}`;
         this.emergencyContactStore.validatePhoneNumber(
           this.formContact, phone_number);
+        this.formPhoneNumber = this.formContact.phone_number_formatted;
       },
       validateEmailAddress() {
         this.emergencyContactStore.validateEmail(
           this.formContact, this.formEmail);
+        this.formEmail = this.formContact.email;
       },
       validateRelationshipChoice() {
         this.emergencyContactStore.validateRelationship(

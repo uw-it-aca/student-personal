@@ -19,8 +19,8 @@
 </template>
 
 <script>
+  import { parsePhoneNumber } from "libphonenumber-js";
   import { formatUTCToLocalDate } from "@/utils/dates";
-  import { formatPhoneNumber } from "@/utils/phones";
 
   export default {
     props: {
@@ -31,8 +31,8 @@
     },
     setup() {
       return {
+        parsePhoneNumber,
         formatUTCToLocalDate,
-        formatPhoneNumber,
       };
     },
     computed: {
@@ -45,7 +45,9 @@
       },
       formattedPhoneNumber() {
         try {
-          return formatPhoneNumber(this.contact.e164_phone_number);
+          const parsed = parsePhoneNumber(this.contact.phone_number);
+          return (parsed.countryCallingCode === "1")
+            ? parsed.formatNational() : parsed.formatInternational();
         } catch (error) {
           return "";
         }

@@ -136,7 +136,7 @@ describe("contact-edit.vue", () => {
     it("loads the primary contact data into the form", () => {
       expect(wrapper.find("#inputFullName").element.value).toBe("John Doe");
       expect(wrapper.find("#inputPhoneNumber").element.value).toBe(
-        "2079460958",
+        "(207) 946-0958",
       );
       expect(wrapper.find("#inputEmailAddress").element.value).toBe(
         "john.doe@example.com",
@@ -170,7 +170,7 @@ describe("contact-edit.vue", () => {
     it("loads the secondary contact data into the form", () => {
       expect(wrapper.find("#inputFullName").element.value).toBe("Jane Doe");
       expect(wrapper.find("#inputPhoneNumber").element.value).toBe(
-        "2212345678",
+        "022 1234 5678",
       );
       expect(wrapper.find("#inputEmailAddress").element.value).toBe(
         "jane.doe@example.com",
@@ -256,9 +256,13 @@ describe("contact-edit.vue", () => {
       await countryCodeComponent.vm.$emit("update:calling-code", "1");
       expect(wrapper.vm.formCountryCode).toBe("1");
 
-      await phoneInput.setValue("2221234567");
+      await phoneInput.setValue("3135556677");
       await phoneInput.trigger("blur");
       expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
+
+      await phoneInput.setValue("2221234567");
+      await phoneInput.trigger("blur");
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("+442221234567");
       await phoneInput.trigger("blur");
@@ -266,7 +270,7 @@ describe("contact-edit.vue", () => {
 
       await phoneInput.setValue("(222) 123-4567");
       await phoneInput.trigger("blur");
-      expect(wrapper.vm.formContact.phone_number_valid).toBe(true);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
 
       await phoneInput.setValue("123-4567");
       await phoneInput.trigger("blur");

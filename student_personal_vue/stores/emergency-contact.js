@@ -1,9 +1,8 @@
 import { defineStore } from "pinia";
-import { getCountryCode, getSubscriberNumber } from "@/utils/phones";
+import { parsePhoneNumber } from "libphonenumber-js";
 
 const PUT_PROPS = ["id", "name", "email", "phone_number", "relationship"];
 const NAME_REGEX = /^[a-zA-Z0-9\s\.'-]+$/;
-const PHONE_REGEX = /^[(]?[0-9]{2,3}[)]?[-\s]?[0-9]{3,4}[-\s]?[0-9]{4}$/;
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const RELATIONSHIPS = [
   "PARENT",
@@ -20,6 +19,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     return {
       name: "EmergencyContact",
       contacts: [],
+      _staticContacts: [],
     };
   },
   getters: {
@@ -31,6 +31,12 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     },
     secondary(state) {
       return this.contacts[1];
+    },
+    staticPrimary(state) {
+      return this._staticContacts[0];
+    },
+    staticSecondary(state) {
+      return this._staticContacts[1];
     },
     relationshipOptions(state) {
       const options = [];
@@ -64,6 +70,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
   },
   actions: {
     setContacts(data) {
+      this._staticContacts = JSON.parse(JSON.stringify(data.emergency_contacts));
       this.contacts = [];
       data.emergency_contacts.forEach((contact, idx) => {
         this.validateName(contact, contact.name);
@@ -83,7 +90,8 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       }
     },
     validatePhoneNumber(contact, e164_phone_number) {
-      let country_code = "", phone_number = "", phone_number_valid = null;
+      let country_code = "", phone_number = "", phone_number_valid = null,
+        phone_number_formatted = "", phone_number_formatted_intl = "";
 
       e164_phone_number = this.normalize(e164_phone_number);
       e164_phone_number = e164_phone_number.replace(/[^+0-9]/g, "");
@@ -92,18 +100,25 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         country_code = DEFAULT_COUNTRY_CODE;
       } else {
         try {
-          country_code = getCountryCode(e164_phone_number);
-          phone_number = getSubscriberNumber(e164_phone_number);
-          phone_number_valid = PHONE_REGEX.test(phone_number);
+          const parsed = parsePhoneNumber(e164_phone_number);
+          if (parsed) {
+            phone_number_valid = parsed.isValid();
+            country_code = parsed.countryCallingCode;
+            phone_number = parsed.nationalNumber;
+            phone_number_formatted = parsed.formatNational();
+            phone_number_formatted_intl = parsed.formatInternational();
+          }
         } catch (error) {
-          console.log(error);
+          //console.log(error);
           phone_number_valid = false;
         }
       }
+      contact.e164_phone_number = e164_phone_number;
       contact.country_code = country_code;
       contact.phone_number = phone_number;
       contact.phone_number_valid = phone_number_valid;
-      contact.e164_phone_number = e164_phone_number;
+      contact.phone_number_formatted = phone_number_formatted;
+      contact.phone_number_formatted_intl = phone_number_formatted_intl;
     },
     validateEmail(contact, email) {
       email = this.normalize(email);
