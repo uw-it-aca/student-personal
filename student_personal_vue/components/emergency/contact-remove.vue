@@ -115,7 +115,6 @@
 
         this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {
-            this.emergencyContactStore.$reset;
             this.$emit("reload");
             this.showModal = false;
           })

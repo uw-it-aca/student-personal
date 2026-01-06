@@ -140,16 +140,19 @@
       loadEmergencyContacts: function () {
         let url = this.contextStore.context.emergencyContactUrl;
 
+        this.isLoading = true;
         setTimeout(() => {
           this.getEmergencyContacts(url)
             .then((data) => {
+              this.emergencyContactStore.$reset;
               this.emergencyContactStore.setContacts(data);
-              this.isLoading = false;
             })
             .catch((error) => {
               this.errorResponse = error.data;
             })
-            .finally(() => {});
+            .finally(() => {
+              this.isLoading = false;
+            });
         }, 500);
       },
       showSavedAlert: function () {
