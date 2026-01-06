@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-v-html -->
 <template>
   <!-- layout.vue: this is where you override the layout -->
   <STopbarNeo
