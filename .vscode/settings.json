@@ -1,7 +1,24 @@
+
 {
   "black-formatter.args": [
     "--line-length","79",
     "--skip-string-normalization","true"
   ],
-  "stylelint.validate": ["vue", "scss"]
+  "stylelint.validate": ["vue", "scss"],
+
+  "editor.formatOnSave": false,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit"
+  },
+
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
 }
