@@ -12,7 +12,6 @@ describe("ContactDetails", () => {
           email: "haverage@example.com",
           phone_number: "+12065551234",
           phone_number_formatted: "(206) 555-1234",
-          last_modified: "2025-11-12T05:28:00Z",
           relationship: "PARENT",
         },
       },
