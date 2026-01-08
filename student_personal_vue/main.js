@@ -1,6 +1,6 @@
-import { createApp } from "vue";
 import { createBootstrap } from "bootstrap-vue-next";
 import { createPinia } from "pinia";
+import { createApp } from "vue";
 // import VueGtag from "vue-gtag-next";
 import { Vue3Mq } from "vue3-mq";
 
@@ -19,6 +19,9 @@ import "solstice-vue/dist/style.css";
 
 // bootstrap-vue-next css
 import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
+
+// microsoft clarity
+import { initClarity } from "./plugins/clarity";
 
 const app = createApp(App);
 app.config.productionTip = false;
@@ -62,5 +65,16 @@ app.use(createBootstrap());
 
 // vue-router
 app.use(router);
+
+// microsoft clarity
+const projectId = import.meta.env.MICROSOFT_CLARITY_PROJECT_ID;
+const clarityEnabled = document.body.getAttribute("data-django-debug");
+
+initClarity({
+  projectId,
+  clarityEnabled,
+  router,
+  routeLabel: (to) => to.name ?? to.path,
+});
 
 app.mount("#app");
