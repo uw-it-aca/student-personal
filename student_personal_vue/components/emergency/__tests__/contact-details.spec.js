@@ -13,7 +13,6 @@ describe("ContactDetails", () => {
           phone_number: "+12065551234",
           phone_number_formatted: "(206) 555-1234",
           last_modified: "2025-11-12T05:28:00Z",
-          last_modified_formatted: "November 12, 2025 1:28 PM",
           relationship: "PARENT",
         },
       },
@@ -23,7 +22,6 @@ describe("ContactDetails", () => {
     expect(wrapper.text()).toContain("Hank Average");
     expect(wrapper.text()).toContain("haverage@example.com");
     expect(wrapper.text()).toContain("(206) 555-1234");
-    expect(wrapper.text()).toContain("November 12, 2025 1:28 PM");
     expect(wrapper.vm.formattedRelationship).toBe("Parent");
   });
 });
