@@ -3,11 +3,26 @@
   <ul v-if="contact && contact.name" class="list-unstyled">
     <li>{{ contact.name }}</li>
     <li>{{ contact.email }}</li>
-    <li v-if="contact.phone_number">
-      {{ contact.phone_number_formatted }}
-    </li>
+    <li v-if="contact.phone_number">{{ contact.phone_number_formatted }}</li>
     <li v-if="contact.relationship">
-      {{ formattedRelationship }}
+      <BBadge
+        pill
+        bg-variant="secondary-subtle"
+        text-variant="secondary-emphasis"
+        class="fw-semibold me-1"
+      >
+        {{ formattedRelationship }}
+      </BBadge>
+    </li>
+    <li v-else>
+      <BBadge
+        pill
+        bg-variant="warning-subtle"
+        text-variant="warning-emphasis"
+        class="fw-semibold me-1"
+      >
+        Not specifed
+      </BBadge>
     </li>
   </ul>
   <div v-else class="text-secondary fst-italic">
@@ -16,7 +31,12 @@
 </template>
 
 <script>
+  import { BBadge } from "bootstrap-vue-next";
+
   export default {
+    components: {
+      BBadge,
+    },
     props: {
       contact: {
         type: Object,
@@ -29,8 +49,10 @@
     computed: {
       formattedRelationship() {
         try {
-          return this.contact.relationship.charAt(0).toUpperCase() +
-            this.contact.relationship.substr(1).toLowerCase();
+          return (
+            this.contact.relationship.charAt(0).toUpperCase() +
+            this.contact.relationship.substr(1).toLowerCase()
+          );
         } catch (error) {
           return "";
         }
