@@ -47,7 +47,7 @@
           page to edit this contact.
         </p>
 
-        <div class="my-3 mx-5">
+        <div class="mx-5 mb-5">
           <FamilyContactDetails />
         </div>
       </div>
