@@ -32,7 +32,7 @@
     "Vue.js": {
       "formatter": { "language_server": { "name": "biome" } },
       "code_actions_on_format": {
-        "source.fixAll.biome": true,
+        //"source.fixAll.biome": true,
         "source.organizeImports.biome": true,
       },
       "format_on_save": "off",
@@ -43,7 +43,7 @@
     "JavaScript": {
       "formatter": { "language_server": { "name": "biome" } },
       "code_actions_on_format": {
-        "source.fixAll.biome": true,
+        //"source.fixAll.biome": true,
         "source.organizeImports.biome": true,
       },
       // "language_servers": ["biome"]
@@ -51,7 +51,7 @@
     "TypeScript": {
       "formatter": { "language_server": { "name": "biome" } },
       "code_actions_on_format": {
-        "source.fixAll.biome": true,
+        //"source.fixAll.biome": true,
         "source.organizeImports.biome": true,
       },
     },

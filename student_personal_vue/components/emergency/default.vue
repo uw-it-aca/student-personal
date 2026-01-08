@@ -1,5 +1,4 @@
 <template>
-
   <BAlert
     v-if="isIncomplete"
     variant="warning"
@@ -83,16 +82,20 @@
       </template>
     </div>
   </div>
-  <p v-if="emergencyContactStore.staticPrimary" class="text-secondary fst-italic">Contacts last updated on: {{ emergencyContactStore.staticPrimary.last_modified_formatted }}
+  <p
+    v-if="emergencyContactStore.staticPrimary"
+    class="text-secondary fst-italic"
+  >
+    Contacts last updated on:
+    {{ emergencyContactStore.staticPrimary.last_modified_formatted }}
   </p>
 </template>
 
-
 <script>
   import { BAlert } from "bootstrap-vue-next";
+  import ContactLoading from "@/components/_contact-loading.vue";
   import ContactDetails from "@/components/emergency/contact-details.vue";
   import ContactEdit from "@/components/emergency/contact-edit.vue";
-  import ContactLoading from "@/components/_contact-loading.vue";
   import ContactRemove from "@/components/emergency/contact-remove.vue";
   import { useContextStore } from "@/stores/context";
   import { useEmergencyContactStore } from "@/stores/emergency-contact";
