@@ -1,18 +1,12 @@
 <template>
-  <BAlert
-    v-if="isIncomplete"
-    variant="warning"
-    :model-value="true"
-    class="small"
-  >
+  <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
-    <span class="fw-bold">Incomplete information</span>
-    <div>Please complete your primary contact.</div>
+    Please complete your primary contact.
   </BAlert>
 
-  <BAlert v-if="isSaved" variant="success" :model-value="true" class="small">
+  <BAlert v-if="isSaved" variant="success" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
-    <span class="fw-bold">Contact information successfully updated</span>
+    Contact information successfully updated
   </BAlert>
 
   <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
