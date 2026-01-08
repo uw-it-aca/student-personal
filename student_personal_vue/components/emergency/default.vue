@@ -1,5 +1,4 @@
 <template>
-  <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
 
   <BAlert
     v-if="isIncomplete"
@@ -17,7 +16,13 @@
     <span class="fw-bold">Contact information successfully updated</span>
   </BAlert>
 
-  <div class="mb-5">
+  <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
+  <p class="mb-4">
+    If your primary contact cannot be reached, your secondary contact will be
+    attempted.
+  </p>
+
+  <div class="mb-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="fs-3 m-0">Primary</h2>
       <div>
@@ -34,10 +39,6 @@
         />
       </div>
     </div>
-    <div>
-      If your primary contact cannot be reached, your secondary contact will be
-      attempted.
-    </div>
     <div class="my-3 mx-5">
       <template v-if="isLoading">
         <ContactLoading />
@@ -52,7 +53,7 @@
     </div>
   </div>
 
-  <div class="mb-5">
+  <div class="mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="fs-3 m-0">Secondary</h2>
       <div>
@@ -69,10 +70,6 @@
         />
       </div>
     </div>
-    <div>
-      If your primary contact cannot be reached, your secondary contact will be
-      attempted.
-    </div>
     <div class="my-3 mx-5">
       <template v-if="isLoading">
         <ContactLoading />
@@ -86,7 +83,10 @@
       </template>
     </div>
   </div>
+  <p v-if="emergencyContactStore.staticPrimary" class="text-secondary fst-italic">Contacts last updated on: {{ emergencyContactStore.staticPrimary.last_modified_formatted }}
+  </p>
 </template>
+
 
 <script>
   import { BAlert } from "bootstrap-vue-next";
