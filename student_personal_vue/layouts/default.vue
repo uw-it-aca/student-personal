@@ -88,9 +88,9 @@
           <BCard class="bg-body-tertiary rounded-3 mb-3" border-variant="0">
             <h3 class="h5 ff-encode-sans card-title">Additional Resources</h3>
             <ul class="list-unstyled m-0">
-              <li><a href="#">MyUW</a></li>
-              <li><a href="#">Notify.UW</a></li>
-              <li><a href="#">Dawgpath</a></li>
+              <li><BLink href="https://my.uw.edu" class="link-quiet-primary">MyUW</BLink></li>
+              <li><BLink href="https://identity.uw.edu" class="link-quiet-primary">Identity.UW</BLink></li>
+              <li><BLink href="https://dawgpath.uw.edu" class="link-quiet-primary">Dawgpath</BLink></li>
             </ul>
           </BCard>
           <slot name="sidebar"></slot>
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { BCard } from "bootstrap-vue-next";
+  import { BCard, BLink } from "bootstrap-vue-next";
   import { SColorMode, SProfile, STopbarNeo, SUser } from "solstice-vue";
   import NavMenu from "@/components/_nav-menu.vue";
   import { useContextStore } from "@/stores/context";
@@ -112,6 +112,7 @@ import { BCard } from "bootstrap-vue-next";
     name: "PersonaInformationApp",
     components: {
       BCard,
+      BLink,
       NavMenu,
       STopbarNeo,
       SProfile,
