@@ -7,8 +7,8 @@
     <li v-if="contact.relationship">
       <BBadge
         pill
-        bg-variant="secondary-subtle"
-        text-variant="secondary-emphasis"
+        bg-variant="deco-violet-subtle"
+        text-variant="deco-violet-emphasis"
         class="fw-semibold me-1"
       >
         {{ formattedRelationship }}
@@ -17,8 +17,8 @@
     <li v-else>
       <BBadge
         pill
-        bg-variant="warning-subtle"
-        text-variant="warning-emphasis"
+        bg-variant="secondary-subtle"
+        text-variant="secondary-emphasis"
         class="fw-semibold me-1"
       >
         Not specifed
