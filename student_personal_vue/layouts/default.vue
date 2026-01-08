@@ -79,7 +79,7 @@
     </template>
 
     <template #main>
-      <div class="row my-5">
+      <div class="row justify-content-between my-5">
         <div class="col-md-9">
           <h1 class="ff-encode-sans fw-semibold mb-5">{{ pageTitle }}</h1>
           <slot name="content"></slot>

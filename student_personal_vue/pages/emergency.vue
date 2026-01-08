@@ -17,14 +17,14 @@
         </p>
       </div>
       <div v-else>
-        <p>
+        <p style="max-width: 85ch;">
           It&rsquo;s important that UW has a way to contact a trusted individual
           (parent, friend, spouse etc.) about your safety, if an emergency
           occurs. Make sure to tell to tell the individual(s) listed that they
           are your emergency contact.
         </p>
 
-        <p class="fw-bold mb-5">
+        <p class="fw-bold mb-5" style="max-width: 85ch;">
           Please ensure you have at least a primary contact listed below with up
           to date contact information.
         </p>
@@ -37,7 +37,7 @@
           Parent/Family Member Contact
         </h2>
 
-        <p>
+        <p style="max-width: 85ch;">
           This address is used to reach out to parent/family members by Student
           Life. You are welcome to provide a parent/family contact name, but
           this is not a required field. Please visit the

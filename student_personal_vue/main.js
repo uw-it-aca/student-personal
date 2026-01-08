@@ -21,7 +21,7 @@ import "solstice-vue/dist/style.css";
 import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
 
 // microsoft clarity
-import { initClarity } from "./plugins/clarity";
+import { initClarity } from "@/plugins/clarity";
 
 const app = createApp(App);
 app.config.productionTip = false;

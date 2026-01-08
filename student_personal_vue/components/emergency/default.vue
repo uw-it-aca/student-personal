@@ -1,7 +1,7 @@
 <template>
   <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
-    Please complete your primary contact.
+    Please specify the relationship of your primary contact.
   </BAlert>
 
   <BAlert v-if="isSaved" variant="success" :model-value="true">
