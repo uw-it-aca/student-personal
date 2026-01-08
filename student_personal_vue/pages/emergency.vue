@@ -52,14 +52,7 @@
         </div>
       </div>
     </template>
-    <template #sidebar>
-      <p>
-        lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-        voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur adipisicing
-        elit. Quisquam, voluptatum.
-      </p>
-    </template>
+    <template #sidebar></template>
   </DefaultLayout>
 </template>
 
