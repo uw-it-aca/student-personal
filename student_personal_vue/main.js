@@ -67,8 +67,8 @@ app.use(createBootstrap());
 app.use(router);
 
 // microsoft clarity
-const projectId = import.meta.env.MICROSOFT_CLARITY_PROJECT_ID;
-const clarityEnabled = document.body.getAttribute("data-django-debug");
+const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
+const clarityEnabled = import.meta.env.VITE_CLARITY_ENABLED;
 
 initClarity({
   projectId,
