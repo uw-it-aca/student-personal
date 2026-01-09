@@ -71,4 +71,6 @@ app.use(router);
 const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
 Clarity.init(projectId);
 
+console.log("Clarity initialized", projectId);
+
 app.mount("#app");
