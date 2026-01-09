@@ -152,7 +152,7 @@
     },
     data() {
       return {
-        appName: "Emergency & Family Contacts",
+        appName: "Student Contacts",
         appRootUrl: "/",
       };
     },

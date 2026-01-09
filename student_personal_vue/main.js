@@ -21,7 +21,8 @@ import "solstice-vue/dist/style.css";
 import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
 
 // microsoft clarity
-import { initClarity } from "@/plugins/clarity";
+//import { initClarity } from "@/plugins/clarity";
+import Clarity from "@microsoft/clarity";
 
 const app = createApp(App);
 app.config.productionTip = false;
@@ -68,13 +69,6 @@ app.use(router);
 
 // microsoft clarity
 const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
-const clarityEnabled = import.meta.env.VITE_CLARITY_ENABLED;
-
-initClarity({
-  projectId,
-  clarityEnabled,
-  router,
-  routeLabel: (to) => to.name ?? to.path,
-});
+Clarity.init(projectId);
 
 app.mount("#app");

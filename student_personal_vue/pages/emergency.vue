@@ -20,8 +20,8 @@
         <p style="max-width: 85ch;">
           It&rsquo;s important that UW has a way to contact a trusted individual
           (parent, friend, spouse etc.) about your safety, if an emergency
-          occurs. Make sure to tell to tell the individual(s) listed that they
-          are your emergency contact.
+          occurs. Make sure to tell the individual(s) listed that they are your
+          emergency contact.
         </p>
 
         <p class="fw-bold mb-5" style="max-width: 85ch;">
@@ -30,26 +30,6 @@
         </p>
 
         <EmergencyContacts />
-
-        <hr class="my-5">
-
-        <h2 class="ff-encode-sans fw-semibold mb-3">
-          Parent/Family Member Contact
-        </h2>
-
-        <p style="max-width: 85ch;">
-          This address is used to reach out to parent/family members by Student
-          Life. You are welcome to provide a parent/family contact name, but
-          this is not a required field. Please visit the
-          <a href="https://sdb.admin.uw.edu/sisStudents/uwnetid/address.aspx"
-            >Address and Consent</a
-          >
-          page to edit this contact.
-        </p>
-
-        <div class="mx-5 mb-5">
-          <FamilyContactDetails />
-        </div>
       </div>
     </template>
     <template #sidebar></template>
@@ -79,7 +59,7 @@
     },
     data() {
       return {
-        pageTitle: "Emergency & Family Contacts",
+        pageTitle: "Emergency Contacts",
       };
     },
   };
