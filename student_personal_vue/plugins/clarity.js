@@ -15,13 +15,13 @@ import clarity from "@microsoft/clarity";
  * @param {(route: import('vue-router').RouteLocationNormalized) => string} [options.routeLabel] - Map route -> label
  */
 export function initClarity(options = {}) {
-  const { projectId = "", enabled = true, router, routeLabel } = options;
+  const { projectId = "", clarityEnabled = true, router, routeLabel } = options;
 
   // Browser only
   if (typeof window === "undefined") return;
 
   // Respect gate and presence of project ID
-  if (!enabled || !projectId) return;
+  if (!clarityEnabled || !projectId) return;
 
   // Avoid double initialization (HMR / multiple mounts)
   if (window.__clarity_initialized__) return;
@@ -41,8 +41,8 @@ export function initClarity(options = {}) {
     try {
       const current = router.currentRoute?.value ?? router.currentRoute;
       if (current) clarity.set("route", toLabel(current));
-    } catch (_) {
-      /* noop */
+    } catch (error) {
+      console.error(error);
     }
 
     router.afterEach((to) => {
@@ -59,7 +59,7 @@ export function initClarity(options = {}) {
 export function setClarityConsent(consented) {
   try {
     clarity.consent(!!consented);
-  } catch (_) {
-    /* noop */
+  } catch (error) {
+    console.error(error);
   }
 }

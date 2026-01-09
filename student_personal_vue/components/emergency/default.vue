@@ -9,11 +9,7 @@
     Contact information successfully updated
   </BAlert>
 
-  <h2 class="ff-encode-sans fw-semibold mb-3">Emergency Contacts</h2>
-  <p class="mb-4">
-    If your primary contact cannot be reached, your secondary contact will be
-    attempted.
-  </p>
+
 
   <div class="mb-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -76,13 +72,12 @@
       </template>
     </div>
   </div>
-  <p
-    v-if="emergencyContactStore.staticPrimary"
-    class="text-secondary fst-italic"
-  >
-    Contacts last updated on:
-    {{ emergencyContactStore.staticPrimary.last_modified_formatted }}
+
+  <p class="mb-4">
+    If your primary contact cannot be reached, your secondary contact will be
+    attempted.
   </p>
+
 </template>
 
 <script>

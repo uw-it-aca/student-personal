@@ -24,6 +24,9 @@
         Not specifed
       </BBadge>
     </li>
+    <li v-if="contact.last_modified" class="text-secondary fst-italic mt-2">
+      Last updated: {{ contact.last_modified_formatted }}
+    </li>
   </ul>
   <div v-else class="text-secondary fst-italic">
     No contact information provided.
