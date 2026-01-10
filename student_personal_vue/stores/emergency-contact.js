@@ -1,5 +1,5 @@
-import { defineStore } from "pinia";
 import { parsePhoneNumber } from "libphonenumber-js";
+import { defineStore } from "pinia";
 import { formatUTCToLocalDate } from "@/utils/dates";
 
 const PUT_PROPS = ["id", "name", "email", "phone_number", "relationship"];
@@ -66,7 +66,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         });
         data.push(cdata);
       });
-      return { "emergency_contacts": data };
+      return { emergency_contacts: data };
     },
   },
   actions: {
@@ -88,9 +88,10 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         try {
           const parsed = parsePhoneNumber(contact.phone_number);
           if (parsed) {
-            contact.phone_number_formatted = (
-              parsed.countryCallingCode === DEFAULT_COUNTRY_CODE)
-                ? parsed.formatNational() : parsed.formatInternational();
+            contact.phone_number_formatted =
+              parsed.countryCallingCode === DEFAULT_COUNTRY_CODE
+                ? parsed.formatNational()
+                : parsed.formatInternational();
           }
         } catch (error) {
           // console.log(error);
@@ -98,7 +99,9 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         }
         try {
           contact.last_modified_formatted = formatUTCToLocalDate(
-            contact.last_modified, "LLL");
+            contact.last_modified,
+            "LLL",
+          );
         } catch (error) {
           // console.log(error);
           contact.last_modified_formatted = "";
@@ -115,8 +118,11 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       }
     },
     validatePhoneNumber(contact, e164_phone_number) {
-      let country_code = "", phone_number = "", phone_number_valid = null,
-        phone_number_formatted = "", phone_number_formatted_intl = "";
+      let country_code = "",
+        phone_number = "",
+        phone_number_valid = null,
+        phone_number_formatted = "",
+        phone_number_formatted_intl = "";
 
       e164_phone_number = this.normalize(e164_phone_number);
       e164_phone_number = e164_phone_number.replace(/[^+0-9]/g, "");

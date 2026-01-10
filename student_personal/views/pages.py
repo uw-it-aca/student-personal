@@ -1,14 +1,17 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+
+from logging import getLogger
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from django.urls import reverse
 from userservice.user import UserService
-from student_personal.dao.person import SPSPerson, DataFailureException
-from logging import getLogger
+
+from student_personal.dao.person import DataFailureException, SPSPerson
 
 logger = getLogger(__name__)
 
@@ -36,4 +39,6 @@ class DefaultPageView(TemplateView):
         context["signoutUrl"] = reverse("saml_logout")
         context["clearOverrideUrl"] = reverse("userservice_override")
         context["debugMode"] = settings.DEBUG
+        context["googleAnalyticsKey"] = settings.GOOGLE_ANALYTICS_KEY
+        context["clarityProjectId"] = settings.CLARITY_PROJECT_ID
         return context

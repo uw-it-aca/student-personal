@@ -10,6 +10,8 @@ services:
     environment:
       ENV: localdev
       AUTH: SAML_MOCK
+      GOOGLE_ANALYTICS_KEY: "${GOOGLE_ANALYTICS_KEY}"
+      CLARITY_PROJECT_ID: "${CLARITY_PROJECT_ID}"
     volumes:
       - ./student_personal:/app/student_personal
       - statics-volume:/static
