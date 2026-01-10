@@ -1,3 +1,5 @@
+import os
+
 from .base_settings import *
 
 INSTALLED_APPS += [
@@ -24,6 +26,9 @@ TEMPLATES[0]["OPTIONS"]["context_processors"] += [
     "student_personal.context_processors.persistent_messages",
 ]
 
+GOOGLE_ANALYTICS_KEY = os.getenv("GOOGLE_ANALYTICS_KEY", "")
+CLARITY_PROJECT_ID = os.getenv("CLARITY_PROJECT_ID", "")
+
 if os.getenv("ENV") == "localdev":
     DEBUG = True
     VITE_MANIFEST_PATH = os.path.join(
@@ -47,7 +52,9 @@ if os.getenv("ENV") == "localdev":
     ADMIN_GROUP = "u_test_group"
     SUPPORT_GROUP = "u_test_group"
 else:
-    VITE_MANIFEST_PATH = os.path.join(os.sep, "static", ".vite", "manifest.json")
+    VITE_MANIFEST_PATH = os.path.join(
+        os.sep, "static", ".vite", "manifest.json"
+    )
     RESTCLIENTS_DAO_CACHE_CLASS = "student_personal.cache.RestClientCache"
     ADMIN_GROUP = os.getenv("ADMIN_GROUP", "")
     SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "")
@@ -68,13 +75,20 @@ else:
 SUPPORTTOOLS_PARENT_APP = "StudentPersonal"
 SUPPORTTOOLS_PARENT_APP_URL = "/"
 
-USERSERVICE_VALIDATION_MODULE = "student_personal.dao.person.is_overridable_uwnetid"
-USERSERVICE_OVERRIDE_AUTH_MODULE = "student_personal.dao.person.can_override_user"
-RESTCLIENTS_ADMIN_AUTH_MODULE = "student_personal.dao.person.can_proxy_restclient"
+USERSERVICE_VALIDATION_MODULE = (
+    "student_personal.dao.person.is_overridable_uwnetid"
+)
+USERSERVICE_OVERRIDE_AUTH_MODULE = (
+    "student_personal.dao.person.can_override_user"
+)
+RESTCLIENTS_ADMIN_AUTH_MODULE = (
+    "student_personal.dao.person.can_proxy_restclient"
+)
 PERSISTENT_MESSAGE_AUTH_MODULE = (
     "student_personal.dao.person.can_manage_persistent_messages"
 )
 ALLOW_USER_OVERRIDE_FOR_WRITE = os.getenv("ENV", "localdev") != "prod"
+
 
 LOGGING = {
     "version": 1,
