@@ -6,6 +6,7 @@ import { Vue3Mq } from "vue3-mq";
 
 import App from "@/app.vue";
 import router from "@/router";
+import { useContextStore } from "@/stores/context";
 
 // bootstrap js + bootstrap-icons
 import "bootstrap";
@@ -68,7 +69,9 @@ app.use(createBootstrap());
 app.use(router);
 
 // microsoft clarity
-const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
+const contextStore = useContextStore();
+const projectId = contextStore.context.clarityProjectId;
+console.log(projectId);
 Clarity.init(projectId);
 
 app.mount("#app");
