@@ -105,8 +105,8 @@ externalSecrets:
           property: support-group
         - name: sps-contacts-auth-secret
           property: sps-contacts-auth-secret
-        - name: vite-clarity-project-id
-          property: vite-clarity-project-id
+        - name: clarity-project-id
+          property: clarity-project-id
     - name: test-personal.my.uw.edu-sql-secrets
       externalKey: student-personal/test/sql-secrets
       data:
@@ -142,9 +142,9 @@ environmentVariablesSecrets:
     secretName: test-personal.my.uw.edu-secrets
     secretKey: sps-contacts-auth-secret
   viteClarityProjectId:
-    name: VITE_CLARITY_PROJECT_ID
+    name: CLARITY_PROJECT_ID
     secretName: test-personal.my.uw.edu-secrets
-    secretKey: vite-clarity-project-id
+    secretKey: clarity-project-id
   samlSPCert:
     name: SP_CERT
     secretName: test-personal.my.uw.edu-ic-certs
