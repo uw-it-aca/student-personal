@@ -70,8 +70,6 @@ app.use(router);
 
 // microsoft clarity
 const contextStore = useContextStore();
-const projectId = contextStore.context.clarityProjectId;
-console.log(projectId);
-Clarity.init(projectId);
+Clarity.init(contextStore.context.clarityProjectId);
 
 app.mount("#app");
