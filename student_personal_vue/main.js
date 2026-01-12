@@ -22,7 +22,6 @@ import "solstice-vue/dist/style.css";
 import "bootstrap-vue-next/dist/bootstrap-vue-next.css";
 
 // microsoft clarity
-//import { initClarity } from "@/plugins/clarity";
 import Clarity from "@microsoft/clarity";
 
 const app = createApp(App);
@@ -33,26 +32,6 @@ app.config.globalProperties.gettext = window.gettext;
 app.config.globalProperties.ngettext = window.ngettext;
 app.config.globalProperties.interpolate = window.interpolate;
 
-// vue-gtag-next
-// TODO: un-commment to use Google Analytics for you app. also
-// configure trackRouter located in the router/index.js file
-
-/*
-const gaCode = document.body.getAttribute("data-google-analytics");
-const debugMode = document.body.getAttribute("data-django-debug");
-
-app.use(VueGtag, {
-  isEnabled: debugMode == "false",
-  property: {
-    id: gaCode,
-    params: {
-      anonymize_ip: true,
-      // user_id: 'provideSomeHashedId'
-    },
-  },
-});
-*/
-
 // vue-mq (media queries)
 app.use(Vue3Mq, {
   preset: "bootstrap5",
@@ -62,14 +41,34 @@ app.use(Vue3Mq, {
 const pinia = createPinia();
 app.use(pinia);
 
+// get contextStore values
+const contextStore = useContextStore();
+
 // bootstrap-vue-next
 app.use(createBootstrap());
 
 // vue-router
 app.use(router);
 
+/*
+// vue-gtag-next
+// TODO: un-commment to use Google Analytics for you app. also
+// configure trackRouter located in the router/index.js file
+//
+app.use(VueGtag, {
+  isEnabled: contextStore.context.debugMode, == "false",
+  property: {
+    id: contextStore.context.googleAnalyticsKey,
+    params: {
+      anonymize_ip: true,
+      // user_id: 'provideSomeHashedId'
+    },
+  },
+});
+*/
+
 // microsoft clarity
-const contextStore = useContextStore();
 Clarity.init(contextStore.context.clarityProjectId);
 
+// mount the vue app
 app.mount("#app");
