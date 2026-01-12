@@ -23,6 +23,7 @@
           aria-describedby=""
           trim
           @blur="validateFullName"
+          data-clarity-mask="True"
         />
         <BFormText v-if="formName == null" id="">
           Field only supports Latin and Latin-type characters.
@@ -53,6 +54,7 @@
             type="text"
             class="rounded-end"
             @blur="validatePhoneNumber"
+            data-clarity-mask="True"
           />
 
           <BFormText v-if="formPhoneNumber == null" id="">
@@ -80,6 +82,7 @@
           :state="formContact.email_valid"
           type="email"
           @blur="validateEmailAddress"
+          data-clarity-mask="True"
         />
         <!-- This will only be shown if the preceding input has an invalid state -->
         <BFormInvalidFeedback id="">Please add an email.</BFormInvalidFeedback>
@@ -95,6 +98,7 @@
           :state="formContact.relationship_valid"
           :options="emergencyContactStore.relationshipOptions"
           @change="validateRelationshipChoice"
+          data-clarity-mask="True"
         >
           <template #first>
             <BFormSelectOption value="" disabled>Select...</BFormSelectOption>

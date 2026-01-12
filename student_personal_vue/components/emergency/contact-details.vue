@@ -1,10 +1,10 @@
 <template>
   <!-- check if contact details are empty -->
   <ul v-if="contact && contact.name" class="list-unstyled">
-    <li>{{ contact.name }}</li>
-    <li>{{ contact.email }}</li>
-    <li v-if="contact.phone_number">{{ contact.phone_number_formatted }}</li>
-    <li v-if="contact.relationship">
+    <li data-clarity-mask="True">{{ contact.name }}</li>
+    <li data-clarity-mask="True">{{ contact.email }}</li>
+    <li v-if="contact.phone_number" data-clarity-mask="True">{{ contact.phone_number_formatted }}</li>
+    <li v-if="contact.relationship" data-clarity-mask="True">
       <BBadge
         pill
         bg-variant="deco-violet-subtle"
@@ -14,7 +14,7 @@
         {{ formattedRelationship }}
       </BBadge>
     </li>
-    <li v-else>
+    <li v-else data-clarity-mask="True">
       <BBadge
         pill
         bg-variant="secondary-subtle"
