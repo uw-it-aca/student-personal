@@ -62,6 +62,9 @@ memcached:
   updateStrategy:
     type: RollingUpdate
 
+cronjob:
+  enabled: false
+
 certs:
   mounted: true
   certPath: /certs/client.my.uw.edu-ic.cert

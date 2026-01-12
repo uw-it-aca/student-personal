@@ -62,6 +62,14 @@ memcached:
   updateStrategy:
     type: RollingUpdate
 
+cronjob:
+  enabled: true
+  jobs:
+    - name: clear-sessions
+      schedule: "25 9 * * 0"
+      command: ["/scripts/management_command.sh"]
+      args: ["clearsessions"]
+
 certs:
   mounted: true
   certPath: /certs/client.my.uw.edu-ic.cert
