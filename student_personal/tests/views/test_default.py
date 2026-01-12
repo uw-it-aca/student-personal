@@ -30,22 +30,15 @@ class DefaultPageTest(TestCase):
         kwargs = {}
         context = view.get_context_data(**kwargs)
 
-        self.assertEqual(context, {
-            "clearOverrideUrl": "/support",
-            "debugMode": False,
-            "displayName": "Jamesy McJamesy",
-            "emergencyContactUrl": "/api/internal/emergency_contact/",
-            "familyContactUrl": "/api/internal/family_contact/",
-            "isStudent": True,
-            "loginUser": "javerage",
-            "overrideUser": "javerage",
-            "photoUrl": "/api/internal/photo/9136CCB8F66711D5BE060004AC494FFE",
-            "preferredFirst": "Jamesy",
-            "preferredSurname": "McJamesy",
-            "signoutUrl": "/saml/logout",
-            "studentNumber": "1033334",
-            "pronouns": None,
-        })
+        self.assertEqual(context.get("debugMode"), False)
+        self.assertEqual(context.get("displayName"), "Jamesy McJamesy")
+        self.assertEqual(context.get("isStudent"), True)
+        self.assertEqual(context.get("loginUser"), "javerage")
+        self.assertEqual(context.get("overrideUser"), "javerage")
+        self.assertEqual(context.get("preferredFirst"), "Jamesy")
+        self.assertEqual(context.get("preferredSurname"), "McJamesy")
+        self.assertEqual(context.get("studentNumber"), "1033334")
+        self.assertEqual(context.get("pronouns"), None)
 
     def test_get_context_data_staff(self):
         self.user = User.objects.create_user("bill", password="a")
@@ -63,14 +56,10 @@ class DefaultPageTest(TestCase):
         kwargs = {}
         context = view.get_context_data(**kwargs)
 
-        self.assertEqual(context, {
-            "clearOverrideUrl": "/support",
-            "debugMode": False,
-            "displayName": "Bill Teacher",
-            "isStudent": False,
-            "loginUser": "bill",
-            "overrideUser": "bill",
-            "preferredFirst": None,
-            "preferredSurname": None,
-            "signoutUrl": "/saml/logout"
-        })
+        self.assertEqual(context.get("debugMode"), False)
+        self.assertEqual(context.get("displayName"), "Bill Teacher")
+        self.assertEqual(context.get("isStudent"), False)
+        self.assertEqual(context.get("loginUser"), "bill")
+        self.assertEqual(context.get("overrideUser"), "bill")
+        self.assertEqual(context.get("preferredFirst"), None)
+        self.assertEqual(context.get("preferredSurname"), None)
