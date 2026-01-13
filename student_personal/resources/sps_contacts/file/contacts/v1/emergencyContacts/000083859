@@ -1,0 +1,17 @@
+[{
+    "id": "ab269f37-2807-4b10-b9d3-b5f7c602d45f",
+    "syskey": "000083856",
+    "name": "Hank Average",
+    "phoneNumber": "+8675582326566",
+    "email": "haverage@example.com",
+    "relationship": "",
+    "lastModified": 1762896520.180882000
+  },{
+    "id": "eacccecd-8db7-48b7-8b0b-ff5d87e379f5",
+    "syskey": "000083856",
+    "name": "Jane Average",
+    "phoneNumber": "+8675582326560",
+    "email": "javg@example.com",
+    "relationship": "PARENT",
+    "lastModified": 1762896520.267776000
+  }]
