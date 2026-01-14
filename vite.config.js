@@ -17,6 +17,11 @@ export default defineConfig({
         // list all entry points
         "./student_personal_vue/main.js",
       ],
+      output: {
+        entryFileNames: "student_personal/assets/main.js",
+        assetFileNames: (assetInfo) =>
+          `student_personal/assets/${assetInfo.name}`,
+      },
     },
     outDir: "./student_personal/static/", // relative path to django's static directory
     assetsDir: "student_personal/assets", // default ('assets')... this is the namespaced subdirectory of outDir that vite uses
