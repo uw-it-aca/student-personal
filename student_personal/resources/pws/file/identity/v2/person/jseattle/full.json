@@ -11,7 +11,7 @@
 "RegisteredName":"DAMIEN STUDENT",
 "RegisteredSurname":"STUDENT",
 "UIDNumber":"35443",
-"UWNetID":"jone",
+"UWNetID":"jseattle",
 "UWRegID":"FE36CCB8F66711D5BE060004AC494FCD",
 "WhitepagesPublish":false,
 "PersonAffiliations":{
@@ -23,7 +23,7 @@
         "EmployeeAffiliationState": "current",
         "EmployeeWhitePages":{
             "Addresses": [],
-            "EmailAddresses":["jone@uw.edu"],
+            "EmailAddresses":["jseattle@uw.edu"],
             "Faxes":[],
             "Mobiles":[],
             "Phones": [],
