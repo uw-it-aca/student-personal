@@ -1,15 +1,39 @@
 <template>
-  <BAlert v-if="isIncomplete" variant="warning" :model-value="true">
+  <BAlert v-if="isMissingAllContacts" variant="warning" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
-    Please specify the relationship of your primary contact.
+    Please provide a primary and secondary contact.
   </BAlert>
+  <template v-else>
+    <BAlert
+      v-if="isMissingPrimaryRelationship && isMissingSecondaryContact"
+      variant="warning"
+      :model-value="true"
+    >
+      <i class="bi-exclamation-triangle-fill me-2"></i>
+      Please specify the relationship of your primary contact and provide a secondary contact.
+    </BAlert>
+    <BAlert
+      v-else-if="isMissingPrimaryRelationship"
+      variant="warning"
+      :model-value="true"
+    >
+      <i class="bi-exclamation-triangle-fill me-2"></i>
+      Please specify the relationship of your primary contact.
+    </BAlert>
+    <BAlert
+      v-else-if="isMissingSecondaryContact"
+      variant="warning"
+      :model-value="true"
+    >
+      <i class="bi-exclamation-triangle-fill me-2"></i>
+      Please provide a secondary contact.
+    </BAlert>
+  </template>
 
   <BAlert v-if="isSaved" variant="success" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
     Contact information successfully updated
   </BAlert>
-
-
 
   <div class="mb-3">
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -77,7 +101,6 @@
     If your primary contact cannot be reached, your secondary contact will be
     attempted.
   </p>
-
 </template>
 
 <script>
@@ -116,12 +139,28 @@
       };
     },
     computed: {
-      isIncomplete() {
+      isMissingPrimaryRelationship() {
         // check for missing relationship in the primary contact
         return (
           this.emergencyContactStore.contacts.length > 0 &&
           (this.emergencyContactStore.staticPrimary.relationship === null ||
             this.emergencyContactStore.staticPrimary.relationship.trim() === "")
+        );
+      },
+      isMissingSecondaryContact() {
+        // check for missing secondary contact
+        return (
+          this.emergencyContactStore.contacts.length > 0 &&
+          (this.emergencyContactStore.staticSecondary.name === null ||
+            this.emergencyContactStore.staticSecondary.name.trim() === "")
+        );
+      },
+      isMissingAllContacts() {
+        // check for missing primary and secondary contacts
+        return (
+          this.emergencyContactStore.contacts.length > 0 &&
+          this.emergencyContactStore.staticPrimary.name.trim() === "" &&
+          this.emergencyContactStore.staticSecondary.name.trim() === ""
         );
       },
     },
