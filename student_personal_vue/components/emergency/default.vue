@@ -1,7 +1,7 @@
 <template>
   <BAlert v-if="isMissingAllContacts" variant="warning" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
-    You have missing contact information. Please provide a primary and secondary
+    Emergency contacts are missing. Please add both a primary and secondary
     contact.
   </BAlert>
   <template v-else>
@@ -11,13 +11,12 @@
       :model-value="true"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      You have missing contact information. Please update your primary and
+      Emergency contact information is missing. Please update your primary and
       secondary contacts.
     </BAlert>
     <BAlert v-else variant="warning" :model-value="true">
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      You have missing contact information. Please update your emergency
-      contacts.
+      Emergency contact information is missing. Please update your emergency contacts.
     </BAlert>
   </template>
 
@@ -26,7 +25,7 @@
     Contact information successfully updated
   </BAlert>
 
-  <div class="mb-3">
+  <div class="mb-4">
     <div class="d-flex align-items-center mb-3">
       <h2 class="fs-3 m-0 me-5">Primary</h2>
       <div>

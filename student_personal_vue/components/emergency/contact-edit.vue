@@ -6,7 +6,7 @@
     @click="showModal = !showModal"
     class="me-1"
   >
-    <i class="bi bi-pencil me-1"></i>Edit
+    <i class="bi bi-pencil me-1"></i>Update
   </BButton>
   <BModal
     v-model="showModal"
