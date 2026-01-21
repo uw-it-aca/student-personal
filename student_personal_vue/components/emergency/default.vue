@@ -1,32 +1,23 @@
 <template>
   <BAlert v-if="isMissingAllContacts" variant="warning" :model-value="true">
     <i class="bi-exclamation-triangle-fill me-2"></i>
-    Please provide a primary and secondary contact.
+    You have missing contact information. Please provide a primary and secondary
+    contact.
   </BAlert>
   <template v-else>
     <BAlert
-      v-if="isMissingPrimaryRelationship && isMissingSecondaryContact"
+      v-if="isIncomplete && isMissingSecondaryContact"
       variant="warning"
       :model-value="true"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please specify the relationship of your primary contact and provide a secondary contact.
+      You have missing contact information. Please update your primary and
+      secondary contacts.
     </BAlert>
-    <BAlert
-      v-else-if="isMissingPrimaryRelationship"
-      variant="warning"
-      :model-value="true"
-    >
+    <BAlert v-else variant="warning" :model-value="true">
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please specify the relationship of your primary contact.
-    </BAlert>
-    <BAlert
-      v-else-if="isMissingSecondaryContact"
-      variant="warning"
-      :model-value="true"
-    >
-      <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please provide a secondary contact.
+      You have missing contact information. Please update your emergency
+      contacts.
     </BAlert>
   </template>
 
@@ -36,19 +27,19 @@
   </BAlert>
 
   <div class="mb-3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="fs-3 m-0">Primary</h2>
+    <div class="d-flex align-items-center mb-3">
+      <h2 class="fs-3 m-0 me-5">Primary</h2>
       <div>
-        <ContactRemove
-          v-if="emergencyContactStore.hasContacts"
-          :is-primary="true"
-          @reload="loadEmergencyContacts"
-        />
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="true"
           @reload="loadEmergencyContacts"
           @saved="showSavedAlert"
+        />
+        <ContactRemove
+          v-if="emergencyContactStore.hasContacts"
+          :is-primary="true"
+          @reload="loadEmergencyContacts"
         />
       </div>
     </div>
@@ -67,19 +58,19 @@
   </div>
 
   <div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="fs-3 m-0">Secondary</h2>
+    <div class="d-flex align-items-center mb-3">
+      <h2 class="fs-3 m-0 me-5">Secondary</h2>
       <div>
-        <ContactRemove
-          v-if="emergencyContactStore.hasContacts"
-          :is-primary="false"
-          @reload="loadEmergencyContacts"
-        />
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="false"
           @reload="loadEmergencyContacts"
           @saved="showSavedAlert"
+        />
+        <ContactRemove
+          v-if="emergencyContactStore.hasContacts"
+          :is-primary="false"
+          @reload="loadEmergencyContacts"
         />
       </div>
     </div>
@@ -139,12 +130,30 @@
       };
     },
     computed: {
-      isMissingPrimaryRelationship() {
-        // check for missing relationship in the primary contact
+      isIncomplete() {
+        // check for any missing fields from primary and secondary contacts
         return (
           this.emergencyContactStore.contacts.length > 0 &&
-          (this.emergencyContactStore.staticPrimary.relationship === null ||
-            this.emergencyContactStore.staticPrimary.relationship.trim() === "")
+          (this.emergencyContactStore.staticPrimary.name === null ||
+            this.emergencyContactStore.staticPrimary.name.trim() === "" ||
+            this.emergencyContactStore.staticSecondary.name === null ||
+            this.emergencyContactStore.staticSecondary.name.trim() === "" ||
+            this.emergencyContactStore.staticPrimary.email === null ||
+            this.emergencyContactStore.staticPrimary.email.trim() === "" ||
+            this.emergencyContactStore.staticSecondary.email === null ||
+            this.emergencyContactStore.staticSecondary.email.trim() === "" ||
+            this.emergencyContactStore.staticPrimary.phone_number === null ||
+            this.emergencyContactStore.staticPrimary.phone_number.trim() ===
+              "" ||
+            this.emergencyContactStore.staticSecondary.phone_number === null ||
+            this.emergencyContactStore.staticSecondary.phone_number.trim() ===
+              "" ||
+            this.emergencyContactStore.staticPrimary.relationship === null ||
+            this.emergencyContactStore.staticPrimary.relationship.trim() ===
+              "" ||
+            this.emergencyContactStore.staticSecondary.relationship === null ||
+            this.emergencyContactStore.staticSecondary.relationship.trim() ===
+              "")
         );
       },
       isMissingSecondaryContact() {
