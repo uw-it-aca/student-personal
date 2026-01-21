@@ -1,5 +1,10 @@
 <template>
-  <BAlert v-if="isMissingAllContacts" variant="warning" :model-value="true">
+  <BAlert
+    v-if="isMissingAllContacts"
+    variant="warning"
+    :model-value="true"
+    class="mb-4"
+  >
     <i class="bi-exclamation-triangle-fill me-2"></i>
     Emergency contacts are missing. Please add both a primary and secondary
     contact.
@@ -9,25 +14,27 @@
       v-if="isIncomplete && isMissingSecondaryContact"
       variant="warning"
       :model-value="true"
+      class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       Emergency contact information is missing. Please update your primary and
       secondary contacts.
     </BAlert>
-    <BAlert v-else variant="warning" :model-value="true">
+    <BAlert v-else variant="warning" :model-value="true" class="mb-4">
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Emergency contact information is missing. Please update your emergency contacts.
+      Emergency contact information is missing. Please update your emergency
+      contacts.
     </BAlert>
   </template>
 
-  <BAlert v-if="isSaved" variant="success" :model-value="true">
+  <BAlert v-if="isSaved" variant="success" :model-value="true" class="mb-4">
     <i class="bi-exclamation-triangle-fill me-2"></i>
     Contact information successfully updated
   </BAlert>
 
   <div class="mb-4">
-    <div class="d-flex align-items-center mb-3">
-      <h2 class="fs-3 m-0 me-5">Primary</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3 col-lg-6">
+      <h2 class="fs-3 m-0">Primary</h2>
       <div>
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
@@ -57,8 +64,8 @@
   </div>
 
   <div class="mb-4">
-    <div class="d-flex align-items-center mb-3">
-      <h2 class="fs-3 m-0 me-5">Secondary</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3 col-lg-6">
+      <h2 class="fs-3 m-0">Secondary</h2>
       <div>
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"

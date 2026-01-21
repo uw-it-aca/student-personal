@@ -23,7 +23,7 @@
           emergency contact.
         </p>
 
-        <p class="fw-bold mb-5" style="max-width: 85ch;">
+        <p class="fw-bold mb-4" style="max-width: 85ch;">
           Please ensure you have at least a primary contact listed below with up
           to date contact information.
         </p>
