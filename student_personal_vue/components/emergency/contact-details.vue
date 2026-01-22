@@ -6,7 +6,7 @@
         {{ contact.name }}
       </template>
       <template v-else>
-        Not specified
+      --
       </template>
     </li>
     <li data-clarity-mask="True">
@@ -14,7 +14,7 @@
         {{ contact.email }}
       </template>
       <template v-else>
-        Not specified
+      --
       </template>
     </li>
     <li v-if="contact.phone_number" data-clarity-mask="True">
@@ -22,7 +22,7 @@
         {{ contact.phone_number_formatted }}
       </template>
       <template v-else>
-        Not specified
+      --
       </template>
     </li>
     <li v-if="contact.relationship" data-clarity-mask="True">
