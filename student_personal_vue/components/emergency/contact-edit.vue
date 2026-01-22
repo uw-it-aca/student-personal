@@ -1,6 +1,12 @@
 <template>
-  <BButton variant="outline-primary" size="sm" @click="showModal = !showModal">
-    Edit
+  <BButton
+    variant="quiet-primary"
+    size="sm"
+    aria-label="Update contact"
+    @click="showModal = !showModal"
+    class="me-1"
+  >
+    <i class="bi bi-pencil me-1"></i>Update
   </BButton>
   <BModal
     v-model="showModal"
@@ -41,8 +47,12 @@
           Phone Number *
         </label>
         <BInputGroup>
-          <SCountryCode v-model:calling-code="formCountryCode"/>
-          <BFormInput type="hidden" name="countryCode" :value="formCountryCode"/>
+          <SCountryCode v-model:calling-code="formCountryCode" />
+          <BFormInput
+            type="hidden"
+            name="countryCode"
+            :value="formCountryCode"
+          />
           <BInputGroupText class="border border-secondary">
             +{{ formCountryCode }}
           </BInputGroupText>
@@ -147,8 +157,8 @@
     BModal,
   } from "bootstrap-vue-next";
   import { SCountryCode } from "solstice-vue";
-  import { useEmergencyContactStore } from "@/stores/emergency-contact";
   import { useContextStore } from "@/stores/context";
+  import { useEmergencyContactStore } from "@/stores/emergency-contact";
   import { updateEmergencyContacts } from "@/utils/data";
 
   export default {
@@ -222,23 +232,31 @@
       },
       validateFullName() {
         this.emergencyContactStore.validateName(
-          this.formContact, this.formName);
+          this.formContact,
+          this.formName,
+        );
         this.formName = this.formContact.name;
       },
       validatePhoneNumber() {
         let phone_number = "+" + this.formCountryCode + this.formPhoneNumber;
         this.emergencyContactStore.validatePhoneNumber(
-          this.formContact, phone_number);
+          this.formContact,
+          phone_number,
+        );
         this.formPhoneNumber = this.formContact.phone_number_formatted;
       },
       validateEmailAddress() {
         this.emergencyContactStore.validateEmail(
-          this.formContact, this.formEmail);
+          this.formContact,
+          this.formEmail,
+        );
         this.formEmail = this.formContact.email;
       },
       validateRelationshipChoice() {
         this.emergencyContactStore.validateRelationship(
-          this.formContact, this.formRelationship);
+          this.formContact,
+          this.formRelationship,
+        );
       },
       cancelEdit() {
         this.showModal = false;
@@ -248,8 +266,14 @@
         let url = this.contextStore.context.emergencyContactUrl,
           contact = this.formContact;
 
-        if (!(contact.name_valid && contact.email_valid &&
-            contact.phone_number_valid && contact.relationship_valid)) {
+        if (
+          !(
+            contact.name_valid &&
+            contact.email_valid &&
+            contact.phone_number_valid &&
+            contact.relationship_valid
+          )
+        ) {
           return;
         }
 

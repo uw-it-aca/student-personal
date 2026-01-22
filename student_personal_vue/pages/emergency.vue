@@ -6,12 +6,11 @@
     <template #content>
       <div v-if="!contextStore.context.isStudent">
         <BAlert variant="danger" :model-value="true">
-          <i class="bi-exclamation-triangle-fill me-1"></i><span class="fw-bold"
-            >Feature Unavailable</span
-          >
-          <div>You must be an active student to use this tool.</div>
+          <i class="bi-exclamation-triangle-fill me-1"></i>You must be an active
+          student to use this tool.
         </BAlert>
-        <p>
+
+        <p style="max-width: 85ch;">
           If you are a currently an active student, please contact help@uw.edu
           and let us know if you are experiencing any issues.
         </p>
@@ -24,7 +23,7 @@
           emergency contact.
         </p>
 
-        <p class="fw-bold mb-5" style="max-width: 85ch;">
+        <p class="fw-bold mb-4" style="max-width: 85ch;">
           Please ensure you have at least a primary contact listed below with up
           to date contact information.
         </p>

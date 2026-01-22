@@ -1,11 +1,11 @@
 <template>
   <BButton
-    variant="quiet-primary"
-    class="me-1"
+    variant="quiet-danger"
     size="sm"
+    aria-label="Remove contact"
     @click="showModal = !showModal"
   >
-    Remove
+    <i class="bi bi-trash"></i>
   </BButton>
   <BModal
     v-model="showModal"

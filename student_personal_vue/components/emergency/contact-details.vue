@@ -1,9 +1,30 @@
 <template>
-  <!-- check if contact details are empty -->
+  <!-- check if contact object AND name are provided -->
   <ul v-if="contact && contact.name" class="list-unstyled">
-    <li data-clarity-mask="True">{{ contact.name }}</li>
-    <li data-clarity-mask="True">{{ contact.email }}</li>
-    <li v-if="contact.phone_number" data-clarity-mask="True">{{ contact.phone_number_formatted }}</li>
+    <li data-clarity-mask="True">
+      <template v-if="contact.name">
+        {{ contact.name }}
+      </template>
+      <template v-else>
+      --
+      </template>
+    </li>
+    <li data-clarity-mask="True">
+      <template v-if="contact.email">
+        {{ contact.email }}
+      </template>
+      <template v-else>
+      --
+      </template>
+    </li>
+    <li v-if="contact.phone_number" data-clarity-mask="True">
+      <template v-if="contact.phone_number_formatted">
+        {{ contact.phone_number_formatted }}
+      </template>
+      <template v-else>
+      --
+      </template>
+    </li>
     <li v-if="contact.relationship" data-clarity-mask="True">
       <BBadge
         pill
