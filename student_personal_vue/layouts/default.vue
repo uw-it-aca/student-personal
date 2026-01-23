@@ -9,19 +9,32 @@
     <template #settings>
       <SUser
         :user-netid="contextStore.context.loginUser"
-        :user-override="( contextStore.context.overrideUser !== contextStore.context.loginUser) ? contextStore.context.overrideUser : null"
-        :photo-url="contextStore.context.isStudent ? contextStore.context.photoUrl : null"
+        :user-override="
+          contextStore.context.overrideUser !== contextStore.context.loginUser
+            ? contextStore.context.overrideUser
+            : null
+        "
+        :photo-url="
+          contextStore.context.isStudent ? contextStore.context.photoUrl : null
+        "
         data-clarity-mask="True"
       >
-        <div class="fw-bold mb-1" data-clarity-mask="True">{{ contextStore.context.displayName }}</div>
+        <div class="fw-bold mb-1" data-clarity-mask="True">
+          {{ contextStore.context.displayName }}
+        </div>
         <ul class="list-unstyled text-secondary">
           <li
-            v-if="( contextStore.context.overrideUser !== contextStore.context.loginUser)"
+            v-if="
+              contextStore.context.overrideUser !==
+              contextStore.context.loginUser
+            "
             data-clarity-mask="True"
           >
             {{ contextStore.context.overrideUser }}
           </li>
-          <li v-else data-clarity-mask="True">{{ contextStore.context.loginUser }}</li>
+          <li v-else data-clarity-mask="True">
+            {{ contextStore.context.loginUser }}
+          </li>
           <li
             v-if="contextStore.context.pronouns !== null"
             class="text-lowercase"
@@ -29,7 +42,9 @@
           >
             {{ contextStore.context.pronouns }}
           </li>
-          <li data-clarity-mask="True">{{ contextStore.context.studentNumber }}</li>
+          <li data-clarity-mask="True">
+            {{ contextStore.context.studentNumber }}
+          </li>
         </ul>
 
         <ul class="list-unstyled">
@@ -42,7 +57,10 @@
 
         <template #action>
           <a
-            v-if="contextStore.context.overrideUser !== contextStore.context.loginUser"
+            v-if="
+              contextStore.context.overrideUser !==
+              contextStore.context.loginUser
+            "
             role="button"
             class="link-quiet-danger"
             @click="clearUserOverride()"
@@ -69,7 +87,7 @@
       <div class="row">
         <div class="col">
           <ul
-            class="list-unstyled py-2 m-0 text-center text-info-emphasis small"
+            class="list-unstyled text-info-emphasis small m-0 py-2 text-center"
           >
             <li
               v-for="(message, index) in window.student_personal.messages"

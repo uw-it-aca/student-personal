@@ -53,7 +53,7 @@
             name="countryCode"
             :value="formCountryCode"
           />
-          <BInputGroupText class="border border-secondary">
+          <BInputGroupText class="border-secondary border">
             +{{ formCountryCode }}
           </BInputGroupText>
 
@@ -183,8 +183,8 @@
       },
       action: {
         type: String,
-        default: "Edit"
-      }
+        default: "Edit",
+      },
     },
     emits: ["reload", "saved"],
     setup() {

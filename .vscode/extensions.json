@@ -5,7 +5,6 @@
     "ms-python.python",
     "batisteo.vscode-django",
     "vue.volar",
-    "wscats.vue",
-    "stylelint.vscode-stylelint"
-  ]
+    "oxc.oxc-vscode",
+  ],
 }
