@@ -80,7 +80,7 @@
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="false"
-          :action="isMissingSecondaryContact = 'Add'"
+          :action="isMissingSecondaryContact ? 'Add' : 'Edit'"
           @reload="loadEmergencyContacts"
           @saved="showSavedAlert"
         />
