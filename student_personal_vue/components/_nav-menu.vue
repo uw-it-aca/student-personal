@@ -1,9 +1,9 @@
 <template>
   <!-- Bootstrap navbar-nav classes -->
-  <ul class="navbar-nav text-white me-auto my-2 my-xl-0">
+  <ul class="navbar-nav my-xl-0 my-2 me-auto text-white">
     <li class="nav-item dropdown me-5">
       <a
-        class="nav-link px-0 text-white dropdown-toggle"
+        class="nav-link dropdown-toggle px-0 text-white"
         href="#"
         role="button"
         data-bs-toggle="dropdown"
@@ -35,7 +35,7 @@
     </li>
     <li class="nav-item dropdown me-5">
       <a
-        class="nav-link px-0 text-white dropdown-toggle"
+        class="nav-link dropdown-toggle px-0 text-white"
         href="#"
         role="button"
         data-bs-toggle="dropdown"
@@ -83,7 +83,7 @@
     </li>
     <li class="nav-item dropdown me-5">
       <a
-        class="nav-link px-0 text-white dropdown-toggle"
+        class="nav-link dropdown-toggle px-0 text-white"
         href="#"
         role="button"
         data-bs-toggle="dropdown"
@@ -122,7 +122,7 @@
     </li>
     <li class="nav-item dropdown me-5">
       <a
-        class="nav-link px-0 text-white dropdown-toggle"
+        class="nav-link dropdown-toggle px-0 text-white"
         href="#"
         role="button"
         data-bs-toggle="dropdown"

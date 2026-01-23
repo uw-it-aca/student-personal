@@ -5,9 +5,7 @@
       <template v-if="contact.name">
         {{ contact.name }}
       </template>
-      <template v-else>
-      --
-      </template>
+      <template v-else> -- </template>
     </li>
     <li data-clarity-mask="True">
       <template v-if="contact.email">

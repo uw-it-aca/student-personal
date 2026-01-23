@@ -35,7 +35,7 @@
 
   <div class="mb-4">
     <div
-      class="d-flex justify-content-between align-items-center mb-3 col-lg-6"
+      class="d-flex justify-content-between align-items-center col-lg-6 mb-3"
     >
       <h2 class="fs-3 m-0">Primary</h2>
       <div>
@@ -53,7 +53,7 @@
         />
       </div>
     </div>
-    <div class="my-3 mx-5">
+    <div class="mx-5 my-3">
       <template v-if="isLoading">
         <ContactLoading />
       </template>
@@ -69,7 +69,7 @@
 
   <div class="mb-4">
     <div
-      class="d-flex justify-content-between align-items-center mb-3 col-lg-6"
+      class="d-flex justify-content-between align-items-center col-lg-6 mb-3"
     >
       <h2 class="fs-3 m-0">Secondary</h2>
       <div>
@@ -87,7 +87,7 @@
         />
       </div>
     </div>
-    <div class="my-3 mx-5">
+    <div class="mx-5 my-3">
       <template v-if="isLoading">
         <ContactLoading />
       </template>
