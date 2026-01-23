@@ -33,19 +33,22 @@
   </BAlert>
 
   <div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3 col-lg-6">
+    <div
+      class="d-flex justify-content-between align-items-center mb-3 col-lg-6"
+    >
       <h2 class="fs-3 m-0">Primary</h2>
       <div>
+        <ContactRemove
+          v-if="!isMissingAllContacts"
+          :is-primary="true"
+          @reload="loadEmergencyContacts"
+        />
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="true"
+          :action="isMissingAllContacts ? 'Add' : 'Edit'"
           @reload="loadEmergencyContacts"
           @saved="showSavedAlert"
-        />
-        <ContactRemove
-          v-if="emergencyContactStore.hasContacts"
-          :is-primary="true"
-          @reload="loadEmergencyContacts"
         />
       </div>
     </div>
@@ -64,19 +67,22 @@
   </div>
 
   <div class="mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3 col-lg-6">
+    <div
+      class="d-flex justify-content-between align-items-center mb-3 col-lg-6"
+    >
       <h2 class="fs-3 m-0">Secondary</h2>
       <div>
+        <ContactRemove
+          v-if="!isMissingSecondaryContact"
+          :is-primary="false"
+          @reload="loadEmergencyContacts"
+        />
         <ContactEdit
           v-if="emergencyContactStore.hasContacts"
           :is-primary="false"
+          :action="isMissingSecondaryContact = 'Add'"
           @reload="loadEmergencyContacts"
           @saved="showSavedAlert"
-        />
-        <ContactRemove
-          v-if="emergencyContactStore.hasContacts"
-          :is-primary="false"
-          @reload="loadEmergencyContacts"
         />
       </div>
     </div>
@@ -84,7 +90,7 @@
       <template v-if="isLoading">
         <ContactLoading />
       </template>
-      <template v-else-if="errorResponse">unable to load contacts...</template>
+      <template v-else-if="errorResponse">Unable to load contacts...</template>
       <template v-else>
         <ContactDetails
           v-if="emergencyContactStore.staticSecondary"
