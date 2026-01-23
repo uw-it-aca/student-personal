@@ -1,12 +1,12 @@
 <template>
   <BButton
-    variant="quiet-primary"
+    variant="outline-primary"
     size="sm"
     aria-label="Update contact"
     @click="showModal = !showModal"
     class="me-1"
   >
-    <i class="bi bi-pencil me-1"></i>Update
+    {{ action }}
   </BButton>
   <BModal
     v-model="showModal"
@@ -53,7 +53,7 @@
             name="countryCode"
             :value="formCountryCode"
           />
-          <BInputGroupText class="border border-secondary">
+          <BInputGroupText class="border-secondary border">
             +{{ formCountryCode }}
           </BInputGroupText>
 
@@ -180,6 +180,10 @@
       isPrimary: {
         type: Boolean,
         required: true,
+      },
+      action: {
+        type: String,
+        default: "Edit",
       },
     },
     emits: ["reload", "saved"],

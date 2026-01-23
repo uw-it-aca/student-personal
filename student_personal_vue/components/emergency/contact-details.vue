@@ -5,47 +5,33 @@
       <template v-if="contact.name">
         {{ contact.name }}
       </template>
-      <template v-else>
-      --
-      </template>
+      <template v-else> -- </template>
     </li>
     <li data-clarity-mask="True">
       <template v-if="contact.email">
         {{ contact.email }}
       </template>
       <template v-else>
-      --
+        <span class="text-secondary fst-italic text-underline">--</span>
       </template>
     </li>
-    <li v-if="contact.phone_number" data-clarity-mask="True">
+    <li data-clarity-mask="True">
       <template v-if="contact.phone_number_formatted">
         {{ contact.phone_number_formatted }}
       </template>
       <template v-else>
-      --
+        <span class="text-secondary fst-italic">--</span>
       </template>
     </li>
-    <li v-if="contact.relationship" data-clarity-mask="True">
-      <BBadge
-        pill
-        bg-variant="deco-violet-subtle"
-        text-variant="deco-violet-emphasis"
-        class="fw-semibold me-1"
-      >
+    <li data-clarity-mask="True">
+      <template v-if="contact.relationship">
         {{ formattedRelationship }}
-      </BBadge>
+      </template>
+      <template v-else>
+        <span class="text-secondary fst-italic text-underline">--</span>
+      </template>
     </li>
-    <li v-else data-clarity-mask="True">
-      <BBadge
-        pill
-        bg-variant="secondary-subtle"
-        text-variant="secondary-emphasis"
-        class="fw-semibold me-1"
-      >
-        Not specifed
-      </BBadge>
-    </li>
-    <li v-if="contact.last_modified" class="text-secondary fst-italic mt-2">
+    <li v-if="contact.last_modified" class="text-secondary fst-italic mt-3">
       Last updated: {{ contact.last_modified_formatted }}
     </li>
   </ul>

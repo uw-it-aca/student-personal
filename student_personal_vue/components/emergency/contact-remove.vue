@@ -1,11 +1,12 @@
 <template>
   <BButton
-    variant="quiet-danger"
+    variant="quiet-primary"
     size="sm"
     aria-label="Remove contact"
     @click="showModal = !showModal"
+    class="me-1"
   >
-    <i class="bi bi-trash"></i>
+    Remove
   </BButton>
   <BModal
     v-model="showModal"
@@ -17,9 +18,8 @@
   >
     <template v-if="hasError">
       <BAlert variant="danger" :model-value="true" class="small">
-        <i class="bi-exclamation-triangle-fill me-2"></i><span class="fw-bold"
-          >Server error</span
-        >
+        <i class="bi-exclamation-triangle-fill me-2"></i
+        ><span class="fw-bold">Server error</span>
         <div>Your request could not be processed.</div>
       </BAlert>
       <p>
@@ -38,14 +38,14 @@
       <p>
         Are you sure you want to remove
         <template v-if="isPrimary">
-          <strong v-if="emergencyContactStore.primary"
-            >{{ emergencyContactStore.primary.name }}</strong
-          >
+          <strong v-if="emergencyContactStore.primary">{{
+            emergencyContactStore.primary.name
+          }}</strong>
         </template>
         <template v-else>
-          <strong v-if="emergencyContactStore.secondary"
-            >{{ emergencyContactStore.secondary.name }}</strong
-          >
+          <strong v-if="emergencyContactStore.secondary">{{
+            emergencyContactStore.secondary.name
+          }}</strong>
         </template>
         from your emergency contacts?
       </p>

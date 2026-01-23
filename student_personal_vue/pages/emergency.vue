@@ -10,20 +10,20 @@
           student to use this tool.
         </BAlert>
 
-        <p style="max-width: 85ch;">
+        <p style="max-width: 85ch">
           If you are a currently an active student, please contact help@uw.edu
           and let us know if you are experiencing any issues.
         </p>
       </div>
       <div v-else>
-        <p style="max-width: 85ch;">
+        <p style="max-width: 85ch">
           It&rsquo;s important that UW has a way to contact a trusted individual
           (parent, friend, spouse etc.) about your safety, if an emergency
           occurs. Make sure to tell the individual(s) listed that they are your
           emergency contact.
         </p>
 
-        <p class="fw-bold mb-4" style="max-width: 85ch;">
+        <p class="fw-bold mb-4" style="max-width: 85ch">
           Please ensure you have at least a primary contact listed below with up
           to date contact information.
         </p>
