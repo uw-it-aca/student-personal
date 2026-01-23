@@ -45,7 +45,7 @@
           @reload="loadEmergencyContacts"
         />
         <ContactEdit
-          v-if="emergencyContactStore.hasContacts"
+          v-if="emergencyContactStore.hasContacts && !isLoading"
           :is-primary="true"
           :action="isMissingAllContacts ? 'Add' : 'Edit'"
           @reload="loadEmergencyContacts"
@@ -79,7 +79,7 @@
           @reload="loadEmergencyContacts"
         />
         <ContactEdit
-          v-if="emergencyContactStore.hasContacts"
+          v-if="emergencyContactStore.hasContacts && !isLoading"
           :is-primary="false"
           :action="isMissingSecondaryContact ? 'Add' : 'Edit'"
           @reload="loadEmergencyContacts"
