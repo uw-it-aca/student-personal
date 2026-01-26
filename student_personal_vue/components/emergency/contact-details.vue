@@ -12,7 +12,7 @@
         {{ contact.email }}
       </template>
       <template v-else>
-        <span class="text-secondary fst-italic text-underline">--</span>
+        <span class="text-secondary fst-italic text-underline">No email provided</span>
       </template>
     </li>
     <li data-clarity-mask="True">
@@ -20,7 +20,7 @@
         {{ contact.phone_number_formatted }}
       </template>
       <template v-else>
-        <span class="text-secondary fst-italic">--</span>
+        <span class="text-secondary fst-italic">No phone number provided</span>
       </template>
     </li>
     <li data-clarity-mask="True">
@@ -28,10 +28,10 @@
         {{ formattedRelationship }}
       </template>
       <template v-else>
-        <span class="text-secondary fst-italic text-underline">--</span>
+        <span class="text-secondary fst-italic text-underline">No relationship provided</span>
       </template>
     </li>
-    <li v-if="contact.last_modified" class="text-secondary fst-italic mt-3">
+    <li v-if="contact.last_modified" class="small mt-3">
       Last updated: {{ contact.last_modified_formatted }}
     </li>
   </ul>

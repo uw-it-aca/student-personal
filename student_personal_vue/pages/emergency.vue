@@ -16,22 +16,42 @@
         </p>
       </div>
       <div v-else>
-        <p style="max-width: 85ch">
-          It&rsquo;s important that UW has a way to contact a trusted individual
-          (parent, friend, spouse etc.) about your safety, if an emergency
-          occurs. Make sure to tell the individual(s) listed that they are your
-          emergency contact.
+        <p class="mb-4" style="max-width: 85ch">
+          This app enables you to maintain up-to-date information for your
+          emergency contacts. Your emergency contacts should be trusted
+          individuals. UW may, in its discretion, reach out to one or both
+          emergency contacts in the event an emergency occurs.
         </p>
 
-        <p class="fw-bold mb-4" style="max-width: 85ch">
-          Please ensure you have at least a primary contact listed below with up
-          to date contact information.
+        <p class="mb-5" style="max-width: 85ch">
+          Please make sure the people you designate below are aware that they
+          are listed as one of your emergency contacts.
         </p>
 
         <EmergencyContacts />
       </div>
     </template>
-    <template #sidebar></template>
+    <template #sidebar>
+      <p>
+        You may see information that has been imported from previously submitted
+        emergency contact information. Please verify your emergency contacts.
+        You can change this information at any time by returning to this page.
+      </p>
+
+      <ul>
+        <li>
+          This information will only be used for purposes of emergency contact
+        </li>
+        <li>
+          This does not constitute a FERPA release for beyond what is necessary
+          for a health and safety emergency
+        </li>
+        <li>
+          UW is not under any general obligation to contact the listed emergency
+          contacts.
+        </li>
+      </ul>
+    </template>
   </DefaultLayout>
 </template>
 
