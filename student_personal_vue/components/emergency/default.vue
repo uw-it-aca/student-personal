@@ -4,7 +4,7 @@
     Contact information successfully updated
   </BAlert>
 
-  <div class="col-10 mb-4">
+  <div class="col-lg-10 mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="fs-3 m-0">Primary</h2>
       <div>
@@ -55,7 +55,7 @@
     </div>
   </div>
 
-  <div class="col-10 mb-4">
+  <div class="col-lg-10 mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="fs-3 m-0">Secondary</h2>
       <div>
