@@ -6,7 +6,7 @@
 
   <div class="col-lg-10 mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="fs-3 m-0">Primary</h2>
+      <h2 class="ff-encode-sans fs-3 m-0">Primary</h2>
       <div>
         <ContactRemove
           v-if="!isMissingAllContacts && !isLoading"
@@ -38,8 +38,7 @@
       class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please <strong>add a phone number, email or relationship</strong> for your
-      primary contact.
+      <strong>Missing information.</strong> Please review and update your primary contact.
     </BAlert>
     <div class="mx-5 my-3">
       <template v-if="isLoading">
@@ -57,7 +56,7 @@
 
   <div class="col-lg-10 mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="fs-3 m-0">Secondary</h2>
+      <h2 class="ff-encode-sans fs-3 m-0">Secondary</h2>
       <div>
         <ContactRemove
           v-if="!isMissingSecondaryContact && !isLoading"
@@ -89,8 +88,7 @@
       class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please <strong>add a phone number, email or relationship</strong> for your
-      secondary contact.
+      <strong>Missing information.</strong> Please review and update your secondary contact.
     </BAlert>
     <div class="mx-5 my-3">
       <template v-if="isLoading">
