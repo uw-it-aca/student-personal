@@ -39,22 +39,23 @@ describe("contact-edit.vue", () => {
     pinia = createPinia();
     const emergencyContactStore = useEmergencyContactStore(pinia);
 
-    if (storeState === undefined) storeState = {
-      emergency_contacts: [
-        {
-          name: "John Doe",
-          phone_number: "+12079460958",
-          email: "john.doe@example.com",
-          relationship: "PARENT",
-        },
-        {
-          name: "Jane Doe",
-          phone_number: "+912212345678",
-          email: "jane.doe@example.com",
-          relationship: "GUARDIAN",
-        },
-      ],
-    };
+    if (storeState === undefined)
+      storeState = {
+        emergency_contacts: [
+          {
+            name: "John Doe",
+            phone_number: "+12079460958",
+            email: "john.doe@example.com",
+            relationship: "PARENT",
+          },
+          {
+            name: "Jane Doe",
+            phone_number: "+912212345678",
+            email: "jane.doe@example.com",
+            relationship: "GUARDIAN",
+          },
+        ],
+      };
 
     emergencyContactStore.setContacts(storeState);
 
@@ -129,8 +130,8 @@ describe("contact-edit.vue", () => {
       await wrapper.findComponent(BButton).trigger("click");
     });
 
-    it('displays "Primary" in the modal title', () => {
-      expect(wrapper.findComponent(BModal).props("title")).toBe("Primary");
+    it('displays "Contact #1" in the modal title', () => {
+      expect(wrapper.findComponent(BModal).props("title")).toBe("Contact #1");
     });
 
     it("loads the primary contact data into the form", () => {
@@ -163,8 +164,8 @@ describe("contact-edit.vue", () => {
       await wrapper.findComponent(BButton).trigger("click");
     });
 
-    it('displays "Secondary" in the modal title', () => {
-      expect(wrapper.findComponent(BModal).props("title")).toBe("Secondary");
+    it('displays "Contact #2" in the modal title', () => {
+      expect(wrapper.findComponent(BModal).props("title")).toBe("Contact #2");
     });
 
     it("loads the secondary contact data into the form", () => {
@@ -316,18 +317,6 @@ describe("contact-edit.vue", () => {
       await relationshipSelect.trigger("blur");
       expect(wrapper.vm.formContact.relationship_valid).toBe(null);
     });
-
-    it("updates formPrimary when checkbox is clicked", async () => {
-      const secondaryWrapper = createWrapper(false);
-      await secondaryWrapper.findComponent(BButton).trigger("click");
-
-      const primaryCheckbox = secondaryWrapper.find("#checkboxPrimaryContact");
-      expect(primaryCheckbox.attributes("disabled")).toBe(undefined);
-      expect(secondaryWrapper.vm.formPrimary).toBe(false);
-
-      await primaryCheckbox.setChecked();
-      expect(secondaryWrapper.vm.formPrimary).toBe(true);
-    });
   });
 
   describe("saveContact", () => {
@@ -372,24 +361,6 @@ describe("contact-edit.vue", () => {
       expect(storeUpdateSpy).not.toHaveBeenCalled();
       expect(updateEmergencyContacts).not.toHaveBeenCalled();
       expect(wrapper.vm.showModal).toBe(true);
-    });
-
-    it("reorders contacts if secondary is made primary", async () => {
-      const secondaryWrapper = createWrapper(false);
-      const secondaryStore = useEmergencyContactStore(pinia);
-      await secondaryWrapper.findComponent(BButton).trigger("click");
-
-      updateEmergencyContacts.mockResolvedValue({});
-      const storeReorderSpy = vi.spyOn(secondaryStore, "reorderContacts");
-
-      await secondaryWrapper.find("#checkboxPrimaryContact").setChecked();
-
-      const saveButton = secondaryWrapper
-        .findAllComponents(BButton)
-        .find((b) => b.text() === "Save");
-      await saveButton.trigger("click");
-
-      expect(storeReorderSpy).toHaveBeenCalled();
     });
 
     it("handles API error on save", async () => {

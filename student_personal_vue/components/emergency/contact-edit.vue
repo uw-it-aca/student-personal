@@ -119,20 +119,6 @@
           Please select a relationship.
         </BFormInvalidFeedback>
       </div>
-
-      <div role="group" class="mb-3">
-        <BFormCheckbox
-          id="checkboxPrimaryContact"
-          v-model="formPrimary"
-          :disabled="this.isPrimary"
-          class="fw-bold"
-        >
-          Make this my primary contact
-        </BFormCheckbox>
-        <BFormText>
-          If you have two contacts, you can choose which one is your primary.
-        </BFormText>
-      </div>
     </BForm>
 
     <template #footer>
@@ -213,7 +199,7 @@
     },
     computed: {
       modalTitle() {
-        return this.isPrimary ? "Primary" : "Secondary";
+        return this.isPrimary ? "Contact #1" : "Contact #2";
       },
       formContact() {
         return this.isPrimary
