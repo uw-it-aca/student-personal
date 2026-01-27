@@ -49,11 +49,6 @@
         </template>
         from your emergency contacts?
       </p>
-
-      <p>
-        If this contact is set as your primary, your secondary contact will
-        automatically become your primary contact.
-      </p>
     </template>
 
     <template #footer>

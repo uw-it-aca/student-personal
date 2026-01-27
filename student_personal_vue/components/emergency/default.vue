@@ -5,7 +5,7 @@
   </BAlert>
 
   <div class="col-lg-10 mb-4">
-    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Primary</h2>
+    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Contact #1</h2>
     <BAlert
       v-if="isMissingPrimaryContact"
       variant="warning"
@@ -13,7 +13,7 @@
       class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please <strong>add a primary contact</strong>.
+      Please <strong>add a contact</strong>.
     </BAlert>
     <BAlert
       v-else-if="isPrimaryIncomplete"
@@ -23,7 +23,7 @@
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       <strong>Missing information.</strong> Please review and update your
-      primary contact.
+      contact.
     </BAlert>
 
     <template v-if="isLoading">
@@ -55,7 +55,7 @@
   </div>
 
   <div class="col-lg-10 mb-5">
-    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Secondary</h2>
+    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Contact #2</h2>
     <BAlert
       v-if="isMissingSecondaryContact"
       variant="warning"
@@ -63,7 +63,7 @@
       class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      Please <strong>add a secondary contact</strong>.
+      Please <strong>add a contact</strong>.
     </BAlert>
     <BAlert
       v-else-if="isSecondaryIncomplete"
@@ -73,7 +73,7 @@
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       <strong>Missing information.</strong> Please review and update your
-      secondary contact.
+      contact.
     </BAlert>
 
     <template v-if="isLoading">
