@@ -29,34 +29,41 @@
         </p>
 
         <EmergencyContacts />
+
+        <BCard bg-variant="body-secondary" class="bg-opacity-50 mb-3 border-0 col-lg-10">
+          <h2 class="h5 ff-encode-sans m-0 mb-3">
+            For your information
+          </h2>
+          <p style="max-width: 85ch">
+            You may see information that has been imported from previously
+            submitted emergency contact information. Please verify your
+            emergency contacts. You can change this information at any time by
+            returning to this page.
+          </p>
+
+          <ul class="m-0">
+            <li>
+              This information will only be used for purposes of emergency
+              contact
+            </li>
+            <li>
+              This does not constitute a FERPA release for beyond what is
+              necessary for a health and safety emergency
+            </li>
+            <li>
+              UW is not under any general obligation to contact the listed
+              emergency contacts.
+            </li>
+          </ul>
+        </BCard>
       </div>
     </template>
-    <template #sidebar>
-      <p>
-        You may see information that has been imported from previously submitted
-        emergency contact information. Please verify your emergency contacts.
-        You can change this information at any time by returning to this page.
-      </p>
-
-      <ul>
-        <li>
-          This information will only be used for purposes of emergency contact
-        </li>
-        <li>
-          This does not constitute a FERPA release for beyond what is necessary
-          for a health and safety emergency
-        </li>
-        <li>
-          UW is not under any general obligation to contact the listed emergency
-          contacts.
-        </li>
-      </ul>
-    </template>
+    <template #sidebar></template>
   </DefaultLayout>
 </template>
 
 <script>
-  import { BAlert } from "bootstrap-vue-next";
+  import { BAlert, BCard } from "bootstrap-vue-next";
   import EmergencyContacts from "@/components/emergency/default.vue";
   import FamilyContactDetails from "@/components/family/contact-details.vue";
   import DefaultLayout from "@/layouts/default.vue";
@@ -66,6 +73,7 @@
     name: "PagesEmergency",
     components: {
       BAlert,
+      BCard,
       DefaultLayout,
       EmergencyContacts,
       FamilyContactDetails,

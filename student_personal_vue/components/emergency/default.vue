@@ -5,23 +5,7 @@
   </BAlert>
 
   <div class="col-lg-10 mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="ff-encode-sans fs-3 m-0">Primary</h2>
-      <div>
-        <ContactRemove
-          v-if="!isMissingAllContacts && !isLoading"
-          :is-primary="true"
-          @reload="loadEmergencyContacts"
-        />
-        <ContactEdit
-          v-if="emergencyContactStore.hasContacts && !isLoading"
-          :is-primary="true"
-          :action="isMissingAllContacts ? 'Add' : 'Edit'"
-          @reload="loadEmergencyContacts"
-          @saved="showSavedAlert"
-        />
-      </div>
-    </div>
+    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Primary</h2>
     <BAlert
       v-if="isMissingPrimaryContact"
       variant="warning"
@@ -38,40 +22,40 @@
       class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      <strong>Missing information.</strong> Please review and update your primary contact.
+      <strong>Missing information.</strong> Please review and update your
+      primary contact.
     </BAlert>
-    <div class="mx-5 my-3">
-      <template v-if="isLoading">
-        <ContactLoading />
-      </template>
-      <template v-else-if="errorResponse">Unable to load contacts...</template>
-      <template v-else>
+
+    <template v-if="isLoading">
+      <ContactLoading />
+    </template>
+    <template v-else-if="errorResponse">Unable to load contacts...</template>
+    <template v-else>
+      <div class="d-flex justify-content-between align-items-center">
         <ContactDetails
           v-if="emergencyContactStore.staticPrimary"
           :contact="emergencyContactStore.staticPrimary"
         />
-      </template>
-    </div>
+        <div class="text-nowrap">
+          <ContactRemove
+            v-if="!isMissingAllContacts && !isLoading"
+            :is-primary="true"
+            @reload="loadEmergencyContacts"
+          />
+          <ContactEdit
+            v-if="emergencyContactStore.hasContacts && !isLoading"
+            :is-primary="true"
+            :action="isMissingAllContacts ? 'Add' : 'Edit'"
+            @reload="loadEmergencyContacts"
+            @saved="showSavedAlert"
+          />
+        </div>
+      </div>
+    </template>
   </div>
 
-  <div class="col-lg-10 mb-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h2 class="ff-encode-sans fs-3 m-0">Secondary</h2>
-      <div>
-        <ContactRemove
-          v-if="!isMissingSecondaryContact && !isLoading"
-          :is-primary="false"
-          @reload="loadEmergencyContacts"
-        />
-        <ContactEdit
-          v-if="emergencyContactStore.hasContacts && !isLoading"
-          :is-primary="false"
-          :action="isMissingSecondaryContact ? 'Add' : 'Edit'"
-          @reload="loadEmergencyContacts"
-          @saved="showSavedAlert"
-        />
-      </div>
-    </div>
+  <div class="col-lg-10 mb-5">
+    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Secondary</h2>
     <BAlert
       v-if="isMissingSecondaryContact"
       variant="warning"
@@ -88,26 +72,37 @@
       class="mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
-      <strong>Missing information.</strong> Please review and update your secondary contact.
+      <strong>Missing information.</strong> Please review and update your
+      secondary contact.
     </BAlert>
-    <div class="mx-5 my-3">
-      <template v-if="isLoading">
-        <ContactLoading />
-      </template>
-      <template v-else-if="errorResponse">Unable to load contacts...</template>
-      <template v-else>
+
+    <template v-if="isLoading">
+      <ContactLoading />
+    </template>
+    <template v-else-if="errorResponse">Unable to load contacts...</template>
+    <template v-else>
+      <div class="d-flex justify-content-between align-items-center">
         <ContactDetails
           v-if="emergencyContactStore.staticSecondary"
           :contact="emergencyContactStore.staticSecondary"
         />
-      </template>
-    </div>
+        <div class="text-nowrap">
+          <ContactRemove
+            v-if="!isMissingSecondaryContact && !isLoading"
+            :is-primary="false"
+            @reload="loadEmergencyContacts"
+          />
+          <ContactEdit
+            v-if="emergencyContactStore.hasContacts && !isLoading"
+            :is-primary="false"
+            :action="isMissingSecondaryContact ? 'Add' : 'Edit'"
+            @reload="loadEmergencyContacts"
+            @saved="showSavedAlert"
+          />
+        </div>
+      </div>
+    </template>
   </div>
-
-  <p class="mb-4">
-    If your primary contact cannot be reached, your secondary contact will be
-    attempted.
-  </p>
 </template>
 
 <script>
