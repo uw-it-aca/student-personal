@@ -1,5 +1,5 @@
 <template>
-  <BAlert v-if="isSaved" variant="success" :model-value="true" class="mb-4">
+  <BAlert v-if="isSaved" variant="success" :model-value="true" class="col-lg-10 mb-4">
     <i class="bi-exclamation-triangle-fill me-2"></i>
     Contact information successfully updated
   </BAlert>
