@@ -218,7 +218,7 @@
         this.formPhoneNumber = contact.phone_number_formatted;
         this.formCountryCode = contact.country_code;
         this.formRelationship = contact.relationship;
-        this.formPrimary = this.isPrimary;
+        // this.formPrimary = this.isPrimary;
       },
       validateFullName() {
         this.emergencyContactStore.validateName(
@@ -256,6 +256,11 @@
         let url = this.contextStore.context.emergencyContactUrl,
           contact = this.formContact;
 
+        this.validateFullName();
+        this.validateEmailAddress();
+        this.validatePhoneNumber();
+        this.validateRelationshipChoice();
+
         if (
           !(
             contact.name_valid &&
@@ -268,9 +273,9 @@
         }
 
         // reorder contacts if needed
-        if (!this.isPrimary && this.formPrimary) {
-          this.emergencyContactStore.reorderContacts();
-        }
+        //if (!this.isPrimary && this.formPrimary) {
+          //this.emergencyContactStore.reorderContacts();
+          //}
 
         // check to see if contacts in store are updated
         console.log("Store updated:", this.emergencyContactStore.putData);

@@ -112,8 +112,9 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       // validate full name for latin characters only
       name = this.normalize(name);
       contact.name = name;
-      contact.name_valid = null;
-      if (name !== "") {
+      if (name === "") {
+        contact.name_valid = false;
+      } else {
         contact.name_valid = NAME_REGEX.test(name);
       }
     },
@@ -129,6 +130,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
 
       if (e164_phone_number === "") {
         country_code = DEFAULT_COUNTRY_CODE;
+        phone_number_valid = false;
       } else {
         try {
           const parsed = parsePhoneNumber(e164_phone_number);
@@ -154,16 +156,18 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     validateEmail(contact, email) {
       email = this.normalize(email);
       contact.email = email;
-      contact.email_valid = null;
-      if (email !== "") {
+      if (email === "") {
+        contact.email_valid = false;
+      } else {
         contact.email_valid = EMAIL_REGEX.test(email);
       }
     },
     validateRelationship(contact, relationship) {
       relationship = this.normalize(relationship);
       contact.relationship = relationship;
-      contact.relationship_valid = null;
-      if (relationship !== "") {
+      if (relationship === "") {
+        contact.relationship_valid = false;
+      } else {
         contact.relationship_valid = RELATIONSHIPS.includes(relationship);
       }
     },
