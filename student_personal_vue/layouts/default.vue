@@ -49,7 +49,7 @@
 
         <ul class="list-unstyled">
           <li>
-            <a href="https://identity.uw.edu" class="link-dark"
+            <a href="https://identity.uw.edu" class="link-quiet-body"
               ><i class="bi bi-pencil me-2"></i>Edit in Identity.UW</a
             >
           </li>
