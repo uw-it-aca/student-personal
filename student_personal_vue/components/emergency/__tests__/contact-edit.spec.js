@@ -196,12 +196,12 @@ describe("contact-edit.vue", () => {
         ],
       });
       expect(wrapper.vm.formContact.country_code).toBe("1");
-      expect(wrapper.vm.formContact.phone_number_valid).toBe(null);
+      expect(wrapper.vm.formContact.phone_number_valid).toBe(false);
     });
   });
 
   describe("when loading contact with incomplete data", () => {
-    it("sets validation states to null for empty/invalid fields", () => {
+    it("sets validation states to false for empty/invalid fields", () => {
       const wrapper = createWrapper(true, {
         emergency_contacts: [
           {
@@ -213,9 +213,9 @@ describe("contact-edit.vue", () => {
         ],
       });
 
-      expect(wrapper.vm.formContact.name_valid).toBe(null);
-      expect(wrapper.vm.formContact.email_valid).toBe(null);
-      expect(wrapper.vm.formContact.relationship_valid).toBe(null);
+      expect(wrapper.vm.formContact.name_valid).toBe(false);
+      expect(wrapper.vm.formContact.email_valid).toBe(false);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(false);
     });
   });
 
@@ -248,7 +248,7 @@ describe("contact-edit.vue", () => {
 
       await nameInput.setValue("");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.formContact.name_valid).toBe(null);
+      expect(wrapper.vm.formContact.name_valid).toBe(false);
     });
 
     it("validates phone number correctly", async () => {
@@ -303,7 +303,7 @@ describe("contact-edit.vue", () => {
 
       await emailInput.setValue("");
       await emailInput.trigger("blur");
-      expect(wrapper.vm.formContact.email_valid).toBe(null);
+      expect(wrapper.vm.formContact.email_valid).toBe(false);
     });
 
     it("validates relationship choice correctly", async () => {
@@ -315,7 +315,7 @@ describe("contact-edit.vue", () => {
 
       await relationshipSelect.setValue("");
       await relationshipSelect.trigger("blur");
-      expect(wrapper.vm.formContact.relationship_valid).toBe(null);
+      expect(wrapper.vm.formContact.relationship_valid).toBe(false);
     });
   });
 
@@ -376,6 +376,42 @@ describe("contact-edit.vue", () => {
       await nextTick();
 
       expect(wrapper.vm.errorResponse).toEqual(error.data);
+      expect(wrapper.vm.showModal).toBe(false);
+    });
+
+    it("validates and saves correctly when fields are filled but not blurred", async () => {
+      // Start with an invalid contact
+      const invalidStoreState = {
+        emergency_contacts: [
+          {
+            name: "",
+            phone_number: "",
+            email: "",
+            relationship: "",
+          },
+        ],
+      };
+      wrapper = createWrapper(true, invalidStoreState);
+      emergencyContactStore = useEmergencyContactStore(pinia);
+      await wrapper.findComponent(BButton).trigger("click");
+
+      updateEmergencyContacts.mockResolvedValue({});
+      const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
+
+      // Fill the form but don't trigger blur
+      await wrapper.find("#inputFullName").setValue("John Doe");
+      await wrapper.find("#inputPhoneNumber").setValue("2075551234");
+      await wrapper.find("#inputEmailAddress").setValue("john.doe@new.com");
+      await wrapper.find("#selectRelationshipChoice").setValue("FRIEND");
+
+      const saveButton = wrapper
+        .findAllComponents(BButton)
+        .find((b) => b.text() === "Save");
+      await saveButton.trigger("click");
+
+      expect(storeUpdateSpy).toHaveBeenCalled();
+      expect(updateEmergencyContacts).toHaveBeenCalled();
+      await nextTick();
       expect(wrapper.vm.showModal).toBe(false);
     });
   });
