@@ -38,14 +38,14 @@
         />
         <div class="text-nowrap">
           <ContactRemove
-            v-if="!isMissingAllContacts && !isLoading"
+            v-if="!isMissingPrimaryContact && !isLoading"
             :is-primary="true"
             @reload="loadEmergencyContacts"
           />
           <ContactEdit
             v-if="emergencyContactStore.hasContacts && !isLoading"
             :is-primary="true"
-            :action="isMissingAllContacts ? 'Add' : 'Edit'"
+            :action="isMissingPrimaryContact ? 'Add' : 'Edit'"
             @reload="loadEmergencyContacts"
             @saved="showSavedAlert"
           />
