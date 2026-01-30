@@ -1,8 +1,18 @@
 {
   "name": "student-personal",
-  "type": "module",
   "version": "1.0.0",
   "description": "Student Personal Information app",
+  "homepage": "https://github.com/uw-it-aca/student_personal#readme",
+  "bugs": {
+    "url": "https://github.com/uw-it-aca/student_personal/issues"
+  },
+  "license": "ISC",
+  "author": "Your Name Here",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uw-it-aca/student_personal.git"
+  },
+  "type": "module",
   "scripts": {
     "build": "vite build",
     "watch": "vite build --watch --mode development",
@@ -15,16 +25,6 @@
     "oxfmt:check": "oxfmt --check",
     "coveralls": "coveralls < coverage/lcov.info"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/uw-it-aca/student_personal.git"
-  },
-  "author": "Your Name Here",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/uw-it-aca/student_personal/issues"
-  },
-  "homepage": "https://github.com/uw-it-aca/student_personal#readme",
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
     "@popperjs/core": "^2.11.8",
@@ -33,13 +33,13 @@
     "bootstrap-icons": "^1.13.1",
     "bootstrap-vue-next": "^0.42.0",
     "dayjs": "^1.11.19",
-    "libphonenumber-js": "^1.12.35",
+    "libphonenumber-js": "^1.12.36",
     "pinia": "^3.0.4",
     "solstice-theme": "github:uw-it-aca/solstice-theme#1.0.7",
     "solstice-vue": "github:uw-it-aca/solstice-vue#1.1.5",
     "vue": "^3.5.27",
     "vue-gtag-next": "^1.14.0",
-    "vue-router": "^4.6.4",
+    "vue-router": "^5.0.0",
     "vue3-cookies": "^1.0.6",
     "vue3-mq": "^4.1.0"
   },
