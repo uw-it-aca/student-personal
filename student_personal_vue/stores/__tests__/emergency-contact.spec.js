@@ -86,7 +86,7 @@ describe("Emergency Contact Store", () => {
     let contact = {};
 
     store.validateName(contact, "Test Name 1");
-    expect(contact.name_valid).toBe(false);
+    expect(contact.name_valid).toBe(true);
 
     store.validateName(contact, "Test Name");
     expect(contact.name_valid).toBe(true);

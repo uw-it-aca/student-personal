@@ -236,7 +236,7 @@ describe("contact-edit.vue", () => {
 
       await nameInput.setValue("John123");
       await nameInput.trigger("blur");
-      expect(wrapper.vm.formContact.name_valid).toBe(false);
+      expect(wrapper.vm.formContact.name_valid).toBe(true);
 
       await nameInput.setValue("John Doe-Smith. '");
       await nameInput.trigger("blur");

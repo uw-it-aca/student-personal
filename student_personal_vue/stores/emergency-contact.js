@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { formatUTCToLocalDate } from "@/utils/dates";
 
 const PUT_PROPS = ["id", "name", "email", "phone_number", "relationship"];
-const NAME_REGEX = /^[a-zA-Z\s\.'-]+$/;
+const NAME_REGEX = /^[a-zA-Z0-9\s.'-]+$/;
 const EMAIL_REGEX = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const RELATIONSHIPS = [
   "PARENT",

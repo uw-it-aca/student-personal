@@ -32,12 +32,12 @@
           data-clarity-mask="True"
         />
         <BFormText v-if="formName == null" id="">
-          Field only supports Latin and Latin-type characters.
+          Field only supports Latin and Latin-type characters and numbers.
         </BFormText>
         <!-- This will only be shown if the preceding input has an invalid state -->
         <BFormInvalidFeedback id="">
           Please add a name. Field only supports Latin and Latin-type
-          characters.
+          characters and numbers.
         </BFormInvalidFeedback>
         <!-- This is a form text block (formerly known as help block) -->
       </div>
