@@ -1,12 +1,7 @@
 {
   // ignore eslint
-  "language_servers": ["!eslint", "!biome", "oxlint", "oxfmt"],
+  "language_servers": ["oxlint", "oxfmt"],
   "lsp": {
-    "biome": {
-      "settings": {
-        "require_config_file": true,
-      },
-    },
     "oxlint": {
       "initialization_options": {
         "settings": {

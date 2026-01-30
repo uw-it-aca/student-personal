@@ -80,4 +80,15 @@ describe("Emergency Contact Store", () => {
     expect(store.contacts.length).toBe(2);
     expect(store.contacts[1].is_deleted).toBe(true);
   });
+
+  it("validates contact name", () => {
+    const store = useEmergencyContactStore();
+    let contact = {};
+
+    store.validateName(contact, "Test Name 1");
+    expect(contact.name_valid).toBe(false);
+
+    store.validateName(contact, "Test Name");
+    expect(contact.name_valid).toBe(true);
+  });
 });
