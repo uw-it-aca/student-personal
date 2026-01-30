@@ -1,4 +1,6 @@
 {
+  // ignore eslint and biome
+  "language_servers": ["!eslint", "!biome", "oxlint", "oxfmt"],
   "lsp": {
     "oxlint": {
       "initialization_options": {

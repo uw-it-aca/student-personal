@@ -66,7 +66,6 @@
             @blur="handlePhoneNumberBlur"
             data-clarity-mask="True"
           />
-
           <BFormText v-if="formPhoneNumber == null" id="">
             Please select appropriate country code. Number format examples:
             222-123-4567, 2221234567 or (222) 123-4567
