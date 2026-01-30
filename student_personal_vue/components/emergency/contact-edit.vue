@@ -105,9 +105,7 @@
         <BFormSelect
           id="selectRelationshipChoice"
           v-model="formRelationship"
-          :state="
-            relationshipValidated ? formContact.relationship_valid : null
-          "
+          :state="relationshipValidated ? formContact.relationship_valid : null"
           :options="emergencyContactStore.relationshipOptions"
           @change="handleRelationshipValidation"
           @blur="handleRelationshipValidation"
@@ -313,8 +311,8 @@
 
         // reorder contacts if needed
         //if (!this.isPrimary && this.formPrimary) {
-          //this.emergencyContactStore.reorderContacts();
-          //}
+        //this.emergencyContactStore.reorderContacts();
+        //}
 
         // check to see if contacts in store are updated
         console.log("Store updated:", this.emergencyContactStore.putData);
