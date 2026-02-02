@@ -3,7 +3,7 @@
     variant="outline-primary"
     size="sm"
     aria-label="Update contact"
-    @click="showModal = !showModal"
+    @click="openModal"
     class="me-1"
   >
     {{ action }}
@@ -24,20 +24,20 @@
         <BFormInput
           id="inputFullName"
           v-model="formName"
-          :state="formContact.name_valid"
+          :state="nameValidated ? formContact.name_valid : null"
           class=""
           aria-describedby=""
           trim
-          @blur="validateFullName"
+          @blur="handleFullNameBlur"
           data-clarity-mask="True"
         />
         <BFormText v-if="formName == null" id="">
-          Field only supports Latin and Latin-type characters.
+          Field only supports Latin and Latin-type characters and numbers.
         </BFormText>
         <!-- This will only be shown if the preceding input has an invalid state -->
         <BFormInvalidFeedback id="">
           Please add a name. Field only supports Latin and Latin-type
-          characters.
+          characters and numbers.
         </BFormInvalidFeedback>
         <!-- This is a form text block (formerly known as help block) -->
       </div>
@@ -60,13 +60,12 @@
           <BFormInput
             id="inputPhoneNumber"
             v-model="formPhoneNumber"
-            :state="formContact.phone_number_valid"
+            :state="phoneValidated ? formContact.phone_number_valid : null"
             type="text"
             class="rounded-end"
-            @blur="validatePhoneNumber"
+            @blur="handlePhoneNumberBlur"
             data-clarity-mask="True"
           />
-
           <BFormText v-if="formPhoneNumber == null" id="">
             Please select appropriate country code. Number format examples:
             222-123-4567, 2221234567 or (222) 123-4567
@@ -89,9 +88,9 @@
         <BFormInput
           id="inputEmailAddress"
           v-model="formEmail"
-          :state="formContact.email_valid"
+          :state="emailValidated ? formContact.email_valid : null"
           type="email"
-          @blur="validateEmailAddress"
+          @blur="handleEmailAddressBlur"
           data-clarity-mask="True"
         />
         <!-- This will only be shown if the preceding input has an invalid state -->
@@ -105,9 +104,10 @@
         <BFormSelect
           id="selectRelationshipChoice"
           v-model="formRelationship"
-          :state="formContact.relationship_valid"
+          :state="relationshipValidated ? formContact.relationship_valid : null"
           :options="emergencyContactStore.relationshipOptions"
-          @change="validateRelationshipChoice"
+          @change="handleRelationshipValidation"
+          @blur="handleRelationshipValidation"
           data-clarity-mask="True"
         >
           <template #first>
@@ -192,6 +192,10 @@
         formCountryCode: "",
         formRelationship: "",
         formPrimary: false,
+        nameValidated: false,
+        emailValidated: false,
+        phoneValidated: false,
+        relationshipValidated: false,
       };
     },
     mounted() {
@@ -211,6 +215,17 @@
       },
     },
     methods: {
+      openModal() {
+        this.loadContact();
+        this.resetValidationFlags();
+        this.showModal = true;
+      },
+      resetValidationFlags() {
+        this.nameValidated = false;
+        this.emailValidated = false;
+        this.phoneValidated = false;
+        this.relationshipValidated = false;
+      },
       loadContact() {
         let contact = this.formContact;
         this.formName = contact.name;
@@ -220,12 +235,20 @@
         this.formRelationship = contact.relationship;
         // this.formPrimary = this.isPrimary;
       },
+      handleFullNameBlur() {
+        this.nameValidated = true;
+        this.validateFullName();
+      },
       validateFullName() {
         this.emergencyContactStore.validateName(
           this.formContact,
           this.formName,
         );
         this.formName = this.formContact.name;
+      },
+      handlePhoneNumberBlur() {
+        this.phoneValidated = true;
+        this.validatePhoneNumber();
       },
       validatePhoneNumber() {
         let phone_number = "+" + this.formCountryCode + this.formPhoneNumber;
@@ -235,12 +258,20 @@
         );
         this.formPhoneNumber = this.formContact.phone_number_formatted;
       },
+      handleEmailAddressBlur() {
+        this.emailValidated = true;
+        this.validateEmailAddress();
+      },
       validateEmailAddress() {
         this.emergencyContactStore.validateEmail(
           this.formContact,
           this.formEmail,
         );
         this.formEmail = this.formContact.email;
+      },
+      handleRelationshipValidation() {
+        this.relationshipValidated = true;
+        this.validateRelationshipChoice();
       },
       validateRelationshipChoice() {
         this.emergencyContactStore.validateRelationship(
@@ -253,6 +284,11 @@
         this.$emit("reload");
       },
       saveContact() {
+        this.nameValidated = true;
+        this.emailValidated = true;
+        this.phoneValidated = true;
+        this.relationshipValidated = true;
+
         let url = this.contextStore.context.emergencyContactUrl,
           contact = this.formContact;
 
@@ -274,8 +310,8 @@
 
         // reorder contacts if needed
         //if (!this.isPrimary && this.formPrimary) {
-          //this.emergencyContactStore.reorderContacts();
-          //}
+        //this.emergencyContactStore.reorderContacts();
+        //}
 
         // check to see if contacts in store are updated
         console.log("Store updated:", this.emergencyContactStore.putData);
