@@ -50,7 +50,7 @@ export async function useCustomFetch(url, options = {}) {
     } else {
       if (response.status === 403) {
         alert(
-          "Your session has expired. Refresh the page to start a new session."
+          "Your session has expired. Refresh the page to start a new session.",
         );
         return;
       } else {

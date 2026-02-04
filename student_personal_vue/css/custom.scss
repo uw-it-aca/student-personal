@@ -78,40 +78,36 @@ $font-sizes: map-merge($font-sizes, $extra-font-sizes);
 // add custom hover utilities for bg-color-hover and text-color-hover
 $utilities: (
   // MARK: bg-color-hover (changes bg-color on hover)
-  "background-color":
-  (
-    property: background-color,
-    class: bg,
-    state: hover focus,
-    values:
-    map-merge(
-      $theme-colors,
-      (
-        "body": $body-bg,
-        "white": $white,
-        "transparent": transparent,
-      )
+  "background-color": (
+      property: background-color,
+      class: bg,
+      state: hover focus,
+      values: map-merge(
+          $theme-colors,
+          (
+            "body": $body-bg,
+            "white": $white,
+            "transparent": transparent,
+          )
+        ),
     ),
-  ),
   // MARK: text-color-hover (changes text-color on hover)
-  "color":
-  (
-    property: color,
-    class: text,
-    state: hover focus,
-    values:
-    map-merge(
-      $theme-colors,
-      (
-        // re-merge theme colors
-        "body": $body-color,
-        "muted": $text-muted,
-        "white": $white,
-        "reset": inherit,
-        "transparent": transparent
-      )
-    ),
-  )
+  "color": (
+      property: color,
+      class: text,
+      state: hover focus,
+      values: map-merge(
+          $theme-colors,
+          (
+            // re-merge theme colors
+            "body": $body-color,
+            "muted": $text-muted,
+            "white": $white,
+            "reset": inherit,
+            "transparent": transparent
+          )
+        ),
+    )
 );
 
 // 7. include utilities api and import bootstrap last
