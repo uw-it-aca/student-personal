@@ -1,6 +1,6 @@
 <template>
   <template v-if="isLoading">
-    <ContactLoading/>
+    <ContactLoading />
   </template>
   <div v-else-if="errorResponse">{{ errorResponse.message }}</div>
   <ul v-else-if="contact && contact.name" class="list-unstyled">
@@ -52,8 +52,9 @@
       formattedPhoneNumber() {
         try {
           const parsed = parsePhoneNumber(this.contact.phone_number);
-          return (parsed.countryCallingCode === "1")
-            ? parsed.formatNational() : parsed.formatInternational();
+          return parsed.countryCallingCode === "1"
+            ? parsed.formatNational()
+            : parsed.formatInternational();
         } catch (error) {
           return "";
         }

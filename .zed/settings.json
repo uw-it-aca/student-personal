@@ -46,6 +46,10 @@
       "formatter": { "language_server": { "name": "oxfmt" } },
       "format_on_save": "off"
     },
+    "HTML": {
+      "formatter": { "language_server": { "name": "oxfmt" } },
+      "format_on_save": "off"
+    },
     "JSON": {
       "formatter": { "language_server": { "name": "oxfmt" } },
       "format_on_save": "off"

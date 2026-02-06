@@ -12,7 +12,9 @@
         {{ contact.email }}
       </template>
       <template v-else>
-        <span class="text-secondary fst-italic text-underline">No email provided</span>
+        <span class="text-secondary fst-italic text-underline"
+          >No email provided</span
+        >
       </template>
     </li>
     <li data-clarity-mask="True">
@@ -28,7 +30,9 @@
         {{ formattedRelationship }}
       </template>
       <template v-else>
-        <span class="text-secondary fst-italic text-underline">No relationship provided</span>
+        <span class="text-secondary fst-italic text-underline"
+          >No relationship provided</span
+        >
       </template>
     </li>
     <li v-if="contact.last_modified" class="small mt-3">

@@ -1,51 +1,52 @@
-{"DisplayName":"JAMES TACOMA STUDENT",
-"EduPersonAffiliations":["member",
-                         "student",
-                         "alum",
-                         "staff",
-                         "employee"],
-"IsTestEntity":true,
-"PriorUWNetIDs":[],
-"PriorUWRegIDs":[],
-"RegisteredFirstMiddleName":"JAMES TACOMA",
-"RegisteredName":"JAMES TACOMA STUDENT",
-"RegisteredSurname":"STUDENT",
-"UIDNumber":"35443",
-"UWNetID":"jtacoma",
-"UWRegID":"FE36CCB8F66711D5BE060004AC494FCD",
-"WhitepagesPublish":false,
-"PersonAffiliations":{
-    "AlumPersonAffiliation":{
-        "DevelopmentID":"0000773877",
-        "AlumAffiliationState":"current"},
-    "EmployeePersonAffiliation":{
-        "EmployeeID":"133456789",
-        "EmployeeAffiliationState": "current",
-        "EmployeeWhitePages":{
-            "Addresses": [],
-            "EmailAddresses":["jtacoma@uw.edu"],
-            "Faxes":[],
-            "Mobiles":[],
-            "Phones": [],
-            "Pagers":[],
-            "Name" : "Tacoma, James",
-            "Positions":[],
-            "PublishInDirectory": false,
-            "TouchDials":[],
-            "VoiceMails":[]},
-        "HomeDepartment": "Math",
-        "MailStop": null},
-    "StudentPersonAffiliation":{
-        "StudentNumber":"1233334",
-        "StudentSystemKey":"000083858",
-        "StudentAffiliationState":"current",
-        "StudentWhitePages":{
-            "Class":null,
-            "Departments":["Math"],
-            "Email":null,
-            "Name":null,
-            "Phone":null,
-            "PublishInDirectory":false}
+{
+  "DisplayName": "JAMES TACOMA STUDENT",
+  "EduPersonAffiliations": ["member", "student", "alum", "staff", "employee"],
+  "IsTestEntity": true,
+  "PriorUWNetIDs": [],
+  "PriorUWRegIDs": [],
+  "RegisteredFirstMiddleName": "JAMES TACOMA",
+  "RegisteredName": "JAMES TACOMA STUDENT",
+  "RegisteredSurname": "STUDENT",
+  "UIDNumber": "35443",
+  "UWNetID": "jtacoma",
+  "UWRegID": "FE36CCB8F66711D5BE060004AC494FCD",
+  "WhitepagesPublish": false,
+  "PersonAffiliations": {
+    "AlumPersonAffiliation": {
+      "DevelopmentID": "0000773877",
+      "AlumAffiliationState": "current"
+    },
+    "EmployeePersonAffiliation": {
+      "EmployeeID": "133456789",
+      "EmployeeAffiliationState": "current",
+      "EmployeeWhitePages": {
+        "Addresses": [],
+        "EmailAddresses": ["jtacoma@uw.edu"],
+        "Faxes": [],
+        "Mobiles": [],
+        "Phones": [],
+        "Pagers": [],
+        "Name": "Tacoma, James",
+        "Positions": [],
+        "PublishInDirectory": false,
+        "TouchDials": [],
+        "VoiceMails": []
+      },
+      "HomeDepartment": "Math",
+      "MailStop": null
+    },
+    "StudentPersonAffiliation": {
+      "StudentNumber": "1233334",
+      "StudentSystemKey": "000083858",
+      "StudentAffiliationState": "current",
+      "StudentWhitePages": {
+        "Class": null,
+        "Departments": ["Math"],
+        "Email": null,
+        "Name": null,
+        "Phone": null,
+        "PublishInDirectory": false
+      }
     }
   }
 }

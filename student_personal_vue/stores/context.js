@@ -5,7 +5,7 @@ export const useContextStore = defineStore("django-context", {
     return {
       name: "Context",
       context: JSON.parse(
-        document.getElementById("django-context-data").textContent
+        document.getElementById("django-context-data").textContent,
       ),
     };
   },

@@ -30,10 +30,11 @@
 
         <EmergencyContacts />
 
-        <BCard bg-variant="body-secondary" class="bg-opacity-50 mb-3 border-0 col-lg-10">
-          <h2 class="h5 ff-encode-sans m-0 mb-3">
-            For your information
-          </h2>
+        <BCard
+          bg-variant="body-secondary"
+          class="bg-opacity-50 col-lg-10 mb-3 border-0"
+        >
+          <h2 class="h5 ff-encode-sans m-0 mb-3">For your information</h2>
           <p style="max-width: 85ch">
             You may see information that has been imported from previously
             submitted emergency contact information. Please verify your
