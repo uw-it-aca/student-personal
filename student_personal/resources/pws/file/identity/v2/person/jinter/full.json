@@ -1,51 +1,52 @@
-{"DisplayName":"DALTON INTERNATIONAL STUDENT",
-"EduPersonAffiliations":["member",
-                         "student",
-                         "alum",
-                         "staff",
-                         "employee"],
-"IsTestEntity":true,
-"PriorUWNetIDs":[],
-"PriorUWRegIDs":[],
-"RegisteredFirstMiddleName":"JAMES BOTHELL",
-"RegisteredName":"DALTON INTERNATIONAL STUDENT",
-"RegisteredSurname":"STUDENT",
-"UIDNumber":"35443",
-"UWNetID":"jinter",
-"UWRegID":"FE36CCB8F66711D5BE060004AC494FCD",
-"WhitepagesPublish":false,
-"PersonAffiliations":{
-    "AlumPersonAffiliation":{
-        "DevelopmentID":"0000773877",
-        "AlumAffiliationState":"current"},
-    "EmployeePersonAffiliation":{
-        "EmployeeID":"133456789",
-        "EmployeeAffiliationState": "current",
-        "EmployeeWhitePages":{
-            "Addresses": [],
-            "EmailAddresses":["jinter@uw.edu"],
-            "Faxes":[],
-            "Mobiles":[],
-            "Phones": [],
-            "Pagers":[],
-            "Name" : "Student, Dalton",
-            "Positions":[],
-            "PublishInDirectory": false,
-            "TouchDials":[],
-            "VoiceMails":[]},
-        "HomeDepartment": "Math",
-        "MailStop": null},
-    "StudentPersonAffiliation":{
-        "StudentNumber":"1233334",
-        "StudentSystemKey":"000083859",
-        "StudentAffiliationState":"current",
-        "StudentWhitePages":{
-            "Class":null,
-            "Departments":["Math"],
-            "Email":null,
-            "Name":null,
-            "Phone":null,
-            "PublishInDirectory":false}
+{
+  "DisplayName": "DALTON INTERNATIONAL STUDENT",
+  "EduPersonAffiliations": ["member", "student", "alum", "staff", "employee"],
+  "IsTestEntity": true,
+  "PriorUWNetIDs": [],
+  "PriorUWRegIDs": [],
+  "RegisteredFirstMiddleName": "JAMES BOTHELL",
+  "RegisteredName": "DALTON INTERNATIONAL STUDENT",
+  "RegisteredSurname": "STUDENT",
+  "UIDNumber": "35443",
+  "UWNetID": "jinter",
+  "UWRegID": "FE36CCB8F66711D5BE060004AC494FCD",
+  "WhitepagesPublish": false,
+  "PersonAffiliations": {
+    "AlumPersonAffiliation": {
+      "DevelopmentID": "0000773877",
+      "AlumAffiliationState": "current"
+    },
+    "EmployeePersonAffiliation": {
+      "EmployeeID": "133456789",
+      "EmployeeAffiliationState": "current",
+      "EmployeeWhitePages": {
+        "Addresses": [],
+        "EmailAddresses": ["jinter@uw.edu"],
+        "Faxes": [],
+        "Mobiles": [],
+        "Phones": [],
+        "Pagers": [],
+        "Name": "Student, Dalton",
+        "Positions": [],
+        "PublishInDirectory": false,
+        "TouchDials": [],
+        "VoiceMails": []
+      },
+      "HomeDepartment": "Math",
+      "MailStop": null
+    },
+    "StudentPersonAffiliation": {
+      "StudentNumber": "1233334",
+      "StudentSystemKey": "000083859",
+      "StudentAffiliationState": "current",
+      "StudentWhitePages": {
+        "Class": null,
+        "Departments": ["Math"],
+        "Email": null,
+        "Name": null,
+        "Phone": null,
+        "PublishInDirectory": false
+      }
     }
   }
 }

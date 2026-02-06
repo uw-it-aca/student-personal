@@ -5,7 +5,6 @@
 
 An application for managing student contact information.
 
-
 ## System Requirements
 
 - Python (3+)

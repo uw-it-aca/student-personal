@@ -36,8 +36,8 @@
         </BFormText>
         <!-- This will only be shown if the preceding input has an invalid state -->
         <BFormInvalidFeedback id="">
-          Please add a name. Field only supports Latin and Latin-type
-          characters and numbers.
+          Please add a name. Field only supports Latin and Latin-type characters
+          and numbers.
         </BFormInvalidFeedback>
         <!-- This is a form text block (formerly known as help block) -->
       </div>

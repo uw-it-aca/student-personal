@@ -1,5 +1,10 @@
 <template>
-  <BAlert v-if="isSaved" variant="success" :model-value="true" class="col-lg-10 mb-4">
+  <BAlert
+    v-if="isSaved"
+    variant="success"
+    :model-value="true"
+    class="col-lg-10 small mb-4"
+  >
     <i class="bi-exclamation-triangle-fill me-2"></i>
     Contact information successfully updated
   </BAlert>
@@ -10,7 +15,7 @@
       v-if="isMissingPrimaryContact"
       variant="warning"
       :model-value="true"
-      class="mb-4"
+      class="small mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       Please <strong>add a contact</strong>.
@@ -19,7 +24,7 @@
       v-else-if="isPrimaryIncomplete"
       variant="warning"
       :model-value="true"
-      class="mb-4"
+      class="small mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       <strong>Missing information.</strong> Please review and update your
@@ -60,7 +65,7 @@
       v-if="isMissingSecondaryContact"
       variant="warning"
       :model-value="true"
-      class="mb-4"
+      class="small mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       Please <strong>add a contact</strong>.
@@ -69,7 +74,7 @@
       v-else-if="isSecondaryIncomplete"
       variant="warning"
       :model-value="true"
-      class="mb-4"
+      class="small mb-4"
     >
       <i class="bi-exclamation-triangle-fill me-2"></i>
       <strong>Missing information.</strong> Please review and update your

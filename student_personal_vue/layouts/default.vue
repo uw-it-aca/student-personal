@@ -122,14 +122,6 @@
                   Identity.UW
                 </BLink>
               </li>
-              <li>
-                <BLink
-                  href="https://dawgpath.uw.edu"
-                  class="link-quiet-primary"
-                >
-                  Dawgpath
-                </BLink>
-              </li>
             </ul>
           </BCard>
           <slot name="sidebar"></slot>
