@@ -6,7 +6,7 @@
     <template #content>
       <div v-if="!contextStore.context.isStudent">
         <BAlert variant="danger" :model-value="true" class="small">
-          <i class="bi-exclamation-triangle-fill me-1"></i>You must be an active
+          <i class="bi-exclamation-triangle-fill me-2"></i>You must be an active
           student to use this tool.
         </BAlert>
 
