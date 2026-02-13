@@ -1,4 +1,4 @@
-ARG DJANGO_CONTAINER_VERSION=2.0.8
+ARG DJANGO_CONTAINER_VERSION=2.0.12
 
 FROM us-docker.pkg.dev/uwit-mci-axdd/containers/django-container:${DJANGO_CONTAINER_VERSION} AS app-prebundler-container
 
@@ -17,8 +17,8 @@ RUN chmod u+x /scripts/app_start.sh
 RUN /app/bin/pip install -r requirements.txt
 RUN /app/bin/pip install psycopg2
 
-# latest node + ubuntu
-FROM node:20 AS node-base
+# node (lts) + ubuntu
+FROM node:24 AS node-base
 FROM ubuntu:22.04 AS node-bundler
 COPY --from=node-base / /
 
@@ -34,7 +34,7 @@ RUN npm run build
 
 FROM app-prebundler-container AS app-container
 
-COPY --chown=acait:acait --from=node-bundler /app/app_name/static /app/app_name/static
+COPY --chown=acait:acait --from=node-bundler /app/student_personal/static /app/student_personal/static
 
 RUN /app/bin/python manage.py collectstatic --noinput
 

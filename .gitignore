@@ -152,3 +152,6 @@ coverage
 
 # lighthouse
 .lighthouseci
+
+# ruff
+.ruff_cache/

@@ -1,0 +1,166 @@
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 2
+resources:
+  limits:
+    cpu: 250m
+    memory: 768Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+targetAverageUtilization: 95
+
+ingress:
+  enabled: true
+  tls:
+    student-personal:
+      secretName: test-personal.my.uw.edu-ingress-cert
+      hosts:
+        - test-personal.my.uw.edu
+  hosts:
+    student-personal:
+      host: test-personal.my.uw.edu
+      paths:
+        - "/"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "16K"
+    nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256"
+
+lifecycle:
+  enabled: true
+  preStop:
+    enabled: true
+affinity:
+  podsSpanNodes: true
+readiness:
+  enabled: true
+securityPolicy:
+  enabled: true
+
+externalService:
+  enabled: true
+  name: student-personal-db-service
+  type: ClusterIP
+  serviceAddress: 172.18.1.210
+  servicePort: 5432
+database:
+  engine: postgres
+  name: personal_test
+  hostname: student-personal-db-service
+  secretName: test-personal.my.uw.edu-sql-secrets
+
+repo: student-personal
+instance: test
+namespace:
+  enabled: true
+
+memcached:
+  enabled: true
+  replicaCount: 1
+  updateStrategy:
+    type: RollingUpdate
+
+cronjob:
+  enabled: false
+
+certs:
+  mounted: true
+  certPath: /certs/client.my.uw.edu-ic.cert
+  keyPath: /certs/client.my.uw.edu-ic.key
+  secretName: client.my.uw.edu-ic-cert
+
+environmentVariables:
+  - name: ENV
+    value: test
+  - name: SPS_CONTACTS_ENV
+    value: EVAL
+  - name: SPS_CONTACTS_TIMEOUT
+    value: "5"
+  - name: SPS_CONTACTS_AUTH_ENV
+    value: EVAL
+  - name: PWS_ENV
+    value: PROD
+  - name: PWS_TIMEOUT
+    value: "5"
+
+  - name: AUTH
+    value: SAML
+  - name: SAML_ENTITY_ID
+    value: https://test-personal.my.uw.edu/saml2
+  - name: CLUSTER_CNAME
+    value: test-personal.my.uw.edu
+  - name: SAML_FORCE_AUTHN
+    value: "True"
+
+externalSecrets:
+  enabled: true
+  secrets:
+    - name: test-personal.my.uw.edu-secrets
+      externalKey: student-personal/test/secrets
+      data:
+        - name: django-secret
+          property: django-secret
+        - name: admin-group
+          property: admin-group
+        - name: support-group
+          property: support-group
+        - name: sps-contacts-auth-secret
+          property: sps-contacts-auth-secret
+        - name: clarity-project-id
+          property: clarity-project-id
+    - name: test-personal.my.uw.edu-sql-secrets
+      externalKey: student-personal/test/sql-secrets
+      data:
+        - name: username
+          property: username
+        - name: password
+          property: password
+    - name: test-personal.my.uw.edu-ic-certs
+      externalKey: student-personal/test/ic-certs
+      data:
+        - name: test-personal.my.uw.edu-ic.cert
+          property: test-personal.my.uw.edu-ic.cert
+    - name: client.my.uw.edu-ic-cert
+      externalKey: my/prod/ic-certs
+      data:
+        - name: client.my.uw.edu-ic.cert
+          property: my.uw.edu-ic.cert
+        - name: client.my.uw.edu-ic.key
+          property: my.uw.edu-ic.key
+    - name: test-personal.my.uw.edu-uw-idp-cert
+      externalKey: idp-cert
+      data:
+        - name: uw-idp-cert
+          property: cert
+
+environmentVariablesSecrets:
+  djangoSecret:
+    name: DJANGO_SECRET
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: django-secret
+  spsContactsAuthSecret:
+    name: SPS_CONTACTS_AUTH_SECRET
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: sps-contacts-auth-secret
+  viteClarityProjectId:
+    name: CLARITY_PROJECT_ID
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: clarity-project-id
+  samlSPCert:
+    name: SP_CERT
+    secretName: test-personal.my.uw.edu-ic-certs
+    secretKey: test-personal.my.uw.edu-ic.cert
+  samlIDPCert:
+    name: IDP_CERT
+    secretName: test-personal.my.uw.edu-uw-idp-cert
+    secretKey: uw-idp-cert
+  adminGroup:
+    name: ADMIN_GROUP
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: admin-group
+  supportGroup:
+    name: SUPPORT_GROUP
+    secretName: test-personal.my.uw.edu-secrets
+    secretKey: support-group

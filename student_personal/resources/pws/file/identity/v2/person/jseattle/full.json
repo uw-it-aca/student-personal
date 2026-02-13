@@ -1,0 +1,52 @@
+{
+  "DisplayName": "DAMION STUDENT",
+  "EduPersonAffiliations": ["member", "student", "alum", "staff", "employee"],
+  "IsTestEntity": true,
+  "PriorUWNetIDs": [],
+  "PriorUWRegIDs": [],
+  "RegisteredFirstMiddleName": "JAMES BOTHELL",
+  "RegisteredName": "DAMIEN STUDENT",
+  "RegisteredSurname": "STUDENT",
+  "UIDNumber": "35443",
+  "UWNetID": "jseattle",
+  "UWRegID": "FE36CCB8F66711D5BE060004AC494FCD",
+  "WhitepagesPublish": false,
+  "PersonAffiliations": {
+    "AlumPersonAffiliation": {
+      "DevelopmentID": "0000773877",
+      "AlumAffiliationState": "current"
+    },
+    "EmployeePersonAffiliation": {
+      "EmployeeID": "133456789",
+      "EmployeeAffiliationState": "current",
+      "EmployeeWhitePages": {
+        "Addresses": [],
+        "EmailAddresses": ["jseattle@uw.edu"],
+        "Faxes": [],
+        "Mobiles": [],
+        "Phones": [],
+        "Pagers": [],
+        "Name": "Bothell, Damion",
+        "Positions": [],
+        "PublishInDirectory": false,
+        "TouchDials": [],
+        "VoiceMails": []
+      },
+      "HomeDepartment": "Math",
+      "MailStop": null
+    },
+    "StudentPersonAffiliation": {
+      "StudentNumber": "1233334",
+      "StudentSystemKey": "000083857",
+      "StudentAffiliationState": "current",
+      "StudentWhitePages": {
+        "Class": null,
+        "Departments": ["Math"],
+        "Email": null,
+        "Name": null,
+        "Phone": null,
+        "PublishInDirectory": false
+      }
+    }
+  }
+}

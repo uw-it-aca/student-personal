@@ -33,8 +33,8 @@ name: Build, Test and Deploy
 
 env:
   # Release name must match "repo" value in docker/*-values.yml
-  RELEASE_NAME: django-vue
-  DJANGO_APP: app_name
+  RELEASE_NAME: student-personal
+  DJANGO_APP: student_personal
 
 # Be sure that branches defined here have corresponding steps
 # defined in the "deploy" job
@@ -47,7 +47,7 @@ on:
 
 jobs:
   context:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     outputs:
       commit_hash: ${{ steps.context.outputs.commit_hash }}
@@ -62,7 +62,7 @@ jobs:
           release_name: ${{ env.RELEASE_NAME }}
 
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     needs: context
 
@@ -73,13 +73,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Run Python Linters
         uses: uw-it-aca/actions/python-linters@main
         with:
           app_name: ${DJANGO_APP}
-          exclude_paths: 'migrations'
+          exclude_paths: "migrations"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -118,11 +118,12 @@ jobs:
           docker run -u root -t
           -v ${PWD}:/coverage
           -e DJANGO_APP="$DJANGO_APP"
-          -e "ENV=localdev"
+          -e "ENV=localdev" -e "AUTH=SAML_MOCK"
           app-test-container
           bash -c ". ./docker/test.sh"
 
-      - name: Record Test Results
+      # Run Python Coverage and Upload to Coveralls
+      - name: Run Python Coverage and Upload to Coveralls
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
@@ -131,65 +132,95 @@ jobs:
           coverage combine
           coveralls
 
-#      - name: Push Image to Repository
-#        if: github.event_name == 'push'
-#        uses: uw-it-aca/actions/gcr-push@main
-#        with:
-#          image_tag: ${{ needs.context.outputs.image_tag }}
-#          gcp_json_key: ${{ secrets.GCP_JSON_KEY }}
-#
-#  deploy:
-#    if: github.event_name == 'push'
-#
-#    needs: [context, build]
-#
-#    outputs:
-#      context: ${{ steps.context.outputs.context }}
-#
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: Checkout Repo
-#        uses: actions/checkout@v4
-#
-#      - name: Deployment Pipeline
-#        if: >-
-#          contains(fromJSON('["main", "master", "develop", "qa"]'),
-#            needs.context.outputs.git_repo_branch)
-#        uses: uw-it-aca/actions/cicd-deploy@main
-#        with:
-#          release_name: ${{ env.RELEASE_NAME }}
-#          commit_hash: ${{ needs.context.outputs.commit_hash }}
-#          git_repo_branch: ${{ needs.context.outputs.git_repo_branch }}
-#          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
-#
-#      - name: Deploy Evaluation Branch
-#        if: needs.context.outputs.git_repo_branch == 'feature/eval-me'
-#        uses: uw-it-aca/actions/cicd-deploy@main
-#        with:
-#          release_name: ${{ env.RELEASE_NAME }}
-#          commit_hash: ${{ needs.context.outputs.commit_hash }}
-#          git_repo_branch: ${{ needs.context.outputs.git_repo_branch }}
-#          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
-#          app_instance: eval
-#
-#      - name: 'Surface context from executed build step'
-#        id: context
-#        shell: bash
-#        run: echo "context=$(< ${CONTEXT_FILENAME})" >> $GITHUB_OUTPUT
-#
-#  housekeeping:
-#    if: github.event_name == 'push'
-#
-#    needs: [context, build, deploy]
-#
-#    runs-on: ubuntu-22.04
-#
-#    steps:
-#      - name: House Keeping
-#        uses: uw-it-aca/actions/cicd-housekeeping@main
-#        with:
-#          release_name: ${{ env.RELEASE_NAME }}
-#          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
-#          registry_password: ${{ secrets.GCP_JSON_KEY }}
-#          context: ${{ needs.deploy.outputs.context }}
+      # Set up Node.js for Vue
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Install Vue Dependencies
+      - name: Install npm dependencies
+        run: npm install
+
+      # Run Vue Coverage
+      - name: Run Vue Coverage
+        run: npm run coverage
+
+      # Upload Vue Coverage to Coveralls
+      - name: Upload Vue Coverage to Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage/lcov.info
+          flag-name: student_personal_vue
+          parallel: true
+
+      # Finalize Coveralls Parallel Build
+      - name: Finish Coveralls Build
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+
+      - name: Push Image to Repository
+        if: github.event_name == 'push'
+        uses: uw-it-aca/actions/gcr-push@main
+        with:
+          image_tag: ${{ needs.context.outputs.image_tag }}
+          gcp_json_key: ${{ secrets.GCP_JSON_KEY }}
+
+  deploy:
+    if: github.event_name == 'push'
+
+    needs: [context, build]
+
+    outputs:
+      context: ${{ steps.context.outputs.context }}
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Deployment Pipeline
+        if: >-
+          contains(fromJSON('["main", "master", "develop", "qa"]'),
+            needs.context.outputs.git_repo_branch)
+        uses: uw-it-aca/actions/cicd-deploy@main
+        with:
+          release_name: ${{ env.RELEASE_NAME }}
+          commit_hash: ${{ needs.context.outputs.commit_hash }}
+          git_repo_branch: ${{ needs.context.outputs.git_repo_branch }}
+          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
+
+      - name: Deploy Evaluation Branch
+        if: needs.context.outputs.git_repo_branch == 'feature/eval-me'
+        uses: uw-it-aca/actions/cicd-deploy@main
+        with:
+          release_name: ${{ env.RELEASE_NAME }}
+          commit_hash: ${{ needs.context.outputs.commit_hash }}
+          git_repo_branch: ${{ needs.context.outputs.git_repo_branch }}
+          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
+          app_instance: eval
+
+      - name: "Surface context from executed build step"
+        id: context
+        shell: bash
+        run: echo "context=$(< ${CONTEXT_FILENAME})" >> $GITHUB_OUTPUT
+
+  housekeeping:
+    if: github.event_name == 'push'
+
+    needs: [context, build, deploy]
+
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: House Keeping
+        uses: uw-it-aca/actions/cicd-housekeeping@main
+        with:
+          release_name: ${{ env.RELEASE_NAME }}
+          gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
+          registry_password: ${{ secrets.GCP_JSON_KEY }}
+          context: ${{ needs.deploy.outputs.context }}

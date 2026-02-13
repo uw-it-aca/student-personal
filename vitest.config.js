@@ -1,6 +1,6 @@
-import { fileURLToPath, URL } from "url";
-import { defineConfig } from "vite";
+import { fileURLToPath, URL } from "node:url";
 import Vue from "@vitejs/plugin-vue";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [Vue()],
@@ -15,7 +15,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./app_name_vue", import.meta.url)),
+      "@": fileURLToPath(new URL("./student_personal_vue", import.meta.url)),
     },
   },
 });
