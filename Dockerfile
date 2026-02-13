@@ -1,32 +1,31 @@
-ARG DJANGO_CONTAINER_VERSION=2.0.12
+ARG DJANGO_CONTAINER_VERSION=3.0.0
 
 FROM us-docker.pkg.dev/uwit-mci-axdd/containers/django-container:${DJANGO_CONTAINER_VERSION} AS app-prebundler-container
 
 USER root
 
-RUN apt-get update && apt-get install -y libpq-dev
+RUN apt-get update && apt-get install --no-install-recommends -y libpq-dev && rm -rf /var/lib/apt/lists/*
 
 USER acait
 
-ADD --chown=acait:acait . /app/
-ADD --chown=acait:acait docker/ /app/project/
+COPY --chown=acait:acait . /app/
+COPY --chown=acait:acait docker/ /app/project/
 
-ADD --chown=acait:acait docker/app_start.sh /scripts
+COPY --chown=acait:acait docker/app_start.sh /scripts
 RUN chmod u+x /scripts/app_start.sh
 
-RUN /app/bin/pip install -r requirements.txt
-RUN /app/bin/pip install psycopg2
+RUN /app/bin/pip install -r requirements.txt && /app/bin/pip install psycopg2
 
 # node (lts) + ubuntu
 FROM node:24 AS node-base
 FROM ubuntu:22.04 AS node-bundler
 COPY --from=node-base / /
 
-ADD ./package.json /app/
+COPY ./package.json /app/
 WORKDIR /app/
 RUN npm install .
 
-ADD . /app/
+COPY . /app/
 
 ARG VUE_DEVTOOLS
 ENV VUE_DEVTOOLS=$VUE_DEVTOOLS
