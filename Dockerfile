@@ -18,7 +18,7 @@ RUN /app/bin/pip install -r requirements.txt && /app/bin/pip install psycopg2
 
 # node (lts) + ubuntu
 FROM node:24 AS node-base
-FROM ubuntu:22.04 AS node-bundler
+FROM ubuntu:24.04 AS node-bundler
 COPY --from=node-base / /
 
 COPY ./package.json /app/
