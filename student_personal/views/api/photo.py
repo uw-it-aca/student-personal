@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from student_personal.exceptions import MissingStudentAffiliation
 from student_personal.views.api import BaseAPIView
 from student_personal.dao.person import SPSPerson, DataFailureException
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 
 
 class PhotoView(BaseAPIView):
@@ -18,7 +18,7 @@ class PhotoView(BaseAPIView):
         Displays the UW photo for the signed-in user.  The uwregid in the photo
         url is for cache-busting while user-override is activated.
         """
-        now = datetime.utcnow()
+        now = datetime.now(UTC)
         expires = now + timedelta(seconds=self.cache_time)
         try:
             photo = SPSPerson(request).get_photo()
