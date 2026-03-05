@@ -59,7 +59,7 @@
     </template>
   </BCard>
 
-  <BCard body-class="p-4" class="mb-3">
+  <BCard body-class="p-4" class="mb-5">
     <SHeading level="2" class="h4 fw-semibold mb-4">Contact #2</SHeading>
     <BAlert
       v-if="isMissingSecondaryContact"
