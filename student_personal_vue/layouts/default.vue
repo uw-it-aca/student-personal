@@ -100,14 +100,14 @@
     </template>
 
     <template #main>
-      <div class="row justify-content-between my-5">
-        <div class="col-md-9">
-          <h1 class="ff-encode-sans fw-semibold mb-5">{{ pageTitle }}</h1>
+      <div class="row justify-content-center my-5">
+        <div class="col-md-7 offset-md-1">
+          <SHeading level="1" class="mb-5"">{{ pageTitle }}</SHeading>
           <slot name="content"></slot>
         </div>
-        <div class="col-md-3">
-          <BCard class="bg-body-tertiary rounded-3 mb-3" border-variant="0">
-            <h3 class="h5 ff-encode-sans card-title">Additional Resources</h3>
+        <div class="col-md-3 offset-md-1">
+          <BCard class="bg-body-tertiary rounded-3 mb-3" body-class="p-4" border-variant="0">
+            <SHeading level="2" class="h5 fw-semibold mb-3">Additional Resources</SHeading>
             <ul class="list-unstyled m-0">
               <li>
                 <BLink href="https://my.uw.edu" class="link-quiet-primary">
@@ -134,7 +134,7 @@
 
 <script>
   import { BCard, BLink } from "bootstrap-vue-next";
-  import { SColorMode, SProfile, STopbarNeo, SUser } from "solstice-vue";
+  import { SColorMode, SHeading, SProfile, STopbarNeo, SUser } from "solstice-vue";
   import NavMenu from "@/components/_nav-menu.vue";
   import { useContextStore } from "@/stores/context";
   import { clearOverride } from "@/utils/data";
@@ -145,6 +145,7 @@
       BCard,
       BLink,
       NavMenu,
+      SHeading,
       STopbarNeo,
       SProfile,
       SUser,
