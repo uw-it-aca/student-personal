@@ -1,7 +1,7 @@
 <template>
   <!-- check if contact object AND name are provided -->
   <ul v-if="contact && contact.name" class="list-unstyled">
-    <li data-clarity-mask="True">
+    <li data-clarity-mask="True" class="fw-bold">
       <template v-if="contact.name">
         {{ contact.name }}
       </template>

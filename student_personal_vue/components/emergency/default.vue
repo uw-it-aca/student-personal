@@ -9,8 +9,8 @@
     Contact information successfully updated
   </BAlert>
 
-  <div class="col-lg-10 mb-4">
-    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Contact #1</h2>
+  <BCard body-class="p-4" class="mb-3">
+    <SHeading level="2" class="h4 fw-semibold mb-4">Contact #1</SHeading>
     <BAlert
       v-if="isMissingPrimaryContact"
       variant="warning"
@@ -57,10 +57,10 @@
         </div>
       </div>
     </template>
-  </div>
+  </BCard>
 
-  <div class="col-lg-10 mb-5">
-    <h2 class="ff-encode-sans fs-3 m-0 mb-3">Contact #2</h2>
+  <BCard body-class="p-4" class="mb-5">
+    <SHeading level="2" class="h4 fw-semibold mb-4">Contact #2</SHeading>
     <BAlert
       v-if="isMissingSecondaryContact"
       variant="warning"
@@ -107,11 +107,12 @@
         </div>
       </div>
     </template>
-  </div>
+  </BCard>
 </template>
 
 <script>
-  import { BAlert } from "bootstrap-vue-next";
+  import { BAlert, BCard } from "bootstrap-vue-next";
+  import { SHeading } from "solstice-vue";
   import ContactLoading from "@/components/_contact-loading.vue";
   import ContactDetails from "@/components/emergency/contact-details.vue";
   import ContactEdit from "@/components/emergency/contact-edit.vue";
@@ -128,6 +129,8 @@
       ContactRemove,
       ContactLoading,
       BAlert,
+      BCard,
+      SHeading,
     },
     setup() {
       const contextStore = useContextStore();
@@ -163,8 +166,7 @@
             this.emergencyContactStore.staticPrimary.email === null ||
             this.emergencyContactStore.staticPrimary.email.trim() === "" ||
             this.emergencyContactStore.staticPrimary.phone_number === null ||
-            this.emergencyContactStore.staticPrimary.phone_number.trim() ===
-              "" ||
+            this.emergencyContactStore.staticPrimary.phone_number.trim() === "" ||
             this.emergencyContactStore.staticPrimary.relationship === null ||
             this.emergencyContactStore.staticPrimary.relationship.trim() === "")
         );
@@ -189,8 +191,7 @@
             this.emergencyContactStore.staticSecondary.phone_number.trim() ===
               "" ||
             this.emergencyContactStore.staticSecondary.relationship === null ||
-            this.emergencyContactStore.staticSecondary.relationship.trim() ===
-              "")
+            this.emergencyContactStore.staticSecondary.relationship.trim() === "")
         );
       },
     },

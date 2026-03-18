@@ -32,9 +32,10 @@
 
         <BCard
           bg-variant="body-secondary"
-          class="bg-opacity-50 col-lg-10 mb-3 border-0"
+          body-class="p-4"
+          class="bg-opacity-50 mb-3 border-0"
         >
-          <h2 class="h5 ff-encode-sans m-0 mb-3">For your information</h2>
+          <SHeading level="2" class="h4 mb-3 fw-semibold">For your information</SHeading>
           <p style="max-width: 85ch">
             You may see information that has been imported from previously
             submitted emergency contact information. Please verify your
@@ -65,6 +66,7 @@
 
 <script>
   import { BAlert, BCard } from "bootstrap-vue-next";
+  import { SHeading } from "solstice-vue";
   import EmergencyContacts from "@/components/emergency/default.vue";
   import FamilyContactDetails from "@/components/family/contact-details.vue";
   import DefaultLayout from "@/layouts/default.vue";
@@ -75,6 +77,7 @@
     components: {
       BAlert,
       BCard,
+      SHeading,
       DefaultLayout,
       EmergencyContacts,
       FamilyContactDetails,
