@@ -12,7 +12,7 @@ export default defineConfig({
   // vite manifest prefaces all files with the path 'student_personal/assets/xxxx'
   build: {
     manifest: true,
-    rollupOptions: {
+    rolldownOptions: {
       input: [
         // list all entry points
         "./student_personal_vue/main.js",
