@@ -102,7 +102,7 @@
     <template #main>
       <div class="row justify-content-center my-5">
         <div class="col-md-7 offset-md-1">
-          <SHeading level="1" class="mb-5"">{{ pageTitle }}</SHeading>
+          <SHeading level="1" class="mb-5">{{ pageTitle }}</SHeading>
           <slot name="content"></slot>
         </div>
         <div class="col-md-3 offset-md-1">
