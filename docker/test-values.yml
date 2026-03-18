@@ -117,11 +117,6 @@ externalSecrets:
           property: username
         - name: password
           property: password
-    - name: test-personal.my.uw.edu-ic-certs
-      externalKey: student-personal/test/ic-certs
-      data:
-        - name: test-personal.my.uw.edu-ic.cert
-          property: test-personal.my.uw.edu-ic.cert
     - name: client.my.uw.edu-ic-cert
       externalKey: my/prod/ic-certs
       data:
@@ -148,10 +143,6 @@ environmentVariablesSecrets:
     name: CLARITY_PROJECT_ID
     secretName: test-personal.my.uw.edu-secrets
     secretKey: clarity-project-id
-  samlSPCert:
-    name: SP_CERT
-    secretName: test-personal.my.uw.edu-ic-certs
-    secretKey: test-personal.my.uw.edu-ic.cert
   samlIDPCert:
     name: IDP_CERT
     secretName: test-personal.my.uw.edu-uw-idp-cert
