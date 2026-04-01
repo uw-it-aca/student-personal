@@ -1,1 +1,2 @@
+git+https://github.com/uw-it-aca/uw-restclients-sps-contacts.git@3477a31
 -e .
