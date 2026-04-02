@@ -32,7 +32,7 @@ setup(
         "uw-memcached-clients~=1.0",
         "uw-restclients-core~=1.4",
         "uw-restclients-pws~=2.1",
-        #"uw-restclients-sps-contacts~=1.0",
+        "uw-restclients-sps-contacts~=1.0",
         "uw-restclients-django-utils~=2.3",
     ],
     license="Apache License, Version 2.0",
