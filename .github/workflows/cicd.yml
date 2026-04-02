@@ -73,13 +73,13 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Run Python Linters
         uses: uw-it-aca/actions/python-linters@main
         with:
           app_name: ${DJANGO_APP}
-          exclude_paths: "migrations"
+          exclude_paths: 'migrations'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -104,7 +104,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Build Test Image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           target: app-test-container
           tags: app-test-container
@@ -204,7 +204,7 @@ jobs:
           gh_auth_token: ${{ secrets.GH_AUTH_TOKEN }}
           app_instance: eval
 
-      - name: "Surface context from executed build step"
+      - name: 'Surface context from executed build step'
         id: context
         shell: bash
         run: echo "context=$(< ${CONTEXT_FILENAME})" >> $GITHUB_OUTPUT
