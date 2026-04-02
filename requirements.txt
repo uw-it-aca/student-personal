@@ -1,2 +1,2 @@
-git+https://github.com/uw-it-aca/uw-restclients-sps-contacts.git@61f53c5
+git+https://github.com/uw-it-aca/uw-restclients-sps-contacts.git@ffbd7b1
 -e .
