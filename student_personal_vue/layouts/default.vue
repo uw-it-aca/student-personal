@@ -110,17 +110,17 @@
             <SHeading level="2" class="h5 fw-semibold mb-3">Additional Resources</SHeading>
             <ul class="list-unstyled m-0">
               <li>
-                <BLink href="https://my.uw.edu" class="link-quiet-primary">
+                <a href="https://my.uw.edu" class="link-quiet-primary">
                   MyUW
-                </BLink>
+                </a>
               </li>
               <li>
-                <BLink
+                <a
                   href="https://identity.uw.edu"
                   class="link-quiet-primary"
                 >
                   Identity.UW
-                </BLink>
+                </a>
               </li>
             </ul>
           </BCard>
