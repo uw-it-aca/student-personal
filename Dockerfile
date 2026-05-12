@@ -1,12 +1,6 @@
-ARG DJANGO_CONTAINER_VERSION=3.0.2
+ARG DJANGO_CONTAINER_VERSION=3.1.1
 
 FROM us-docker.pkg.dev/uwit-mci-axdd/containers/django-container:${DJANGO_CONTAINER_VERSION} AS app-prebundler-container
-
-USER root
-
-RUN apt-get update && apt-get install --no-install-recommends -y libpq-dev && rm -rf /var/lib/apt/lists/*
-
-USER acait
 
 COPY --chown=acait:acait . /app/
 COPY --chown=acait:acait docker/ /app/project/
@@ -14,7 +8,7 @@ COPY --chown=acait:acait docker/ /app/project/
 COPY --chown=acait:acait docker/app_start.sh /scripts
 RUN chmod u+x /scripts/app_start.sh
 
-RUN /app/bin/pip install -r requirements.txt && /app/bin/pip install psycopg2
+RUN /app/bin/pip install -r requirements.txt
 
 # node (lts) + ubuntu
 FROM node:24 AS node-base

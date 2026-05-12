@@ -34,6 +34,7 @@ setup(
         "uw-restclients-pws~=2.1",
         "uw-restclients-sps-contacts~=1.0",
         "uw-restclients-django-utils~=2.3",
+        "psycopg[c]",
     ],
     license="Apache License, Version 2.0",
     description="UW application that supports student contact information",
