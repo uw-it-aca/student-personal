@@ -61,11 +61,13 @@ class EmergencyContactView(BaseAPIView):
         try:
             system_key = self.valid_user(request)
             contacts = EmergencyContacts().get_contacts(system_key)
+            logger.info(f"GET emergency contacts for {system_key}")
             return self.response_ok(self._serialize(contacts))
         except MissingStudentAffiliation as ex:
             return self.response_unauthorized(ex)
         except DataFailureException as ex:
-            return HttpResponse(ex, status=ex.status)
+            status = 500 if ex.status == 0 else ex.status
+            return HttpResponse(ex, status=status)
 
     def put(self, request):
         try:
@@ -74,7 +76,8 @@ class EmergencyContactView(BaseAPIView):
         except (MissingStudentAffiliation, OverrideNotPermitted) as ex:
             return self.response_unauthorized(ex)
         except DataFailureException as ex:
-            return HttpResponse(ex, status=ex.status)
+            status = 500 if ex.status == 0 else ex.status
+            return HttpResponse(ex, status=status)
 
         contact_list = []
         try:
@@ -88,7 +91,10 @@ class EmergencyContactView(BaseAPIView):
         try:
             contacts = EmergencyContacts().put_contacts(
                 system_key, contact_list)
+            logger.info(f"PUT emergency contacts for {system_key}")
             return self.response_ok(self._serialize(contacts))
         except DataFailureException as ex:
-            logger.error(f"PUT contacts failed for {system_key}: {ex}")
-            return HttpResponse(ex, status=ex.status)
+            logger.error(
+                f"PUT emergency contacts failed for {system_key}: {ex}")
+            status = 500 if ex.status == 0 else ex.status
+            return HttpResponse(ex, status=status)

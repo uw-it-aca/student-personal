@@ -160,6 +160,11 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
+        "urllib3": {
+            "handlers": ["stdout", "stderr"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
         "": {
             "handlers": ["stdout", "stderr"],
             "level": (
