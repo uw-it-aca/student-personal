@@ -389,6 +389,12 @@ describe("contact-edit.vue", () => {
             email: "",
             relationship: "",
           },
+          {
+            name: "",
+            phone_number: "",
+            email: "",
+            relationship: "",
+          },
         ],
       };
       wrapper = createWrapper(true, invalidStoreState);
