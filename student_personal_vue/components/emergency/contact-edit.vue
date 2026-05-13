@@ -297,14 +297,13 @@
         this.validatePhoneNumber();
         this.validateRelationshipChoice();
 
-        if (
-          !(this.emergencyContactStore.primaryValid &&
-            this.emergencyContactStore.secondaryValid)) {
+        if (this.emergencyContactStore.primaryValid && (
+              this.emergencyContactStore.secondaryValid ||
+              this.emergencyContactStore.secondaryEmpty)) {
+          console.log("Store updated:", this.emergencyContactStore.putData);
+        } else {
           return;
         }
-
-        // check to see if contacts in store are updated
-        console.log("Store updated:", this.emergencyContactStore.putData);
 
         this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {

@@ -415,10 +415,10 @@ describe("contact-edit.vue", () => {
         .find((b) => b.text() === "Save");
       await saveButton.trigger("click");
 
-      expect(storeUpdateSpy).not.toHaveBeenCalled();
-      expect(updateEmergencyContacts).not.toHaveBeenCalled();
+      expect(storeUpdateSpy).toHaveBeenCalled();
+      expect(updateEmergencyContacts).toHaveBeenCalled();
       await nextTick();
-      expect(wrapper.vm.showModal).toBe(true);
+      expect(wrapper.vm.showModal).toBe(false);
     });
   });
 });
