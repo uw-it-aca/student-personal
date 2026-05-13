@@ -50,16 +50,10 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       return options;
     },
     putData(state) {
-      let data = [],
-          error = {},
-          contacts_valid = true;
-
+      let data = [];
       this.contacts.forEach((contact, idx) => {
         if (contact.hasOwnProperty("is_deleted") && contact.is_deleted) {
           return;
-        } else if (!(contact.name_valid && contact.email_valid &&
-                     contact.phone_number_valid && contact.relationship_valid)) {
-          contacts_valid = false;
         }
 
         let cdata = {};
@@ -72,14 +66,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         });
         data.push(cdata);
       });
-
-      if (contacts_valid) {
-        return { emergency_contacts: data };
-      } else {
-        error.data = { emergency_contacts: data };
-        error.message = "One or more contacts contain missing or invalid fields";
-        throw error;
-      }
+      return { emergency_contacts: data };
     },
   },
   actions: {
