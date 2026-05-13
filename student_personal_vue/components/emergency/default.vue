@@ -93,12 +93,12 @@
         />
         <div class="text-nowrap">
           <ContactRemove
-            v-if="!isMissingSecondaryContact && !isLoading"
+            v-if="!isLoading && isValidPrimaryContact"
             :is-primary="false"
             @reload="loadEmergencyContacts"
           />
           <ContactEdit
-            v-if="emergencyContactStore.hasContacts && !isLoading"
+            v-if="!isLoading && isValidPrimaryContact"
             :is-primary="false"
             :action="isMissingSecondaryContact ? 'Add' : 'Edit'"
             @reload="loadEmergencyContacts"
@@ -150,48 +150,63 @@
     },
     computed: {
       isMissingPrimaryContact() {
-        // check for missing secondary contact
+        // check for missing primary contact
         return (
-          this.emergencyContactStore.contacts.length > 0 &&
-          (this.emergencyContactStore.staticPrimary.name === null ||
-            this.emergencyContactStore.staticPrimary.name.trim() === "")
+          this.emergencyContactStore.hasContacts && (
+            this.emergencyContactStore.primary.name === "" &&
+            this.emergencyContactStore.primary.email === "" &&
+            this.emergencyContactStore.primary.relationship === "" &&
+            this.emergencyContactStore.primary.phone_number === "")
+        );
+      },
+      isValidPrimaryContact() {
+        // check for valid primary contact
+        return (
+          this.emergencyContactStore.hasContacts && (
+            this.emergencyContactStore.primary.name_valid &&
+            this.emergencyContactStore.primary.email_valid &&
+            this.emergencyContactStore.primary.relationship_valid &&
+            this.emergencyContactStore.primary.phone_number_valid)
         );
       },
       isPrimaryIncomplete() {
-        // check for any missing fields from primary contacts
+        // check for any missing fields in primary contact
         return (
-          this.emergencyContactStore.contacts.length > 0 &&
-          (this.emergencyContactStore.staticPrimary.name === null ||
-            this.emergencyContactStore.staticPrimary.name.trim() === "" ||
-            this.emergencyContactStore.staticPrimary.email === null ||
-            this.emergencyContactStore.staticPrimary.email.trim() === "" ||
-            this.emergencyContactStore.staticPrimary.phone_number === null ||
-            this.emergencyContactStore.staticPrimary.phone_number.trim() === "" ||
-            this.emergencyContactStore.staticPrimary.relationship === null ||
-            this.emergencyContactStore.staticPrimary.relationship.trim() === "")
+          this.emergencyContactStore.hasContacts && (
+            this.emergencyContactStore.primary.name === "" ||
+            this.emergencyContactStore.primary.email === "" ||
+            this.emergencyContactStore.primary.relationship === "" ||
+            this.emergencyContactStore.primary.phone_number === "")
         );
       },
       isMissingSecondaryContact() {
         // check for missing secondary contact
         return (
-          this.emergencyContactStore.contacts.length > 0 &&
-          (this.emergencyContactStore.staticSecondary.name === null ||
-            this.emergencyContactStore.staticSecondary.name.trim() === "")
+          this.emergencyContactStore.hasContacts && (
+            this.emergencyContactStore.secondary.name === "" &&
+            this.emergencyContactStore.secondary.email === "" &&
+            this.emergencyContactStore.secondary.relationship === "" &&
+            this.emergencyContactStore.secondary.phone_number === "")
+        );
+      },
+      isValidSecondaryContact() {
+        // check for valid secondary contact
+        return (
+          this.emergencyContactStore.hasContacts && (
+            this.emergencyContactStore.secondary.name_valid &&
+            this.emergencyContactStore.secondary.email_valid &&
+            this.emergencyContactStore.secondary.relationship_valid &&
+            this.emergencyContactStore.secondary.phone_number_valid)
         );
       },
       isSecondaryIncomplete() {
-        // check for any missing fields from primary contacts
+        // check for any missing fields in secondary contact
         return (
-          this.emergencyContactStore.contacts.length > 0 &&
-          (this.emergencyContactStore.staticSecondary.name === null ||
-            this.emergencyContactStore.staticSecondary.name.trim() === "" ||
-            this.emergencyContactStore.staticSecondary.email === null ||
-            this.emergencyContactStore.staticSecondary.email.trim() === "" ||
-            this.emergencyContactStore.staticSecondary.phone_number === null ||
-            this.emergencyContactStore.staticSecondary.phone_number.trim() ===
-              "" ||
-            this.emergencyContactStore.staticSecondary.relationship === null ||
-            this.emergencyContactStore.staticSecondary.relationship.trim() === "")
+          this.emergencyContactStore.hasContacts && (
+            this.emergencyContactStore.secondary.name === "" ||
+            this.emergencyContactStore.secondary.email === "" ||
+            this.emergencyContactStore.secondary.relationship === "" ||
+            this.emergencyContactStore.secondary.phone_number === "")
         );
       },
     },
