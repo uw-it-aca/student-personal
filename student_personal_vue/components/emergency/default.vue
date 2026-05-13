@@ -43,12 +43,12 @@
         />
         <div class="text-nowrap">
           <ContactRemove
-            v-if="!isMissingPrimaryContact && !isLoading"
+            v-if="!isLoading && !isMissingPrimaryContact && isValidSecondaryContact"
             :is-primary="true"
             @reload="loadEmergencyContacts"
           />
           <ContactEdit
-            v-if="emergencyContactStore.hasContacts && !isLoading"
+            v-if="!isLoading && emergencyContactStore.hasContacts"
             :is-primary="true"
             :action="isMissingPrimaryContact ? 'Add' : 'Edit'"
             @reload="loadEmergencyContacts"
