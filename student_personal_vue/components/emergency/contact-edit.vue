@@ -297,8 +297,9 @@
         this.validatePhoneNumber();
         this.validateRelationshipChoice();
 
-        if !(this.emergencyContactStore.primaryValid &&
-             this.emergencyContactStore.secondaryValid) {
+        if (
+          !(this.emergencyContactStore.primaryValid &&
+            this.emergencyContactStore.secondaryValid)) {
           return;
         }
 
