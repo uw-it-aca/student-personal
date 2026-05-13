@@ -33,6 +33,54 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
     secondary(state) {
       return this.contacts[1];
     },
+    primaryEmpty(state) {
+      return (this.hasContacts && (
+        this.contacts[0].name === "" &&
+        this.contacts[0].email === "" &&
+        this.contacts[0].relationship === "" &&
+        this.contacts[0].phone_number === ""
+      ));
+    },
+    secondaryEmpty(state) {
+      return (this.hasContacts && (
+        this.contacts[1].name === "" &&
+        this.contacts[1].email === "" &&
+        this.contacts[1].relationship === "" &&
+        this.contacts[1].phone_number === ""
+      ));
+    },
+    primaryIncomplete(state) {
+      return (this.hasContacts && (
+        this.contacts[0].name === "" ||
+        this.contacts[0].email === "" ||
+        this.contacts[0].relationship === "" ||
+        this.contacts[0].phone_number === ""
+      ));
+    },
+    secondaryIncomplete(state) {
+      return (this.hasContacts && (
+        this.contacts[1].name === "" ||
+        this.contacts[1].email === "" ||
+        this.contacts[1].relationship === "" ||
+        this.contacts[1].phone_number === ""
+      ));
+    },
+    primaryValid(state) {
+      return (this.hasContacts && (
+        this.contacts[0].name_valid &&
+        this.contacts[0].email_valid &&
+        this.contacts[0].relationship_valid &&
+        this.contacts[0].phone_number_valid
+      ));
+    },
+    secondaryValid(state) {
+      return (this.hasContacts && (
+        this.contacts[1].name_valid &&
+        this.contacts[1].email_valid &&
+        this.contacts[1].relationship_valid &&
+        this.contacts[1].phone_number_valid
+      ));
+    },
     staticPrimary(state) {
       return this._static[0];
     },
@@ -50,16 +98,10 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
       return options;
     },
     putData(state) {
-      let data = [],
-          error = {},
-          contacts_valid = true;
-
+      let data = [];
       this.contacts.forEach((contact, idx) => {
         if (contact.hasOwnProperty("is_deleted") && contact.is_deleted) {
           return;
-        } else if (!(contact.name_valid && contact.email_valid &&
-                     contact.phone_number_valid && contact.relationship_valid)) {
-          contacts_valid = false;
         }
 
         let cdata = {};
@@ -72,14 +114,7 @@ export const useEmergencyContactStore = defineStore("emergency-contact", {
         });
         data.push(cdata);
       });
-
-      if (contacts_valid) {
-        return { emergency_contacts: data };
-      } else {
-        error.data = { emergency_contacts: data };
-        error.message = "One or more contacts contain missing or invalid fields";
-        throw error;
-      }
+      return { emergency_contacts: data };
     },
   },
   actions: {

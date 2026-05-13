@@ -344,7 +344,7 @@ describe("contact-edit.vue", () => {
       await nextTick();
       expect(wrapper.vm.showModal).toBe(false);
     });
-    /*
+
     it("does not update store or call API if validation fails", async () => {
       updateEmergencyContacts.mockResolvedValue({});
       const storeUpdateSpy = vi.spyOn(emergencyContactStore, "putData", "get");
@@ -362,7 +362,7 @@ describe("contact-edit.vue", () => {
       expect(updateEmergencyContacts).not.toHaveBeenCalled();
       expect(wrapper.vm.showModal).toBe(true);
     });
-    */
+
     it("handles API error on save", async () => {
       const error = { data: "Error saving" };
       updateEmergencyContacts.mockRejectedValue(error);
@@ -389,6 +389,12 @@ describe("contact-edit.vue", () => {
             email: "",
             relationship: "",
           },
+          {
+            name: "",
+            phone_number: "",
+            email: "",
+            relationship: "",
+          },
         ],
       };
       wrapper = createWrapper(true, invalidStoreState);
@@ -409,10 +415,10 @@ describe("contact-edit.vue", () => {
         .find((b) => b.text() === "Save");
       await saveButton.trigger("click");
 
-      expect(storeUpdateSpy).toHaveBeenCalled();
-      expect(updateEmergencyContacts).toHaveBeenCalled();
+      expect(storeUpdateSpy).not.toHaveBeenCalled();
+      expect(updateEmergencyContacts).not.toHaveBeenCalled();
       await nextTick();
-      expect(wrapper.vm.showModal).toBe(false);
+      expect(wrapper.vm.showModal).toBe(true);
     });
   });
 });

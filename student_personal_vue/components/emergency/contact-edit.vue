@@ -290,28 +290,23 @@
         this.relationshipValidated = true;
 
         let url = this.contextStore.context.emergencyContactUrl,
-          contact = this.formContact,
-          putData;
+          contact = this.formContact;
 
         this.validateFullName();
         this.validateEmailAddress();
         this.validatePhoneNumber();
         this.validateRelationshipChoice();
 
-        // reorder contacts if needed
-        //if (!this.isPrimary && this.formPrimary) {
-        //this.emergencyContactStore.reorderContacts();
-        //}
-
-        try {
-          putData = this.emergencyContactStore.putData;
-          // console.log("Store updated:", putData);
-        } catch (error) {
-          console.log(error.data);
-          return alert(error.message);
+        if (
+          !(this.emergencyContactStore.primaryValid &&
+            this.emergencyContactStore.secondaryValid)) {
+          return;
         }
 
-        this.updateEmergencyContacts(url, putData)
+        // check to see if contacts in store are updated
+        console.log("Store updated:", this.emergencyContactStore.putData);
+
+        this.updateEmergencyContacts(url, this.emergencyContactStore.putData)
           .then((data) => {
             this.$emit("reload");
             this.$emit("saved");
@@ -321,8 +316,12 @@
             console.log("Data saving error:", error);
             this.errorResponse = error.data;
             this.showModal = false;
+          })
+          .finally(() => {
+            console.log("finally");
           });
       },
     },
   };
 </script>
+
