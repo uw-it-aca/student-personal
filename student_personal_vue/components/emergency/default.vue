@@ -93,7 +93,7 @@
         />
         <div class="text-nowrap">
           <ContactRemove
-            v-if="!isLoading && isValidPrimaryContact"
+            v-if="!isLoading && !isMissingSecondaryContact && isValidPrimaryContact"
             :is-primary="false"
             @reload="loadEmergencyContacts"
           />
