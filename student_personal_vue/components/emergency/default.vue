@@ -150,64 +150,22 @@
     },
     computed: {
       isMissingPrimaryContact() {
-        // check for missing primary contact
-        return (
-          this.emergencyContactStore.hasContacts && (
-            this.emergencyContactStore.primary.name === "" &&
-            this.emergencyContactStore.primary.email === "" &&
-            this.emergencyContactStore.primary.relationship === "" &&
-            this.emergencyContactStore.primary.phone_number === "")
-        );
+        return this.emergencyContactStore.primaryEmpty;
       },
       isValidPrimaryContact() {
-        // check for valid primary contact
-        return (
-          this.emergencyContactStore.hasContacts && (
-            this.emergencyContactStore.primary.name_valid &&
-            this.emergencyContactStore.primary.email_valid &&
-            this.emergencyContactStore.primary.relationship_valid &&
-            this.emergencyContactStore.primary.phone_number_valid)
-        );
+        return this.emergencyContactStore.primaryValid;
       },
       isPrimaryIncomplete() {
-        // check for any missing fields in primary contact
-        return (
-          this.emergencyContactStore.hasContacts && (
-            this.emergencyContactStore.primary.name === "" ||
-            this.emergencyContactStore.primary.email === "" ||
-            this.emergencyContactStore.primary.relationship === "" ||
-            this.emergencyContactStore.primary.phone_number === "")
-        );
+        return this.emergencyContactStore.primaryIncomplete;
       },
       isMissingSecondaryContact() {
-        // check for missing secondary contact
-        return (
-          this.emergencyContactStore.hasContacts && (
-            this.emergencyContactStore.secondary.name === "" &&
-            this.emergencyContactStore.secondary.email === "" &&
-            this.emergencyContactStore.secondary.relationship === "" &&
-            this.emergencyContactStore.secondary.phone_number === "")
-        );
+        return this.emergencyContactStore.secondaryEmpty;
       },
       isValidSecondaryContact() {
-        // check for valid secondary contact
-        return (
-          this.emergencyContactStore.hasContacts && (
-            this.emergencyContactStore.secondary.name_valid &&
-            this.emergencyContactStore.secondary.email_valid &&
-            this.emergencyContactStore.secondary.relationship_valid &&
-            this.emergencyContactStore.secondary.phone_number_valid)
-        );
+        return this.emergencyContactStore.secondaryValid;
       },
       isSecondaryIncomplete() {
-        // check for any missing fields in secondary contact
-        return (
-          this.emergencyContactStore.hasContacts && (
-            this.emergencyContactStore.secondary.name === "" ||
-            this.emergencyContactStore.secondary.email === "" ||
-            this.emergencyContactStore.secondary.relationship === "" ||
-            this.emergencyContactStore.secondary.phone_number === "")
-        );
+        return this.emergencyContactStore.secondaryIncomplete;
       },
     },
     methods: {
