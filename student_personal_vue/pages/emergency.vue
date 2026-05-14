@@ -17,15 +17,22 @@
       </div>
       <div v-else>
         <p class="mb-4" style="max-width: 85ch">
-          This app enables you to maintain up-to-date information for your
-          emergency contacts. Your emergency contacts should be trusted
-          individuals. UW may, in its discretion, reach out to one or both
-          emergency contacts in the event an emergency occurs.
+          Emergency contacts are trusted individuals you authorize UW to
+          contact if you have experienced an emergency. They can be anyone you
+          choose, and do not need to be family members. UW may, in its
+          discretion, reach out to one or both emergency contacts in the event
+          an emergency occurs. Please make sure the people you designate below
+          are aware that they are listed as one of your emergency contacts.
         </p>
 
         <p class="mb-5" style="max-width: 85ch">
-          Please make sure the people you designate below are aware that they
-          are listed as one of your emergency contacts.
+          Bookmark this page or return through the link on your MyUW
+          profile page when you need to make changes. Name, phone number, email
+          address and relationship (parent, guardian, sibling, spouse, friend,
+          or other) are required fields, and you may not enter yourself or your
+          own contact information as an emergency contact. Please resolve any
+          missing or incorrect information in the fields for Contact #1 before
+          adding your next contact.
         </p>
 
         <EmergencyContacts />
