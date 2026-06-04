@@ -66,6 +66,14 @@ jobs:
 
     needs: context
 
+    permissions:
+      contents: read
+      security-events: write
+      # Coveralls may or may not need the following permissions
+      # pull-requests: write    # For PR comments
+      # statuses: write        # For commit status updates
+      # checks: write          # For check runs
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
@@ -92,6 +100,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+        # Build App Image
       - name: Build App Image
         uses: docker/build-push-action@v7
         with:
@@ -103,6 +112,7 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
+      # Build Test Image
       - name: Build Test Image
         uses: docker/build-push-action@v7
         with:
@@ -111,12 +121,13 @@ jobs:
           push: false
           load: true
 
+      # Run Python Tests
       - name: Run Tests in Image
         id: tests
         shell: bash
         run: >-
-          docker run -u root -t
-          -v ${PWD}:/coverage
+          docker run --rm -u root -t
+          -v "${PWD}:/coverage"
           -e DJANGO_APP="$DJANGO_APP"
           -e "ENV=localdev" -e "AUTH=SAML_MOCK"
           app-test-container
@@ -128,13 +139,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
-          python -m pip install --upgrade pip coverage coveralls==4.1.0
+          python -m pip install --upgrade pip coverage coveralls==3.3.1
           coverage combine
-          coveralls
+          coveralls --service=github
+        continue-on-error: true
 
       # Set up Node.js for Vue
       - name: Set up Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: "24"
 
@@ -152,7 +164,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./coverage/lcov.info
-          flag-name: student_personal_vue
+          flag-name: app_name_vue
           parallel: true
 
       # Finalize Coveralls Parallel Build
@@ -161,6 +173,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+
+      - name: Run vulnerability scan
+        id: vuln-scan
+        uses: uw-it-aca/actions/container-vuln-scan@main
+        with:
+          image_tag: ${{ needs.context.outputs.image_tag }}
+          severity: 'HIGH,CRITICAL'
 
       - name: Push Image to Repository
         if: github.event_name == 'push'
