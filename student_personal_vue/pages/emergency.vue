@@ -18,21 +18,32 @@
       <div v-else>
         <p class="mb-4" style="max-width: 85ch">
           Emergency contacts are trusted individuals you authorize UW to
-          contact if you have experienced an emergency. They can be anyone you
-          choose, and do not need to be family members. UW may, in its
+          contact if you ever experience an emergency. UW may, in its
           discretion, reach out to one or both emergency contacts in the event
-          an emergency occurs. Please make sure the people you designate below
-          are aware that they are listed as one of your emergency contacts.
+          an emergency occurs.
         </p>
 
+        <div class="mb-5" style="max-width: 85ch">
+          <p class="mb-0">Please keep in mind:</p>
+          <ul class="m-0">
+            <li>
+              Your emergency contacts can be <strong>anyone</strong> you choose.
+              They do not need to be family members.
+            </li>
+            <li>
+              Do not list yourself as an emergency contact or provide your own
+              contact information.
+            </li>
+            <li>
+              You should tell the people you list below that they are one of
+              your primary contacts in case of emergency.
+            </li>
+          </ul>
+        </div>
+
         <p class="mb-5" style="max-width: 85ch">
-          Bookmark this page or return through the link on your MyUW
-          profile page when you need to make changes. Name, phone number, email
-          address and relationship (parent, guardian, sibling, spouse, friend,
-          or other) are required fields, and you may not enter yourself or your
-          own contact information as an emergency contact. Please resolve any
-          missing or incorrect information in the fields for Contact #1 before
-          adding your next contact.
+          Please resolve any missing or incorrect information in the fields for
+          Contact #1 before adding an additional contact.
         </p>
 
         <EmergencyContacts />
