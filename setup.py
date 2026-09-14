@@ -20,7 +20,7 @@ setup(
     name="student_personal",
     version=VERSION,
     packages=["student_personal"],
-    author="UW-IT Student & Educational Technology Services",
+    author="UWIT Student & Educational Technology Services",
     author_email="aca-it@uw.edu",
     include_package_data=True,
     install_requires=[

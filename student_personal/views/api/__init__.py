@@ -1,17 +1,17 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+from logging import getLogger
+
 from django.conf import settings
-from django.views import View
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
-from student_personal.views.decorators import xhr_login_required
-from student_personal.exceptions import (
-        MissingStudentAffiliation, OverrideNotPermitted)
-from student_personal.dao.person import SPSPerson
+from django.views import View
 from userservice.user import UserService
-from logging import getLogger
-import json
+
+from student_personal.dao.person import SPSPerson
+from student_personal.exceptions import MissingStudentAffiliation, OverrideNotPermitted
+from student_personal.views.decorators import xhr_login_required
 
 logger = getLogger(__name__)
 

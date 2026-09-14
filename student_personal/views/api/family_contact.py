@@ -4,15 +4,11 @@
 import json
 from logging import getLogger
 
-import uw_sps_contacts
 from django.http import HttpResponse
 from uw_sps_contacts import FamilyContacts
 
 from student_personal.dao.person import DataFailureException
-from student_personal.exceptions import (
-    InvalidContactList,
-    MissingStudentAffiliation,
-)
+from student_personal.exceptions import MissingStudentAffiliation
 from student_personal.views.api import BaseAPIView
 
 logger = getLogger(__name__)
