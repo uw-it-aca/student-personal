@@ -167,6 +167,7 @@ jobs:
           path-to-lcov: ./coverage/lcov.info
           flag-name: app_name_vue
           parallel: true
+        continue-on-error: true
 
       # Finalize Coveralls Parallel Build
       - name: Finish Coveralls Build
@@ -174,6 +175,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
+        continue-on-error: true
 
       - name: Run vulnerability scan
         id: vuln-scan
