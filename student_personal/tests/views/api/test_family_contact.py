@@ -7,7 +7,6 @@ from uw_pws.util import fdao_pws_override
 from uw_sps_contacts.utils import fdao_sps_contacts_override
 
 from student_personal.tests.views.api import ApiTest
-from student_personal.views.api.family_contact import FamilyContacts
 
 
 @fdao_pws_override

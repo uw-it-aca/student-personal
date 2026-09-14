@@ -3,13 +3,14 @@
 
 from django.conf import settings
 from django.urls import reverse
-from uw_pws import PWS, InvalidNetID, DataFailureException
-from uw_saml.utils import get_attribute, is_member_of_group
 from userservice.user import UserService
+from uw_pws import PWS, DataFailureException, InvalidNetID
+from uw_saml.utils import is_member_of_group
+
 from student_personal.exceptions import MissingStudentAffiliation
 
 
-class SPSPerson():
+class SPSPerson:
     """
     Get the login attributes for the logged-in user. If user override is
     active, the attributes must be retrieved via the Person Web Service,
@@ -81,13 +82,12 @@ def is_overridable_uwnetid(username):
             if username.lower() == person.uwnetid:
                 error_msg = None
             else:
-                error_msg = "Current UWNetID: {}, Prior UWNetID: ".format(
-                    person.uwnetid)
+                error_msg = f"Current UWNetID: {person.uwnetid}, Prior UWNetID: "
         except InvalidNetID:
             error_msg = "Not a valid UWNetID: "
         except DataFailureException as err:
             if err.status == 404:
                 error_msg = 'UWNetID not found: '
             else:
-                error_msg = "Error ({}) {}: ".format(err.status, err.msg)
+                error_msg = f"Error ({err.status}) {err.msg}: "
     return error_msg

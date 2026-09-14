@@ -1,16 +1,21 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+import json
+from logging import getLogger
+
 from django.http import HttpResponse
 from django.utils import timezone
-from student_personal.views.api import BaseAPIView
-from student_personal.exceptions import (
-    MissingStudentAffiliation, InvalidContactList, OverrideNotPermitted)
-from student_personal.dao.person import DataFailureException
 from uw_sps_contacts import EmergencyContacts
 from uw_sps_contacts.models import EmergencyContact
-from logging import getLogger
-import json
+
+from student_personal.dao.person import DataFailureException
+from student_personal.exceptions import (
+    InvalidContactList,
+    MissingStudentAffiliation,
+    OverrideNotPermitted,
+)
+from student_personal.views.api import BaseAPIView
 
 logger = getLogger(__name__)
 
@@ -36,7 +41,9 @@ class EmergencyContactView(BaseAPIView):
             "emergency_contacts": [c.json_data() for c in contacts]
         })
 
-    def _validate(self, system_key, contact_data=[]):
+    def _validate(self, system_key, contact_data=None):
+        if contact_data is None:
+            contact_data = []
         if not (0 < len(contact_data) <= self.CONTACT_LIMIT):
             raise InvalidContactList()
 

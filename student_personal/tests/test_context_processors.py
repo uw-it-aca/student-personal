@@ -1,9 +1,10 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from django.test import TestCase, RequestFactory
-from student_personal.context_processors import persistent_messages
+from django.test import RequestFactory, TestCase
 from persistent_message.models import Message
+
+from student_personal.context_processors import persistent_messages
 
 
 class ContextProcessorTest(TestCase):

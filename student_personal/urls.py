@@ -5,10 +5,11 @@
 from django.conf import settings
 from django.urls import re_path
 from django.views.generic import TemplateView
-from student_personal.views.pages import DefaultPageView
+
 from student_personal.views.api.emergency_contact import EmergencyContactView
 from student_personal.views.api.family_contact import FamilyContactView
 from student_personal.views.api.photo import PhotoView
+from student_personal.views.pages import DefaultPageView
 
 # start with an empty url array
 urlpatterns = []
