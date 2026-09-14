@@ -1,10 +1,11 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from django.test import TestCase, RequestFactory
 from django.contrib.auth.models import User
+from django.test import RequestFactory, TestCase
 from userservice.user import UserServiceMiddleware
 from uw_pws.util import fdao_pws_override
+
 from student_personal.tests import MOCK_SAML_ATTRIBUTES
 from student_personal.views.pages import DefaultPageView
 

@@ -1,10 +1,11 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
+import os
+
 from django.apps import AppConfig
 from django.contrib.staticfiles.apps import StaticFilesConfig
 from restclients_core.dao import MockDAO
-import os
 
 
 class ViteStaticFilesConfig(StaticFilesConfig):

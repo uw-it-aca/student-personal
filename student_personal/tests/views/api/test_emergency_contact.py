@@ -1,11 +1,12 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from student_personal.tests.views.api import ApiTest
-from uw_sps_contacts.utils import fdao_sps_contacts_override
-from uw_pws.util import fdao_pws_override
-import mock
 import json
+
+from uw_pws.util import fdao_pws_override
+from uw_sps_contacts.utils import fdao_sps_contacts_override
+
+from student_personal.tests.views.api import ApiTest
 
 
 @fdao_pws_override
@@ -32,8 +33,7 @@ class EmergencyContactAPITest(ApiTest):
         self.assertEqual(response.content, b"Person is not a current student")
 
     def test_validate_emergency_contacts(self):
-        from student_personal.views.api.emergency_contact import (
-            EmergencyContactView, InvalidContactList)
+        from student_personal.views.api.emergency_contact import EmergencyContactView
         putdata = {"emergency_contacts": [{
             "name": "Hank Average", "phoneNumber": "+12065551234",
             "email": "haverage@example.com", "relationship": "Parent",

@@ -1,16 +1,22 @@
 # Copyright 2026 UW-IT, University of Washington
 # SPDX-License-Identifier: Apache-2.0
 
-from django.test import TestCase, RequestFactory
+from unittest import mock
+
 from django.contrib.auth.models import User
 from django.contrib.sessions.backends.db import SessionStore
-from student_personal.dao.person import (
-    SPSPerson, UserService, PWS, is_overridable_uwnetid, can_override_user,
-    can_proxy_restclient, can_manage_persistent_messages)
-from student_personal.tests import MOCK_SAML_ATTRIBUTES
+from django.test import RequestFactory, TestCase
 from userservice.user import UserServiceMiddleware
 from uw_pws.util import fdao_pws_override
-import mock
+
+from student_personal.dao.person import (
+    PWS,
+    SPSPerson,
+    UserService,
+    can_override_user,
+    is_overridable_uwnetid,
+)
+from student_personal.tests import MOCK_SAML_ATTRIBUTES
 
 
 @fdao_pws_override
@@ -45,7 +51,7 @@ class PersonDAOTest(TestCase):
 
         request = self._get_request_for_user(mock_get_user.return_value)
 
-        sps = SPSPerson(request)
+        _sps = SPSPerson(request)
         mock_get_person_by_netid.assert_called_once_with("javerage")
 
     def test_get_view_context_student(self):
