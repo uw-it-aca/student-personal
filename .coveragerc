@@ -1,8 +1,0 @@
-[run]
-source = student_personal
-parallel = True
-
-[paths]
-source =
-  student_personal/
-  /app/student_personal/
