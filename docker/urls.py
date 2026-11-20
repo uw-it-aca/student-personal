@@ -1,7 +1,8 @@
-from .base_urls import *
 from django.conf.urls import include
 from django.urls import re_path
 from django.views.i18n import JavaScriptCatalog
+
+from .base_urls import *
 
 urlpatterns += [
     re_path(r'^', include('student_personal.urls')),
