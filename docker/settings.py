@@ -7,6 +7,7 @@ INSTALLED_APPS += [
     "student_personal.apps.ViteStaticFilesConfig",
     "supporttools",
     "userservice",
+    "django_user_agents",
     "persistent_message",
     "rc_django",
 ]
@@ -16,13 +17,16 @@ INSTALLED_APPS.remove("django.contrib.staticfiles")
 MIDDLEWARE += [
     "userservice.user.UserServiceMiddleware",
     "student_personal.logging.UserLoggingMiddleware",
+    "django_user_agents.middleware.UserAgentMiddleware",
 ]
 
 # If you have file data, define the path here
 # DATA_ROOT = os.path.join(BASE_DIR, "student_personal/data")
 
 TEMPLATES[0]["OPTIONS"]["context_processors"] += [
+    "django.template.context_processors.request",
     "supporttools.context_processors.supportools_globals",
+    "supporttools.context_processors.has_less_compiled",
     "student_personal.context_processors.persistent_messages",
 ]
 
@@ -74,6 +78,7 @@ else:
 
 SUPPORTTOOLS_PARENT_APP = "StudentPersonal"
 SUPPORTTOOLS_PARENT_APP_URL = "/"
+SUPPORTTOOLS_VUE_ENABLED = False
 
 USERSERVICE_VALIDATION_MODULE = (
     "student_personal.dao.person.is_overridable_uwnetid"
