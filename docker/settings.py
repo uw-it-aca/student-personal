@@ -72,6 +72,14 @@ else:
     }
     CSRF_TRUSTED_ORIGINS = ["https://" + os.getenv("CLUSTER_CNAME")]
 
+    # Retry settings for the uw_sps_contacts client
+    RESTCLIENTS_SPS_CONTACTS_AUTH_RETRY_TOTAL = "3"
+    RESTCLIENTS_SPS_CONTACTS_AUTH_RETRY_CONNECT = "3"
+    RESTCLIENTS_SPS_CONTACTS_AUTH_RETRY_READ = "3"
+    RESTCLIENTS_SPS_CONTACTS_RETRY_TOTAL = "3"
+    RESTCLIENTS_SPS_CONTACTS_RETRY_CONNECT = "3"
+    RESTCLIENTS_SPS_CONTACTS_RETRY_READ = "3"
+
 SUPPORTTOOLS_PARENT_APP = "StudentPersonal"
 SUPPORTTOOLS_PARENT_APP_URL = "/"
 
@@ -141,6 +149,11 @@ LOGGING = {
         },
     },
     "loggers": {
+        "django": {
+            "handlers": [],
+            "level": "INFO",
+            "propagate": True,
+        },
         "django.security.DisallowedHost": {
             "handlers": ["null"],
             "propagate": False,
@@ -148,7 +161,7 @@ LOGGING = {
         "django.request": {
             "handlers": ["stderr"],
             "level": "ERROR",
-            "propagate": True,
+            "propagate": False,
         },
         "student_personal": {
             "handlers": ["stdout", "stderr"],
@@ -163,13 +176,12 @@ LOGGING = {
         "urllib3": {
             "handlers": ["stdout", "stderr"],
             "level": "DEBUG",
-            "propagate": True,
+            "propagate": False,
         },
         "": {
             "handlers": ["stdout", "stderr"],
-            "level": (
-                "INFO" if os.getenv("ENV", "localdev") == "prod" else "DEBUG"
-            ),
+            "level": "INFO" if os.getenv("ENV", "localdev") == "prod" else "DEBUG",
+            "propagate": False,
         },
     },
 }
